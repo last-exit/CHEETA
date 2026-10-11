@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { Lock, ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 
 interface VIPGatekeeperProps {
   children: ReactNode;
@@ -75,23 +75,15 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#FFFFFF] text-[#1A1410] flex flex-col justify-between items-center px-6 py-12 relative overflow-hidden select-none">
-      {/* Background Subtle Luxury Architectural Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(212,175,55,0.04),transparent_65%)] pointer-events-none" />
-      <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(#1A1410_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+    <div className="min-h-screen w-full bg-[#FFFFFF] text-[#1A1410] flex flex-col justify-between items-center px-8 py-10 sm:px-12 sm:py-12 relative overflow-hidden select-none">
+      {/* Subtle Architectural Ambient Ground */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(212,175,55,0.03),transparent_70%)] pointer-events-none" />
 
-      {/* Top Bar / Header Stamp */}
-      <header className="w-full max-w-4xl flex items-center justify-between text-[10px] tracking-[0.3em] uppercase text-[#7A7368] border-b border-[#E8E4DC] pb-5 relative z-10 font-sans">
-        <span className="font-sans">Cheeta Jewels · Dubai</span>
-        <span className="flex items-center gap-1.5 text-[#B8860B] font-sans">
-          <Lock className="w-3 h-3 text-[#B8860B]" />
-          Private Viewing Chamber
-        </span>
-        <span className="font-sans hidden sm:inline text-[#7A7368]">Edition 2026</span>
-      </header>
+      {/* Spacer to push card to true center without top bar */}
+      <div className="w-full h-4" />
 
       {/* Center Gatekeeper Form Card */}
-      <main className="w-full max-w-md my-auto py-12 flex flex-col items-center text-center relative z-10">
+      <main className="w-full max-w-md my-auto flex flex-col items-center text-center relative z-10">
         {/* Official CJ Seal / Monogram */}
         <div className="w-20 h-20 mb-8 border border-[#E8E4DC] rounded-full flex items-center justify-center p-3.5 bg-[#FAF9F5] shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
           <img
@@ -154,10 +146,9 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
         </div>
       </main>
 
-      {/* Footer Credentials */}
-      <footer className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between text-[9px] font-sans tracking-[0.25em] uppercase text-[#8C8476] border-t border-[#E8E4DC] pt-5 gap-2 relative z-10">
+      {/* Pure Minimalist Bottom-Left Copyright */}
+      <footer className="w-full flex justify-start text-[10px] font-sans tracking-[0.25em] uppercase text-[#8C8476] relative z-10">
         <span>© 2026 Cheeta Jewels · All Rights Reserved</span>
-        <span>Default Passcode: ICON-LIVIN</span>
       </footer>
     </div>
   );
