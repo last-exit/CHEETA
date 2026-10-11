@@ -67,7 +67,7 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
   };
 
   if (isChecking) {
-    return <div className="min-h-screen bg-[#0A0A0A]" />;
+    return <div className="min-h-screen bg-[#FFFFFF]" />;
   }
 
   if (isUnlocked) {
@@ -75,41 +75,41 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#0A0A0A] text-[#F4F1E8] flex flex-col justify-between items-center px-6 py-12 relative overflow-hidden select-none">
-      {/* Background Architectural Scrim & Texture */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(212,175,55,0.06),transparent_65%)] pointer-events-none" />
-      <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
+    <div className="min-h-screen w-full bg-[#FFFFFF] text-[#1A1410] flex flex-col justify-between items-center px-6 py-12 relative overflow-hidden select-none">
+      {/* Background Subtle Luxury Architectural Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(212,175,55,0.04),transparent_65%)] pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.035] bg-[radial-gradient(#1A1410_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none" />
 
       {/* Top Bar / Header Stamp */}
-      <header className="w-full max-w-4xl flex items-center justify-between text-[10px] tracking-[0.3em] uppercase text-[#A89F91] border-b border-[#2A241D] pb-5 relative z-10">
-        <span className="font-mono">Cheeta Jewels · Dubai</span>
-        <span className="flex items-center gap-1.5 text-[#D4AF37]">
-          <Lock className="w-3 h-3" />
+      <header className="w-full max-w-4xl flex items-center justify-between text-[10px] tracking-[0.3em] uppercase text-[#7A7368] border-b border-[#E8E4DC] pb-5 relative z-10 font-sans">
+        <span className="font-sans">Cheeta Jewels · Dubai</span>
+        <span className="flex items-center gap-1.5 text-[#B8860B] font-sans">
+          <Lock className="w-3 h-3 text-[#B8860B]" />
           Private Viewing Chamber
         </span>
-        <span className="font-mono hidden sm:inline">Edition 2026</span>
+        <span className="font-sans hidden sm:inline text-[#7A7368]">Edition 2026</span>
       </header>
 
       {/* Center Gatekeeper Form Card */}
       <main className="w-full max-w-md my-auto py-12 flex flex-col items-center text-center relative z-10">
         {/* Official CJ Seal / Monogram */}
-        <div className="w-20 h-20 mb-8 border border-[#3A332A] rounded-full flex items-center justify-center p-3 bg-[#110E0C] shadow-[0_0_30px_rgba(0,0,0,0.8)]">
+        <div className="w-20 h-20 mb-8 border border-[#E8E4DC] rounded-full flex items-center justify-center p-3.5 bg-[#FAF9F5] shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
           <img
-            src="/brand/cheeta-cj-transparent-white.png"
+            src="/brand/cheeta-cj-transparent.png"
             alt="Cheeta Jewels Official Seal"
-            className="w-full h-full object-contain opacity-90"
+            className="w-full h-full object-contain opacity-95"
             onError={(e) => {
-              // Fallback to text seal if asset is cached
-              e.currentTarget.style.display = "none";
+              // Fallback to official storage crest if brand path differs
+              e.currentTarget.src = "/manus-storage/cheeta-cj-official_8dcc9825.png";
             }}
           />
         </div>
 
         {/* Headline & Editorial Context */}
-        <h1 className="font-serif text-2xl sm:text-3xl tracking-[0.08em] font-light text-[#F4F1E8] uppercase mb-3">
+        <h1 className="font-serif text-2xl sm:text-3xl tracking-[0.16em] font-normal text-[#1A1410] uppercase mb-3">
           Archival Access
         </h1>
-        <p className="font-sans text-xs sm:text-sm text-[#A89F91] font-light max-w-xs leading-relaxed mb-8">
+        <p className="font-sans text-xs sm:text-sm text-[#7A7368] font-light max-w-xs leading-relaxed mb-8">
           This digital salon is confidential and reserved for private client & stakeholder review. Please enter your house passcode to proceed.
         </p>
 
@@ -125,37 +125,37 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
               }}
               placeholder="ENTER HOUSE PASSCODE"
               autoFocus
-              className={`w-full bg-[#14120F] border ${
+              className={`w-full bg-[#FAF9F5] border ${
                 error
-                  ? "border-[#B22222] text-[#FF6B6B]"
-                  : "border-[#3A332A] text-[#F4F1E8] focus:border-[#D4AF37]"
-              } py-3.5 px-4 text-center font-mono text-xs sm:text-sm tracking-[0.25em] uppercase placeholder:text-[#524B40] placeholder:text-[10px] placeholder:tracking-[0.2em] outline-none transition-all duration-300 rounded-none shadow-inner`}
+                  ? "border-[#B22222] text-[#B22222]"
+                  : "border-[#DCD6CA] text-[#1A1410] focus:border-[#1A1410]"
+              } py-3.5 px-4 text-center font-sans text-xs sm:text-sm tracking-[0.3em] uppercase placeholder:text-[#9C9487] placeholder:text-[10px] placeholder:tracking-[0.25em] outline-none transition-all duration-300 rounded-none shadow-sm`}
             />
           </div>
 
           {error && (
-            <p className="text-[11px] font-mono tracking-wider text-[#FF6B6B] animate-pulse">
+            <p className="text-[11px] font-sans tracking-[0.2em] uppercase text-[#B22222] animate-pulse">
               Invalid Passcode · Access Denied
             </p>
           )}
 
           <button
             type="submit"
-            className="w-full bg-[#F4F1E8] hover:bg-[#D4AF37] text-[#0A0A0A] hover:text-[#0A0A0A] font-mono text-[11px] tracking-[0.25em] uppercase py-3.5 px-6 flex items-center justify-center gap-2 transition-all duration-300 group cursor-pointer shadow-md"
+            className="w-full bg-[#1A1410] hover:bg-[#000000] text-[#FFFFFF] font-sans text-[11px] tracking-[0.3em] uppercase py-3.5 px-6 flex items-center justify-center gap-2 transition-all duration-300 group cursor-pointer shadow-sm hover:shadow-md"
           >
             <span>Enter Salon</span>
-            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1 text-[#FFFFFF]" />
           </button>
         </form>
 
-        <div className="mt-8 flex items-center gap-2 text-[10px] font-mono text-[#6B6355] tracking-widest uppercase">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#8C7A58]" />
+        <div className="mt-8 flex items-center gap-2 text-[10px] font-sans text-[#8C8476] tracking-[0.25em] uppercase">
+          <ShieldCheck className="w-3.5 h-3.5 text-[#B8860B]" />
           <span>Encrypted Session · No Search Indexing</span>
         </div>
       </main>
 
       {/* Footer Credentials */}
-      <footer className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between text-[9px] font-mono tracking-[0.25em] uppercase text-[#6B6355] border-t border-[#2A241D] pt-5 gap-2 relative z-10">
+      <footer className="w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between text-[9px] font-sans tracking-[0.25em] uppercase text-[#8C8476] border-t border-[#E8E4DC] pt-5 gap-2 relative z-10">
         <span>© 2026 Cheeta Jewels · All Rights Reserved</span>
         <span>Default Passcode: ICON-LIVIN</span>
       </footer>
