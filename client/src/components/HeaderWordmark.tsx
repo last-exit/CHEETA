@@ -131,7 +131,7 @@ export default function HeaderWordmark({ dark = false, color, className = "" }: 
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 px-6 py-3 sm:py-4 flex items-center justify-center pointer-events-none select-none transition-all duration-500 ease-out ${
+      className={`house-wordmark fixed top-0 left-0 right-0 z-40 px-6 py-3 sm:py-4 flex items-center justify-center pointer-events-none select-none transition-all duration-500 ease-out ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3 pointer-events-none"
       } ${className}`}
     >

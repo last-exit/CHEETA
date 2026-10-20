@@ -98,7 +98,7 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
         </div>
 
         {/* Headline & Editorial Context */}
-        <h1 className="font-serif text-2xl sm:text-3xl tracking-[0.16em] font-normal text-[#1A1410] uppercase mb-3">
+        <h1 className="font-serif text-2xl sm:text-3xl tracking-[0.16em] font-normal text-[#1A1410] capitalize mb-3">
           Archival Access
         </h1>
         <p className="font-sans text-xs sm:text-sm text-[#7A7368] font-light max-w-xs leading-relaxed mb-8">

@@ -8,7 +8,6 @@ import { ArrowDownRight, Sparkles } from "lucide-react";
 import { Link } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
 
 const atelierImage = "/manus-storage/cheeta-dubai-atelier_0dde518b.png";
 const leopardBox = "/manus-storage/cheeta-leopard-vault-box.jpg";
@@ -22,8 +21,6 @@ export default function Founder() {
       {/* Centered Transparent CHEETA JEWELS Header Wordmark */}
       <HeaderWordmark dark={false} />
 
-      {/* Subtle Background Swirls & Cheetah Rosettes (3-4% Opacity) */}
-      <SubtleLuxuryBackground variant="full" />
 
       {/* ========================================================================= */}
       {/* 1. FOUNDER OPEN */}
@@ -42,7 +39,7 @@ export default function Founder() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-          className="font-serif lowercase text-[clamp(3.2rem,10vw,9rem)] leading-[0.88] tracking-[-0.035em] text-[#1A1410]"
+          className="font-serif capitalize text-[clamp(3.2rem,10vw,9rem)] leading-[0.88] tracking-[-0.035em] text-[#1A1410]"
         >
           eisa<br />saidi
         </motion.h1>

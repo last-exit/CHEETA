@@ -1,19 +1,14 @@
-/**
- * RETAIL CATALOG : Minimalist Luxury Archive
- * Radical luxury: Pure typography in GT Sectra Display & GT America,
- * Cartier/Repossi-level isolated still life, and Swiss NumberFlow pricing.
- */
-import NumberFlow from "@number-flow/react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Eye, Grid, Layers } from "lucide-react";
-import React, { useState } from "react";
-import { Link } from "wouter";
+import { useEffect } from "react";
+import { Link, useSearchParams } from "wouter";
+import { ArrowUpRight } from "lucide-react";
 import CheetahBar from "@/components/CheetahBar";
+import AcquisitionButton from "@/components/AcquisitionButton";
 import HeaderWordmark from "@/components/HeaderWordmark";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
 import { useCart } from "@/contexts/CartContext";
 import { playMetallicClick, playVaultAcquisition } from "@/lib/soundEffects";
-import { toast } from "sonner";
+import { collectionHeading } from "@/lib/collectionPresentation";
+import { useBagConfirmation } from "@/hooks/useBagConfirmation";
+import "./Retail.css";
 
 export interface ProductItem {
   id: string;
@@ -94,17 +89,62 @@ export const PRODUCTS: ProductItem[] = [
 type FilterCategory = "all" | "eyewear" | "jewelry";
 type ViewMode = "lookbook" | "grid";
 
+const categories: { id: FilterCategory; label: string }[] = [
+  { id: "all", label: "all" },
+  { id: "eyewear", label: "eyewear" },
+  { id: "jewelry", label: "jewellery" },
+];
+
 export default function Retail() {
-  const [filter, setFilter] = useState<FilterCategory>("all");
-  const [viewMode, setViewMode] = useState<ViewMode>("lookbook");
-  const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+  const confirmAddedToBag = useBagConfirmation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const category = searchParams.get("category");
+  const filter: FilterCategory =
+    category === "eyewear" || category === "jewelry" ? category : "all";
+  const viewMode: ViewMode =
+    searchParams.get("view") === "grid" ? "grid" : "lookbook";
+  const updatePreference = (
+    key: string,
+    value: string,
+    defaultValue: string
+  ) => {
+    setSearchParams(
+      previous => {
+        const next = new URLSearchParams(previous);
+        if (value === defaultValue) next.delete(key);
+        else next.set(key, value);
+        return next;
+      },
+      { replace: true }
+    );
+  };
+  const rememberPosition = () => {
+    window.history.replaceState(
+      { ...window.history.state, cheetaRetailScroll: window.scrollY },
+      ""
+    );
+  };
+  useEffect(() => {
+    const position = window.history.state?.cheetaRetailScroll;
+    let secondFrame = 0;
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(() => {
+        if (typeof position === "number")
+          window.scrollTo({ top: position, behavior: "instant" });
+      });
+    });
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+    };
+  }, []);
   const { addToCart, totalCount } = useCart();
 
-  const filteredProducts = PRODUCTS.filter((p) => {
-    if (filter === "eyewear") return p.category === "Eyewear";
-    if (filter === "jewelry") return p.category === "High Jewelry";
-    return true;
-  });
+  const filteredProducts = PRODUCTS.filter(
+    product =>
+      filter === "all" ||
+      product.category === (filter === "eyewear" ? "Eyewear" : "High Jewelry")
+  );
 
   const handleAddToCart = (product: ProductItem) => {
     playVaultAcquisition();
@@ -117,277 +157,151 @@ export default function Retail() {
       priceDisplay: product.priceDisplay,
       image: product.productImage,
     });
-    toast.success(`${product.name} added to bag.`, {
-      description: `${product.frame} · ${product.priceDisplay}`,
-    });
-  };
-
-  const handleFilterChange = (newFilter: FilterCategory) => {
-    playMetallicClick();
-    setFilter(newFilter);
-  };
-
-  const handleViewModeChange = (newMode: ViewMode) => {
-    playMetallicClick();
-    setViewMode(newMode);
+    confirmAddedToBag(
+      collectionHeading(product.name),
+      product.priceDisplay.toLowerCase()
+    );
   };
 
   return (
-    <main className="min-h-screen w-full bg-[#F4F3EE] text-[#0B0B0C] selection:bg-[#0B0B0C] selection:text-[#F4F3EE]">
-      {/* Floating Transparent Cheetah Bar */}
+    <main className="retail-page">
       <CheetahBar />
-
-      {/* Centered Transparent CHEETA JEWELS Header Wordmark */}
       <HeaderWordmark dark={false} />
 
-      {/* Subtle Background Swirls & Cheetah Rosettes (3-4% Opacity) */}
-      <SubtleLuxuryBackground variant="full" />
-
-      <div className="max-w-6xl mx-auto px-6 md:px-20 py-24 md:py-36 pl-16 md:pl-28">
-        {/* ========================================================================= */}
-        {/* 1. MINIMALIST HEADER                                                      */}
-        {/* ========================================================================= */}
-        <header className="mb-20 md:mb-32 flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-8">
-          <div>
-            <h1 className="font-serif lowercase text-5xl sm:text-6xl font-normal tracking-tight text-[#0B0B0C]">
-              retail
-            </h1>
-          </div>
-
-          {/* Filter & View Mode Controls */}
-          <div className="flex items-center gap-6 font-sans lowercase text-xs tracking-wider">
-            {/* Category Filter */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => handleFilterChange("all")}
-                className={`transition-colors cursor-pointer ${
-                  filter === "all"
-                    ? "text-[#0B0B0C] font-semibold"
-                    : "text-[#0B0B0C]/40 hover:text-[#0B0B0C]"
-                }`}
-              >
-                all
-              </button>
-              <span className="text-[#0B0B0C]/20">/</span>
-              <button
-                onClick={() => handleFilterChange("eyewear")}
-                className={`transition-colors cursor-pointer ${
-                  filter === "eyewear"
-                    ? "text-[#0B0B0C] font-semibold"
-                    : "text-[#0B0B0C]/40 hover:text-[#0B0B0C]"
-                }`}
-              >
-                eyewear
-              </button>
-              <span className="text-[#0B0B0C]/20">/</span>
-              <button
-                onClick={() => handleFilterChange("jewelry")}
-                className={`transition-colors cursor-pointer ${
-                  filter === "jewelry"
-                    ? "text-[#0B0B0C] font-semibold"
-                    : "text-[#0B0B0C]/40 hover:text-[#0B0B0C]"
-                }`}
-              >
-                jewelry
-              </button>
-            </div>
-
-            {/* View Mode Toggle */}
-            <div className="flex items-center gap-2 border-l border-[#0B0B0C]/10 pl-6">
-              <button
-                onClick={() => handleViewModeChange("lookbook")}
-                className={`p-1 transition-colors cursor-pointer ${
-                  viewMode === "lookbook" ? "text-[#0B0B0C]" : "text-[#0B0B0C]/35 hover:text-[#0B0B0C]"
-                }`}
-                aria-label="Lookbook View"
-              >
-                <Layers size={15} />
-              </button>
-              <button
-                onClick={() => handleViewModeChange("grid")}
-                className={`p-1 transition-colors cursor-pointer ${
-                  viewMode === "grid" ? "text-[#0B0B0C]" : "text-[#0B0B0C]/35 hover:text-[#0B0B0C]"
-                }`}
-                aria-label="Grid View"
-              >
-                <Grid size={15} />
-              </button>
-            </div>
-
-            {/* Bag Counter */}
+      <div className="retail-shell">
+        <header className="retail-opening">
+          <div className="retail-heading">
+            <h1>Retail</h1>
             <Link
               href="/cart"
-              className="text-[#0B0B0C]/60 hover:text-[#0B0B0C] transition-colors pl-2 lowercase"
+              className="retail-bag"
+              onClick={rememberPosition}
             >
               bag ({totalCount})
             </Link>
           </div>
+          <div className="retail-toolbar">
+            <div
+              className="retail-filters"
+              role="group"
+              aria-label="Product category"
+            >
+              {categories.map(category => (
+                <button
+                  key={category.id}
+                  type="button"
+                  aria-pressed={filter === category.id}
+                  aria-controls="retail-pieces"
+                  onClick={() => {
+                    playMetallicClick();
+                    updatePreference("category", category.id, "all");
+                  }}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="retail-options">
+              <div
+                className="retail-views"
+                role="group"
+                aria-label="Product layout"
+              >
+                {(["lookbook", "grid"] as const).map(view => (
+                  <button
+                    key={view}
+                    type="button"
+                    aria-pressed={viewMode === view}
+                    aria-controls="retail-pieces"
+                    onClick={() => {
+                      playMetallicClick();
+                      updatePreference("view", view, "lookbook");
+                    }}
+                  >
+                    {view}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <span className="sr-only" role="status" aria-live="polite">
+            {filteredProducts.length} pieces, {viewMode} view
+          </span>
         </header>
 
-        {/* ========================================================================= */}
-        {/* 2. PRODUCT ARCHIVE: LOOKBOOK VS GRID                                      */}
-        {/* ========================================================================= */}
-        {viewMode === "lookbook" ? (
-          /* Clean Monograph Spreads */
-          <div className="space-y-32 md:space-y-44">
-            {filteredProducts.map((product, idx) => {
-              const isEven = idx % 2 === 0;
-              const isHovered = hoveredProduct === product.id;
-
-              return (
-                <article
-                  key={product.id}
-                  className={`grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center ${
-                    isEven ? "" : "lg:grid-flow-dense"
-                  }`}
-                  onMouseEnter={() => setHoveredProduct(product.id)}
-                  onMouseLeave={() => setHoveredProduct(null)}
-                >
-                  {/* Product Stage */}
-                  <div
-                    className={`lg:col-span-7 aspect-[4/3] relative flex items-center justify-center p-8 cursor-pointer overflow-hidden ${
-                      isEven ? "" : "lg:col-start-6"
-                    }`}
-                  >
-                    <Link href={`/product/${product.slug}`} className="relative h-full w-full flex items-center justify-center">
-                      <AnimatePresence mode="wait">
-                        <motion.img
-                          key={isHovered && product.altImage ? "alt" : "main"}
-                          src={isHovered && product.altImage ? product.altImage : product.productImage}
-                          alt={product.name}
-                          initial={{ opacity: 0, scale: 0.98 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.98 }}
-                          transition={{ duration: 0.3 }}
-                          className="max-h-full max-w-full object-contain filter drop-shadow-[0_25px_45px_rgba(0,0,0,0.08)]"
-                        />
-                      </AnimatePresence>
-                    </Link>
-
-                    {product.altImage && (
-                      <span className="absolute bottom-4 right-4 font-sans lowercase text-[10px] tracking-wider text-[#0B0B0C]/35 flex items-center gap-1">
-                        <Eye size={11} />
-                        alternate
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Product Details & Acquisition */}
-                  <div
-                    className={`lg:col-span-5 space-y-6 flex flex-col justify-center ${
-                      isEven ? "" : "lg:col-start-1"
-                    }`}
-                  >
-                    <div>
-                      <Link
-                        href={`/product/${product.slug}`}
-                        className="font-serif lowercase text-3xl sm:text-4xl font-normal tracking-tight text-[#0B0B0C] hover:text-[#4A0E16] transition-colors block"
-                      >
-                        {product.name}
-                      </Link>
-                      <p className="font-sans lowercase text-xs tracking-wider text-[#0B0B0C]/55 mt-2">
-                        {product.frame} · {product.lens}
-                      </p>
-                    </div>
-
-                    {/* Mechanical Price Roll */}
-                    <div className="flex items-baseline gap-1.5 font-serif text-3xl font-normal text-[#0B0B0C]">
-                      <span className="uppercase tracking-wide">AED</span>
-                      <NumberFlow value={product.price} format={{ useGrouping: true }} />
-                    </div>
-
-                    {/* Button-in-Button Acquisition */}
-                    <div className="pt-2 flex items-center gap-6">
-                      <button
-                        onClick={() => handleAddToCart(product)}
-                        className="group/btn relative inline-flex items-center gap-4 bg-[#0B0B0C] text-[#F4F3EE] hover:bg-[#4A0E16] transition-all duration-300 pl-6 pr-2 py-2 rounded-full font-sans lowercase text-xs tracking-wider cursor-pointer active:scale-[0.98]"
-                      >
-                        <span>acquire</span>
-                        <span className="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center transition-transform group-hover/btn:translate-x-0.5">
-                          +
-                        </span>
-                      </button>
-
-                      <Link
-                        href={`/product/${product.slug}`}
-                        className="font-sans lowercase text-xs tracking-wider text-[#0B0B0C]/50 hover:text-[#0B0B0C] transition-colors py-2"
-                      >
-                        details →
-                      </Link>
-                    </div>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-        ) : (
-          /* Archive Grid Layout */
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-            {filteredProducts.map((product) => (
-              <article key={product.id} className="group flex flex-col justify-between">
+        <div id="retail-pieces" className="retail-list" data-view={viewMode}>
+          {filteredProducts.map((product, index) => {
+            const title = collectionHeading(product.name);
+            const href = `/product/${product.slug}`;
+            return (
+              <article key={product.id} className="retail-product">
                 <Link
-                  href={`/product/${product.slug}`}
-                  className="aspect-[4/3] relative flex items-center justify-center p-8 cursor-pointer"
+                  href={href}
+                  onClick={rememberPosition}
+                  className={`retail-product-image ${product.category === "High Jewelry" ? "retail-product-image--jewellery" : ""} ${product.id === "atrium-necklace" ? "retail-product-image--necklace" : ""}`}
+                  aria-label={`view ${title}`}
                 >
                   <img
                     src={product.productImage}
-                    alt={product.name}
-                    className="max-h-full max-w-full object-contain transition-transform duration-700 ease-out group-hover:scale-105 drop-shadow-[0_20px_35px_rgba(0,0,0,0.06)]"
+                    alt={title}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
                   />
                 </Link>
-
-                <div className="mt-6 flex items-end justify-between pt-4">
-                  <div>
-                    <Link
-                      href={`/product/${product.slug}`}
-                      className="font-serif lowercase text-2xl font-normal tracking-tight text-[#0B0B0C] hover:text-[#4A0E16] transition-colors block"
-                    >
-                      {product.name}
+                <div className="retail-product-info">
+                  <h2>
+                    <Link href={href} onClick={rememberPosition}>
+                      {title}
                     </Link>
-                    <p className="font-sans lowercase text-xs tracking-wider text-[#0B0B0C]/50 mt-1">
-                      {product.frame}
-                    </p>
-                    <div className="flex items-baseline gap-1 font-serif text-xl font-normal text-[#0B0B0C] mt-2">
-                      <span className="uppercase tracking-wide">AED</span>
-                      <NumberFlow value={product.price} format={{ useGrouping: true }} />
-                    </div>
+                  </h2>
+                  <p className="retail-price">
+                    {product.priceDisplay.toLowerCase()}
+                  </p>
+                  <div className="retail-product-actions">
+                    <AcquisitionButton
+                      onClick={() => handleAddToCart(product)}
+                      aria-label={`acquire ${title}`}
+                    >
+                      acquire
+                    </AcquisitionButton>
+                    <Link
+                      href={href}
+                      onClick={rememberPosition}
+                      className="retail-details"
+                      aria-label={`details for ${title}`}
+                    >
+                      details{" "}
+                      <ArrowUpRight
+                        size={14}
+                        strokeWidth={1.25}
+                        aria-hidden="true"
+                      />
+                    </Link>
                   </div>
-
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    className="group/btn relative inline-flex items-center gap-3 bg-[#0B0B0C] text-[#F4F3EE] hover:bg-[#4A0E16] transition-colors pl-4 pr-1.5 py-1.5 rounded-full font-sans text-[10px] uppercase tracking-[0.16em] cursor-pointer active:scale-[0.97]"
-                  >
-                    <span>Acquire</span>
-                    <span className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center transition-transform group-hover/btn:translate-x-0.5">
-                      +
-                    </span>
-                  </button>
                 </div>
               </article>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
 
-        {/* ========================================================================= */}
-        {/* 3. MINIMAL LEOPARD VELVET VAULT PRESENTATION                               */}
-        {/* ========================================================================= */}
-        <section className="mt-28 md:mt-40 overflow-hidden bg-[#141211] text-[#F4F3EE] shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center">
-          <div className="lg:col-span-6 p-8 md:p-14 space-y-3">
-            <h2 className="font-serif text-3xl sm:text-4xl font-normal tracking-tight text-[#F4F3EE]">
-              The Leopard Velvet Vault
-            </h2>
-            <p className="font-sans text-sm text-[#F4F3EE]/70 leading-relaxed max-w-md">
-              Each acquisition arrives encased in handcrafted Italian leopard velvet with imperial burgundy silk and 18K solid gold hardware.
-            </p>
+        <section
+          className="retail-presentation"
+          aria-labelledby="retail-vault-title"
+        >
+          <div>
+            <h2 id="retail-vault-title">The velvet vault</h2>
+            <Link href="/care" className="retail-details">
+              care guide{" "}
+              <ArrowUpRight size={14} strokeWidth={1.25} aria-hidden="true" />
+            </Link>
           </div>
-
-          <div className="lg:col-span-6 h-full min-h-[260px] md:min-h-[340px] overflow-hidden">
-            <img
-              src="/manus-storage/cheeta-leopard-vault-box.jpg"
-              alt="Handcrafted Italian Leopard Velvet Box with 18K Solid Gold Seal"
-              className="h-full w-full object-cover filter contrast-[1.05]"
-            />
-          </div>
+          <img
+            src="/manus-storage/cheeta-leopard-vault-box.jpg"
+            alt="Cheeta Jewels velvet presentation box"
+            loading="lazy"
+            decoding="async"
+          />
         </section>
       </div>
     </main>

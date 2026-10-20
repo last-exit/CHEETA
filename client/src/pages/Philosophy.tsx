@@ -2,16 +2,15 @@
  * PHILOSOPHY : Monograph & High Jewelry Archive
  * Pure luxury minimalism in GT Sectra Display & GT America.
  * Stripped of all unnecessary subtext, coordinates, and AI-like micro-labels.
- * Pure typography, breathtaking photography, and subtle luxury background motifs.
+ * Typography and photography on white with a subtle sculptural relief.
  */
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
+import PhilosophyRelief from "@/components/PhilosophyRelief";
 
-const mark = "/brand/cheeta-cj-transparent.png";
 const atelierImage = "/manus-storage/cheeta-dubai-atelier_0dde518b.png";
 const necklaceImage = "/manus-storage/cheeta-atrium-necklace-bone.jpg";
 const emeraldRing = "/manus-storage/cheeta-emerald-signet-bone.jpg";
@@ -38,47 +37,33 @@ const chapters = [
 
 export default function Philosophy() {
   return (
-    <main className="min-h-screen w-full bg-[#F9F6F0] text-[#2A241D] selection:bg-[#2A241D] selection:text-[#F9F6F0] overflow-x-hidden relative">
+    <main className="philosophy-page min-h-screen w-full text-[#2A241D] selection:bg-[#2A241D] selection:text-[#F9F6F0] overflow-x-hidden relative">
       {/* Floating Transparent Cheetah Bar */}
       <CheetahBar dark={false} />
 
       {/* Centered Transparent CHEETA JEWELS Header Wordmark */}
       <HeaderWordmark dark={false} />
+      <PhilosophyRelief />
 
-      {/* Subtle Background Engraved Swirls & Cheetah Rosettes (3-4% Opacity) */}
-      <SubtleLuxuryBackground variant="full" />
 
       {/* ========================================================================= */}
       {/* 1. MONOGRAPH HERO: "dubai born."                                         */}
       {/* ========================================================================= */}
       <section className="relative z-10 px-6 md:px-20 pt-32 md:pt-44 pb-16 md:pb-24 max-w-6xl mx-auto pl-16 md:pl-28 select-none">
-        {/* Monogram Seal */}
-        <div className="mb-10">
-          <div className="h-10 w-10 opacity-70">
-            <img src={mark} alt="cheeta jewels monogram" className="h-full w-full object-contain" />
-          </div>
-        </div>
-
         {/* Monumental Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
-          className="font-serif lowercase text-[clamp(4.2rem,13vw,11.5rem)] leading-[0.82] tracking-[-0.04em] text-[#2A241D]"
+          className="font-serif capitalize text-[clamp(4.2rem,13vw,11.5rem)] leading-[0.82] tracking-[-0.04em] text-[#2A241D]"
         >
           dubai<br />
           born<span className="text-[#D4AF37]">.</span>
         </motion.h1>
 
-        {/* Editorial Statement Grid */}
-        <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end pt-8 border-t border-[#2A241D]/10">
-          <div className="lg:col-span-5 font-sans lowercase text-xs text-[#2A241D]/60 leading-relaxed">
-            <p>a luxury house for solid gold jewellery, eyewear, and unmistakable presence.</p>
-          </div>
-          <div className="lg:col-span-7 font-sans text-base md:text-lg leading-relaxed text-[#2A241D]/85">
-            We work in solid 18K gold, natural Colombian emeralds, and custom mineral optics. Every piece is forged for individuals whose presence speaks before they do.
-          </div>
-        </div>
+        <p className="mt-10 md:mt-12 max-w-[48ch] font-sans text-base md:text-lg leading-relaxed text-[#2A241D]/85">
+          Born in Dubai, Cheeta Jewels creates jewellery and eyewear shaped by Eisa Saidi’s instinct for individual style.
+        </p>
       </section>
 
       {/* ========================================================================= */}
@@ -98,7 +83,7 @@ export default function Philosophy() {
       {/* 3. THREE ESSAY CHAPTERS                                                   */}
       {/* ========================================================================= */}
       <section className="relative z-10 px-6 md:px-20 py-14 md:py-24 max-w-6xl mx-auto pl-16 md:pl-28 select-none">
-        <div className="divide-y divide-[#2A241D]/10">
+        <div>
           {chapters.map((chap, idx) => (
             <motion.article
               key={chap.num}
@@ -114,7 +99,7 @@ export default function Philosophy() {
                 </span>
               </div>
               <div className="md:col-span-4">
-                <h2 className="font-serif lowercase text-2xl md:text-3xl text-[#2A241D] tracking-tight">
+                <h2 className="font-serif capitalize text-2xl md:text-3xl text-[#2A241D] tracking-tight">
                   {chap.title}
                 </h2>
               </div>
@@ -131,9 +116,9 @@ export default function Philosophy() {
       {/* ========================================================================= */}
       <section className="relative z-10 px-6 md:px-20 py-16 md:py-28 max-w-6xl mx-auto pl-16 md:pl-28 select-none">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-[#2A241D]/10 mb-12 md:mb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 mb-12 md:mb-16">
           <div>
-            <h2 className="font-serif lowercase text-3xl md:text-4xl lg:text-5xl text-[#2A241D] tracking-tight leading-[0.95]">
+            <h2 className="font-serif capitalize text-3xl md:text-4xl lg:text-5xl text-[#2A241D] tracking-tight leading-[0.95]">
               the leopard archive
             </h2>
           </div>
@@ -155,7 +140,7 @@ export default function Philosophy() {
               />
             </div>
             <div className="mt-4">
-              <span className="font-serif lowercase text-lg text-[#2A241D]">the gaze</span>
+              <span className="font-serif capitalize text-lg text-[#2A241D]">the gaze</span>
             </div>
           </div>
 
@@ -168,7 +153,7 @@ export default function Philosophy() {
               />
             </div>
             <div className="mt-4">
-              <span className="font-serif lowercase text-lg text-[#2A241D]">the velvet vault</span>
+              <span className="font-serif capitalize text-lg text-[#2A241D]">the velvet vault</span>
             </div>
           </div>
         </div>
@@ -184,7 +169,7 @@ export default function Philosophy() {
               />
             </div>
             <div className="mt-4 flex flex-col space-y-1">
-              <h3 className="font-serif lowercase text-xl sm:text-2xl text-[#2A241D]">
+              <h3 className="font-serif capitalize text-xl sm:text-2xl text-[#2A241D]">
                 the emerald signet
               </h3>
               <p className="font-sans lowercase text-xs text-[#2A241D]/60 tracking-wider">
@@ -202,7 +187,7 @@ export default function Philosophy() {
               />
             </div>
             <div className="mt-4 flex flex-col space-y-1">
-              <h3 className="font-serif lowercase text-xl sm:text-2xl text-[#2A241D]">
+              <h3 className="font-serif capitalize text-xl sm:text-2xl text-[#2A241D]">
                 the atrium gold collar
               </h3>
               <p className="font-sans lowercase text-xs text-[#2A241D]/60 tracking-wider">
@@ -218,12 +203,12 @@ export default function Philosophy() {
       {/* ========================================================================= */}
       <section className="relative z-10 overflow-hidden bg-[#141211] text-[#F9F6F0] px-6 md:px-20 py-20 md:py-28 pl-16 md:pl-28">
         <div className="max-w-6xl mx-auto flex flex-col justify-between gap-12">
-          <h2 className="font-serif lowercase text-[clamp(4.2rem,10vw,10.5rem)] leading-[0.78] tracking-[-0.04em] text-white">
+          <h2 className="font-serif capitalize text-[clamp(4.2rem,10vw,10.5rem)] leading-[0.78] tracking-[-0.04em] text-white">
             icon<br />
             livin<span className="text-[#D4AF37]">’</span>.
           </h2>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-10 border-t border-white/10">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-10 ">
             <span className="font-serif lowercase text-base sm:text-lg text-white/70">
               "presence speaks before words do."
             </span>

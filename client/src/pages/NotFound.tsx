@@ -7,7 +7,6 @@ import { Link } from "wouter";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
 
 export default function NotFound() {
   return (
@@ -18,8 +17,6 @@ export default function NotFound() {
       {/* Centered Transparent CHEETA JEWELS Header Wordmark */}
       <HeaderWordmark dark={false} />
 
-      {/* Subtle Background Swirls & Cheetah Rosettes (3-4% Opacity) */}
-      <SubtleLuxuryBackground variant="full" />
 
       <div className="relative z-10 max-w-3xl w-full">
         <motion.div
@@ -37,7 +34,7 @@ export default function NotFound() {
           </div>
 
           {/* Headline */}
-          <h1 className="font-serif lowercase text-[clamp(3.2rem,9vw,7rem)] font-normal leading-[0.92] tracking-[-0.03em] text-[#1A1410]">
+          <h1 className="font-serif capitalize text-[clamp(3.2rem,9vw,7rem)] font-normal leading-[0.92] tracking-[-0.03em] text-[#1A1410]">
             an object <em className="not-italic text-[#6B1A2C]">undisclosed</em>.
           </h1>
 

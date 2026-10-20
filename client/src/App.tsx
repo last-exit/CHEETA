@@ -3,6 +3,7 @@
  * Radical luxury minimalism with dedicated art-directed collection destinations.
  */
 import { useEffect, Suspense, lazy } from "react";
+import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Route, Switch, useLocation } from "wouter";
@@ -76,18 +77,20 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
-        <CartProvider>
-          <TooltipProvider>
-            <Toaster position="bottom-right" />
-            <SmoothScroll>
-              <VIPGatekeeper>
-                <Router />
-              </VIPGatekeeper>
-            </SmoothScroll>
-          </TooltipProvider>
-        </CartProvider>
-      </ThemeProvider>
+      <MotionConfig reducedMotion="user">
+        <ThemeProvider defaultTheme="light">
+          <CartProvider>
+            <TooltipProvider>
+              <Toaster position="bottom-right" />
+              <SmoothScroll>
+                <VIPGatekeeper>
+                  <Router />
+                </VIPGatekeeper>
+              </SmoothScroll>
+            </TooltipProvider>
+          </CartProvider>
+        </ThemeProvider>
+      </MotionConfig>
     </ErrorBoundary>
   );
 }

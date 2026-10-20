@@ -154,11 +154,23 @@ function vitePluginStorageProxy(): Plugin {
   return {
     name: "manus-storage-proxy",
     configureServer(server: ViteDevServer) {
-      server.middlewares.use("/manus-storage", async (req, res) => {
+      server.middlewares.use("/manus-storage", async (req, res, next) => {
         const key = req.url?.replace(/^\//, "");
         if (!key) {
           res.writeHead(400, { "Content-Type": "text/plain" });
           res.end("Missing storage key");
+          return;
+        }
+
+        // Let Vite serve bundled media before trying the legacy remote proxy.
+        const bundledMediaRoot = path.join(PROJECT_ROOT, "client", "public", "manus-storage");
+        const bundledAssetPath = path.resolve(bundledMediaRoot, key.split("?")[0]);
+        if (
+          bundledAssetPath.startsWith(`${bundledMediaRoot}${path.sep}`) &&
+          fs.existsSync(bundledAssetPath) &&
+          fs.statSync(bundledAssetPath).isFile()
+        ) {
+          next();
           return;
         }
 

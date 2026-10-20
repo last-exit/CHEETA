@@ -6,7 +6,6 @@ import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
 
 const mark = "/brand/cheeta-cj-transparent.png";
 const atelierImage = "/manus-storage/cheeta-dubai-atelier_0dde518b.png";
@@ -27,8 +26,6 @@ export default function House() {
       {/* Centered Transparent CHEETA JEWELS Header Wordmark */}
       <HeaderWordmark dark={false} />
 
-      {/* Subtle Background Swirls & Cheetah Rosettes (3-4% Opacity) */}
-      <SubtleLuxuryBackground variant="full" />
 
       <section className="house-hero px-5 pb-16 pt-24 sm:px-8 sm:pb-24 sm:pt-28 lg:px-11 lg:pb-32 lg:pt-36">
         <div className="mx-auto max-w-[1680px] pt-5">
@@ -38,7 +35,7 @@ export default function House() {
           </div>
           <img src={mark} alt="Cheetah Jewelz CJ monogram" className="house-transition-seal" />
           <motion.h1 initial={{ opacity: 0, y: 38 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }} className="mt-14 font-serif text-[clamp(5.7rem,18vw,23rem)] leading-[0.69] tracking-[-0.078em]">
-            DUBAI<br />BORN<span className="text-[#6B1A2C]">.</span>
+            Dubai<br />Born<span className="text-[#6B1A2C]">.</span>
           </motion.h1>
           <div className="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-[1fr_1.5fr] lg:items-end">
             <p className="max-w-[285px] font-sans text-[11px] uppercase leading-[1.85] tracking-[0.16em] text-[#1A1410]/60">A Dubai-born luxury house for jewellery, eyewear, and the person becoming impossible to ignore.</p>
@@ -53,7 +50,7 @@ export default function House() {
             <div className="flex flex-col justify-between">
               <div>
                 <p className="eyebrow text-[#F4F1E8]/60">The founder / Eisa Saidi</p>
-                <h2 className="mt-7 font-serif text-[clamp(4rem,8vw,10.5rem)] leading-[0.75] tracking-[-0.07em]">THE<br />CHEETAH</h2>
+                <h2 className="mt-7 font-serif text-[clamp(4rem,8vw,10.5rem)] leading-[0.75] tracking-[-0.07em]">The<br />Cheetah</h2>
               </div>
               <div className="mt-10 max-w-[278px] text-[15px] leading-[1.6] text-[#F4F1E8]/72 lg:mt-0">
                 <p>Social personality, boxer, actor, designer · Eisa Saidi built the house from a belief that difference is not a liability.</p>
@@ -85,7 +82,7 @@ export default function House() {
             {chapters.map(([number, title, copy]) => (
               <motion.article key={number} initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.55 }} className="chapter-row">
                 <span className="font-sans text-[11px] text-[#6B1A2C]">{number} / 03</span>
-                <h3 className="font-serif text-[clamp(2.8rem,5.5vw,7rem)] leading-[0.82] tracking-[-0.06em]">{title.toUpperCase()}</h3>
+                <h3 className="font-serif text-[clamp(2.8rem,5.5vw,7rem)] leading-[0.82] tracking-[-0.06em]">{title}</h3>
                 <p>{copy}</p>
               </motion.article>
             ))}
@@ -98,7 +95,7 @@ export default function House() {
         <div className="relative mx-auto flex max-w-[1680px] flex-col justify-between gap-16 pt-5 lg:min-h-[52vh]">
           <p className="eyebrow">The house line</p>
           <div className="grid gap-8 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-            <h2 className="font-serif text-[clamp(5rem,12vw,16rem)] leading-[0.69] tracking-[-0.077em]">ICON<br />LIVIN’.</h2>
+            <h2 className="font-serif text-[clamp(5rem,12vw,16rem)] leading-[0.69] tracking-[-0.077em]">Icon<br />Livin’.</h2>
             <div>
               <p className="max-w-[330px] text-[17px] leading-[1.55]">Not an instruction to be louder. A reason to be exact about who you are.</p>
               <Link href="/philosophy" className="archive-button mt-8 max-w-[330px]"><span>Read the philosophy</span><ArrowDownRight size={16} strokeWidth={1.4} /></Link>

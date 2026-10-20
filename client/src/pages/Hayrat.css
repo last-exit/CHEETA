@@ -1,0 +1,169 @@
+.hayrat-page {
+  --hayrat-paper: #fafaf7;
+  --hayrat-ink: #2a241d;
+  --hayrat-muted: #6a635d;
+  min-height: 100vh;
+  background: var(--hayrat-paper);
+  color: var(--hayrat-ink);
+}
+
+.hayrat-viewing {
+  width: min(920px, calc(100% - 160px));
+  margin-inline: auto;
+  padding-block: 144px 64px;
+}
+
+.hayrat-introduction {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.hayrat-signature {
+  position: relative;
+  width: 220px;
+  max-width: 100%;
+  aspect-ratio: 2.8;
+  overflow: hidden;
+}
+
+.hayrat-logo {
+  position: absolute;
+  top: 50%;
+  left: -20%;
+  display: block;
+  width: 140%;
+  max-width: none;
+  height: auto;
+  transform: translateY(-50%);
+  /* Present the supplied lettering in ink on the house's white paper. */
+  filter: grayscale(1) invert(1) contrast(8);
+  mix-blend-mode: multiply;
+}
+
+.hayrat-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+}
+
+.hayrat-artwork {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Crop the phone UI and letterboxing; retain the original museum photographs. */
+.hayrat-artwork img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hayrat-note {
+  margin: 0;
+}
+
+.hayrat-note p {
+  max-width: 44ch;
+  margin: 0;
+  color: var(--hayrat-muted);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.8;
+  text-wrap: pretty;
+  text-transform: lowercase;
+}
+
+.hayrat-continuation {
+  padding: 24px 24px 64px;
+  text-align: center;
+}
+
+.hayrat-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 44px;
+  color: var(--hayrat-ink);
+  font-family: var(--font-serif);
+  font-size: 24px;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.hayrat-next:hover {
+  color: #8a0e1c;
+}
+
+.hayrat-next:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 6px;
+}
+
+@media (min-width: 768px) and (max-height: 800px) {
+  .hayrat-viewing {
+    width: min(680px, calc(100% - 112px));
+    padding-top: 120px;
+    padding-bottom: 48px;
+  }
+
+  .hayrat-introduction {
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .hayrat-note p {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 767px) {
+  .hayrat-viewing {
+    width: calc(100% - 48px);
+    padding-block: 136px 48px;
+  }
+
+  .hayrat-introduction {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .hayrat-signature {
+    width: 200px;
+    margin-inline: auto;
+  }
+
+  .hayrat-note p {
+    max-width: 36ch;
+    margin-inline: auto;
+    font-size: 13px;
+  }
+
+  .hayrat-gallery {
+    grid-template-columns: 1fr;
+    width: min(100%, 400px);
+    margin-inline: auto;
+  }
+
+  .hayrat-continuation {
+    padding-bottom: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hayrat-next {
+    transition: none;
+  }
+}

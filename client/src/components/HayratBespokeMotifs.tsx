@@ -9,7 +9,7 @@ interface HayratBespokeMotifsProps {
  * Handcrafted vector artwork celebrating Hayrat ~Fine Gems & Arts~:
  * 1. Precision gemological facet geometries (emerald-cut octagons, diamond kite facets, optical pavilion angles).
  * 2. Antique art arabesque curves and master jewelers' compass arcs.
- * 3. Subtle connecting gem lattice and gratitude cheetah rosettes.
+ * 3. Subtle connecting gem lattice.
  * 
  * Rendered at ultra-low baseline opacity (3% to 4%) with interactive discovery
  * hover warming (blooming to 16% opacity with golden sheen) rewarding curious users.
@@ -53,8 +53,6 @@ export default function HayratBespokeMotifs({ className = "" }: HayratBespokeMot
         <line x1="225" y1="10" x2="225" y2="350" strokeDasharray="6 6" strokeWidth="0.5" />
         <line x1="55" y1="180" x2="395" y2="180" strokeDasharray="6 6" strokeWidth="0.5" />
 
-        {/* Gratitude Cheetah Rosette in Gem Center */}
-        <path d="M220,175 C222,170 228,168 232,170 C228,173 227,177 229,181 C224,180 221,178 220,175 Z" fill="currentColor" stroke="none" />
       </svg>
 
       {/* Mid-Left: Antique Art Filigree & Arabesque Scrollwork */}

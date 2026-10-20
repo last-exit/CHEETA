@@ -7,15 +7,17 @@ import { ArrowLeft } from "lucide-react";
 import React, { useState } from "react";
 import { Link, useParams } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
+import AcquisitionButton from "@/components/AcquisitionButton";
 import HeaderWordmark from "@/components/HeaderWordmark";
 import MacroJewelryLoupe from "@/components/MacroJewelryLoupe";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
 import { useCart } from "@/contexts/CartContext";
 import { playMetallicClick, playVaultAcquisition } from "@/lib/soundEffects";
+import { collectionHeading } from "@/lib/collectionPresentation";
 import { PRODUCTS } from "./Retail";
-import { toast } from "sonner";
+import { useBagConfirmation } from "@/hooks/useBagConfirmation";
 
 export default function ProductDetail() {
+  const confirmAddedToBag = useBagConfirmation();
   const { slug } = useParams<{ slug: string }>();
   const product =
     PRODUCTS.find(
@@ -40,9 +42,7 @@ export default function ProductDetail() {
       priceDisplay: product.priceDisplay,
       image: product.productImage,
     });
-    toast.success(`${product.name} acquired.`, {
-      description: `${product.frame} · ${product.priceDisplay}`,
-    });
+    confirmAddedToBag(product.name, product.priceDisplay);
   };
 
   const handleSelectImage = (img: string) => {
@@ -51,19 +51,17 @@ export default function ProductDetail() {
   };
 
   return (
-    <main className="min-h-screen w-full bg-[#F4F3EE] text-[#0B0B0C] selection:bg-[#0B0B0C] selection:text-[#F4F3EE]">
+    <main className="product-page min-h-screen w-full bg-[#F4F3EE] text-[#0B0B0C] selection:bg-[#0B0B0C] selection:text-[#F4F3EE]">
       {/* Floating Transparent Cheetah Bar */}
       <CheetahBar />
 
       {/* Centered Transparent CHEETA JEWELS Header Wordmark */}
       <HeaderWordmark dark={false} />
 
-      {/* Subtle Background Swirls & Cheetah Rosettes (3-4% Opacity) */}
-      <SubtleLuxuryBackground variant="full" />
 
-      <div className="max-w-6xl mx-auto px-6 md:px-20 py-24 md:py-36 pl-16 md:pl-28">
+      <div className="product-shell max-w-6xl mx-auto px-6 md:px-20 py-24 md:py-36 pl-16 md:pl-28">
         {/* Navigation Breadcrumb */}
-        <div className="mb-16 md:mb-24 flex items-center justify-between font-sans lowercase text-xs tracking-wider">
+        <div className="product-breadcrumb mb-16 md:mb-24 flex items-center justify-between font-sans lowercase text-xs tracking-wider">
           <Link
             href="/retail"
             className="group inline-flex items-center gap-2 text-[#0B0B0C]/50 hover:text-[#0B0B0C] transition-colors"
@@ -81,10 +79,10 @@ export default function ProductDetail() {
         </div>
 
         {/* 2-Column Minimalist PDP */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+        <div className="product-layout grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center">
           {/* Left: 4x Macro Inspection Stage */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="aspect-[4/3] relative flex items-center justify-center p-8 bg-[#EBEAE4]/40 overflow-hidden">
+            <div className="product-stage aspect-[4/3] relative flex items-center justify-center p-8 bg-[#EBEAE4]/40 overflow-hidden">
               <MacroJewelryLoupe
                 imageSrc={selectedImage}
                 altText={product.name}
@@ -121,8 +119,8 @@ export default function ProductDetail() {
           {/* Right: Essential Information & Action */}
           <div className="lg:col-span-5 flex flex-col justify-center space-y-8">
             <div>
-              <h1 className="font-serif lowercase text-4xl md:text-5xl font-normal tracking-tight text-[#0B0B0C]">
-                {product.name}
+              <h1 className="font-serif text-4xl md:text-5xl font-normal tracking-tight text-[#0B0B0C]">
+                {collectionHeading(product.name)}
               </h1>
               <p className="font-sans lowercase text-xs tracking-wider text-[#0B0B0C]/60 mt-2">
                 {product.frame} · {product.lens}
@@ -130,20 +128,14 @@ export default function ProductDetail() {
 
               {/* Swiss Mechanical NumberFlow Price Display */}
               <div className="mt-8 flex items-baseline gap-2 font-serif text-3xl sm:text-4xl font-normal text-[#0B0B0C]">
-                <span className="uppercase tracking-wide">AED</span>
+                <span className="lowercase tracking-wide">aed</span>
                 <NumberFlow value={product.price} format={{ useGrouping: true }} />
               </div>
             </div>
 
             {/* Acquisition Action */}
             <div className="pt-2 space-y-4">
-              <button
-                onClick={handleAdd}
-                className="group relative w-full py-4 bg-[#0B0B0C] text-[#F4F3EE] hover:bg-[#4A0E16] transition-all duration-300 font-sans lowercase text-xs tracking-wider font-medium cursor-pointer active:scale-[0.98] flex items-center justify-center gap-3 rounded-full"
-              >
-                <span>acquire</span>
-                <span className="transition-transform group-hover:translate-x-1">→</span>
-              </button>
+              <AcquisitionButton onClick={handleAdd}>Acquire</AcquisitionButton>
             </div>
           </div>
         </div>
@@ -151,7 +143,7 @@ export default function ProductDetail() {
         {/* Leopard Packaging Section on PDP */}
         <div className="mt-24 md:mt-36 bg-[#141211] text-[#F4F3EE] shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center overflow-hidden">
           <div className="lg:col-span-7 p-8 md:p-12 space-y-3">
-            <h3 className="font-serif lowercase text-2xl md:text-3xl font-normal text-[#F4F3EE]">
+            <h3 className="font-serif capitalize text-2xl md:text-3xl font-normal text-[#F4F3EE]">
               the leopard velvet vault
             </h3>
             <p className="font-sans text-sm text-[#F4F3EE]/70 leading-relaxed max-w-md">

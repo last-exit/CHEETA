@@ -1,10 +1,8 @@
-/**
- * MACRO JEWELRY LOUPE : 4x Precision Craftsmanship Inspection
- * Follows mouse movement to reveal 4x magnified micro-engravings,
- * 18K solid gold hallmarks, and gemstone facets inside a circular brass loupe.
- */
+/** Inspect the existing product photograph with a pointer loupe or touch zoom. */
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface MacroJewelryLoupeProps {
   imageSrc: string;
@@ -21,7 +19,26 @@ export default function MacroJewelryLoupe({
 }: MacroJewelryLoupeProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [coords, setCoords] = useState({ x: 0, y: 0, percentX: 50, percentY: 50 });
+  const [coords, setCoords] = useState({
+    x: 0,
+    y: 0,
+    percentX: 50,
+    percentY: 50,
+  });
+
+  const touchLayout = useMediaQuery("(max-width: 767px), (pointer: coarse)");
+  const [inspecting, setInspecting] = useState(false);
+  useEffect(() => {
+    setInspecting(false);
+  }, [imageSrc]);
+  useEffect(() => {
+    if (!inspecting) return;
+    const dismiss = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setInspecting(false);
+    };
+    window.addEventListener("keydown", dismiss);
+    return () => window.removeEventListener("keydown", dismiss);
+  }, [inspecting]);
 
   const loupeSize = 140; // Diameter of the loupe in pixels
 
@@ -36,6 +53,28 @@ export default function MacroJewelryLoupe({
 
     setCoords({ x, y, percentX, percentY });
   };
+
+  if (touchLayout)
+    return (
+      <button
+        type="button"
+        className={`product-inspection ${className}`}
+        aria-pressed={inspecting}
+        aria-label={`${inspecting ? "full view" : "look closer"}: ${altText}`}
+        onClick={() => setInspecting(value => !value)}
+      >
+        <span className="product-inspection-image">
+          <img
+            src={imageSrc}
+            alt={altText}
+            style={{ transform: inspecting ? "scale(1.8)" : "scale(1)" }}
+          />
+        </span>
+        <span className="product-inspection-caption">
+          {inspecting ? "full view −" : "look closer +"}
+        </span>
+      </button>
+    );
 
   return (
     <div
@@ -100,8 +139,8 @@ export default function MacroJewelryLoupe({
       </AnimatePresence>
 
       {/* Subtle Bottom Instruction */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-sans text-[10px] uppercase tracking-[0.18em] text-[#1A1410]/35 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none">
-        Hover to Inspect Hallmark & Pavé
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-sans text-[11px] lowercase tracking-normal text-[#1A1410]/35 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none">
+        hover to look closer
       </div>
     </div>
   );

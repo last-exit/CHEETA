@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import { Play, Pause, Volume2, VolumeX, X, ChevronLeft, ChevronRight, Subtitles } from "lucide-react";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
 
 /* ------------------------------------------------------------------ */
 /*  Film metadata                                                      */
@@ -135,9 +134,6 @@ export default function Film() {
 
       {/* Centered Transparent CHEETA JEWELS Header Wordmark */}
       <HeaderWordmark dark />
-
-      {/* Subtle Golden Cheetah Rosettes for Dark Cinema Mode */}
-      <SubtleLuxuryBackground dark variant="full" />
 
       {/* ============================================================== */}
       {/*  HERO : video player                                              */}

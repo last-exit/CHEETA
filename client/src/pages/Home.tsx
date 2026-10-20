@@ -12,13 +12,15 @@ import { ArrowUpRight } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
+import AcquisitionButton from "@/components/AcquisitionButton";
 import HeaderWordmark from "@/components/HeaderWordmark";
+import CampaignVideo from "@/components/CampaignVideo";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import GoldParticleEngine from "@/components/GoldParticleEngine";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
 import { useCart } from "@/contexts/CartContext";
 import { COLLECTIONS, COLLECTION_ORDER } from "@/data/collections";
 import { playMetallicClick, playVaultAcquisition } from "@/lib/soundEffects";
-import { toast } from "sonner";
+import { useBagConfirmation } from "@/hooks/useBagConfirmation";
 
 interface ModelCharacter {
   id: string;
@@ -71,9 +73,13 @@ const CHARACTERS: ModelCharacter[] = [
 const EASE_OUT = [0.23, 1, 0.32, 1] as const;
 
 export default function Home() {
+  const confirmAddedToBag = useBagConfirmation();
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [heroSlide, setHeroSlide] = useState(0);
   const { addToCart } = useCart();
+  const mobile = useMediaQuery("(max-width: 767px)");
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const campaign = COLLECTIONS[COLLECTION_ORDER[heroSlide]];
   const current = CHARACTERS[selectedIdx];
 
   const handleSwitchVideo = () => {
@@ -96,9 +102,7 @@ export default function Home() {
       priceDisplay: item.priceDisplay,
       image: item.modelImage,
     });
-    toast.success(`${item.name} acquired.`, {
-      description: `${item.frame} · ${item.priceDisplay}`,
-    });
+    confirmAddedToBag(item.name, item.priceDisplay);
   };
 
   const handleSelectCharacter = (idx: number) => {
@@ -120,7 +124,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative w-full min-h-screen bg-[#F9F6F0] text-[#2A241D] selection:bg-[#2A241D] selection:text-[#F9F6F0]">
+    <main className="home-page relative w-full min-h-screen bg-[#F9F6F0] text-[#2A241D] selection:bg-[#2A241D] selection:text-[#F9F6F0]">
       {/* Floating Official CJ Logo Sidebar Trigger */}
       <CheetahBar dark />
 
@@ -140,35 +144,23 @@ export default function Home() {
       {/* ========================================================================= */}
       <section
         onClick={handleSwitchVideo}
-        className="relative h-screen w-full overflow-hidden bg-black text-white flex flex-col items-center justify-center p-6 select-none cursor-pointer"
+        className="home-campaign relative h-screen w-full overflow-hidden bg-black text-white flex flex-col items-center justify-center p-6 select-none cursor-pointer"
         title="Click anywhere to switch campaign film"
       >
         {/* Campaign Cinema Videos */}
-        {COLLECTION_ORDER.map((id, idx) => {
-          const col = COLLECTIONS[id];
-          const isActive = heroSlide === idx;
-          return (
-            <video
-              key={id}
-              autoPlay
-              loop
-              muted
-              playsInline
-              className={`absolute inset-0 h-full w-full object-cover object-center filter brightness-[0.75] contrast-[1.1] transition-opacity duration-1000 ease-in-out pointer-events-none ${
-                isActive ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <source src={col.video} type="video/mp4" />
-            </video>
-          );
-        })}
+        <CampaignVideo
+          key={campaign.id}
+          src={campaign.video}
+          poster={campaign.stills[0]}
+          className="absolute inset-0 h-full w-full object-cover object-center brightness-[0.75] contrast-[1.1] pointer-events-none"
+        />
 
         {/* Atmospheric Film Texture & Subtle Particles */}
         <div className="absolute inset-0 pointer-events-none film-grain opacity-30" />
-        <GoldParticleEngine
+        {!mobile && !reducedMotion && <GoldParticleEngine
           particleCount={20}
           className="absolute inset-0 pointer-events-none z-10 opacity-30"
-        />
+        />}
 
         {/* Center: STRIPPED : ONLY Handwritten "Icon livin'" Script Logo */}
         <div className="relative z-20 w-full max-w-[340px] sm:max-w-[440px] md:max-w-[540px] flex items-center justify-center pointer-events-none">
@@ -182,32 +174,6 @@ export default function Home() {
           />
         </div>
 
-        {/* Ambient Hero Corner Rosettes (Subtle Discoverable Golden Marks) */}
-        <svg
-          aria-label="Cheeta Cinema Mark"
-          className="absolute top-8 right-8 sm:right-14 w-28 sm:w-36 h-auto text-[#D4AF37] opacity-[0.05] hover:opacity-[0.22] hover:text-[#F3E5AB] hover:scale-[1.04] hover:drop-shadow-[0_0_16px_rgba(212,175,55,0.4)] transition-all duration-700 ease-out pointer-events-auto cursor-pointer z-20"
-          viewBox="0 0 160 140"
-          fill="currentColor"
-        >
-          <path d="M40,32 C44,22 56,18 66,22 C58,28 56,36 60,44 C50,42 42,38 40,32 Z" />
-          <path d="M72,25 C82,28 88,38 85,48 C78,43 73,45 68,40 C70,33 69,28 72,25 Z" />
-          <path d="M56,50 C64,53 74,51 80,46 C76,53 68,57 60,56 C54,54 53,51 56,50 Z" />
-          <ellipse cx="102" cy="35" rx="4" ry="3.2" transform="rotate(25 102 35)" />
-          <ellipse cx="34" cy="58" rx="3" ry="4" transform="rotate(-15 34 58)" />
-        </svg>
-
-        <svg
-          aria-label="Cheeta Atelier Touchmark"
-          className="absolute bottom-10 right-8 sm:right-14 w-32 sm:w-40 h-auto text-[#D4AF37] opacity-[0.05] hover:opacity-[0.22] hover:text-[#F3E5AB] hover:scale-[1.04] hover:drop-shadow-[0_0_16px_rgba(212,175,55,0.4)] transition-all duration-700 ease-out pointer-events-auto cursor-pointer z-20"
-          viewBox="0 0 180 160"
-          fill="currentColor"
-        >
-          <path d="M50,42 C54,30 68,26 80,30 C70,38 67,48 73,58 C61,56 52,50 50,42 Z" />
-          <path d="M88,32 C100,36 108,48 104,60 C96,54 90,56 84,50 C86,42 85,36 88,32 Z" />
-          <path d="M68,64 C78,68 90,66 98,60 C94,68 84,74 74,72 C66,70 65,66 68,64 Z" />
-          <ellipse cx="125" cy="45" rx="5" ry="4" transform="rotate(25 125 45)" />
-          <ellipse cx="45" cy="75" rx="4" ry="5" transform="rotate(-15 45 75)" />
-        </svg>
       </section>
 
       {/* ========================================================================= */}
@@ -225,8 +191,6 @@ export default function Home() {
               : "#FCF9F2", // Amber subtle tint
         }}
       >
-        {/* Subtle Background Swirls & Cheetah Rosettes (3-4% Opacity) */}
-        <SubtleLuxuryBackground variant="full" />
 
         {/* Subtle Background Character Design (Watermark) */}
         <AnimatePresence mode="wait">
@@ -247,7 +211,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
             {/* Left: Model Silhouette Floating Naturally */}
-            <div className="lg:col-span-7 relative h-[480px] md:h-[660px] flex items-center justify-center">
+            <div className="home-portrait lg:col-span-7 relative h-[480px] md:h-[660px] flex items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={current.id}
@@ -267,7 +231,7 @@ export default function Home() {
             </div>
 
             {/* Right: Product Info in GT Sectra & GT America */}
-            <div className="lg:col-span-5 flex flex-col justify-center space-y-7">
+            <div className="home-character-info lg:col-span-5 flex flex-col justify-center space-y-7">
               <div>
                 <span className="font-serif text-3xl text-[#D4AF37] block mb-2 font-normal drop-shadow-sm">
                   {current.romanNumeral}
@@ -287,18 +251,14 @@ export default function Home() {
               </div>
 
               {/* Silhouette Switcher */}
-              <div className="flex items-center gap-6 font-sans text-sm pt-6">
+              <div className="home-editions flex items-center gap-6 font-sans text-sm pt-6">
                 {CHARACTERS.map((char, idx) => {
                   const isSelected = selectedIdx === idx;
-                  const activeColor =
-                    idx === 0
-                      ? "#8B0000" // Deep Red
-                      : idx === 1
-                      ? "#2A241D" // Obsidian
-                      : "#B8860B"; // Dark Goldenrod
                   return (
                     <button
                       key={char.id}
+                      aria-pressed={isSelected}
+                      aria-label={`edition ${char.romanNumeral}`}
                       onClick={() => handleSelectCharacter(idx)}
                       className={`group flex items-center gap-2 cursor-pointer transition-all ${
                         isSelected
@@ -306,13 +266,7 @@ export default function Home() {
                           : "text-[#2A241D]/35 hover:text-[#2A241D]"
                       }`}
                     >
-                      <span
-                        className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
-                          isSelected ? "scale-100" : "bg-transparent scale-0"
-                        }`}
-                        style={{ backgroundColor: isSelected ? activeColor : "transparent" }}
-                      />
-                      <span className="font-serif lowercase text-base">{char.romanNumeral}</span>
+                      <span className="font-serif text-base">{char.romanNumeral}</span>
                     </button>
                   );
                 })}
@@ -343,15 +297,9 @@ export default function Home() {
 
               {/* Acquisition & Details Action */}
               <div className="pt-2 flex items-center gap-6">
-                <button
-                  onClick={() => handleAddToCart(current)}
-                  className="group relative inline-flex items-center gap-4 bg-[#2A241D] text-[#F9F6F0] hover:bg-[#D4AF37] hover:text-[#2A241D] transition-all duration-300 pl-6 pr-2.5 py-2.5 rounded-full font-sans lowercase text-xs font-medium cursor-pointer active:scale-[0.98] shadow-md"
-                >
-                  <span>acquire</span>
-                  <span className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center transition-transform group-hover:translate-x-0.5">
-                    →
-                  </span>
-                </button>
+                <AcquisitionButton onClick={() => handleAddToCart(current)}>
+                  Acquire
+                </AcquisitionButton>
 
                 <Link
                   href={`/product/${current.slug}`}
@@ -367,9 +315,9 @@ export default function Home() {
         {/* ========================================================================= */}
         {/* 3. THE LEOPARD VELVET VAULT                                               */}
         {/* ========================================================================= */}
-        <div className="max-w-6xl mx-auto w-full mt-28 md:mt-40 overflow-hidden bg-[#141211] text-[#F9F6F0] shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center rounded-sm">
+        <div className="home-presentation max-w-6xl mx-auto w-full mt-28 md:mt-40 overflow-hidden bg-[#141211] text-[#F9F6F0] shadow-xl grid grid-cols-1 lg:grid-cols-12 items-center rounded-sm">
           <div className="lg:col-span-6 p-8 md:p-14 space-y-4">
-            <h3 className="font-serif lowercase text-3xl sm:text-4xl font-normal tracking-tight text-white">
+            <h3 className="font-serif capitalize text-3xl sm:text-4xl font-normal tracking-tight text-white">
               the leopard velvet vault
             </h3>
             <p className="font-sans text-sm text-[#F9F6F0]/70 leading-relaxed max-w-md font-normal">
@@ -381,13 +329,15 @@ export default function Home() {
             <img
               src="/manus-storage/cheeta-leopard-vault-box.jpg"
               alt="Handcrafted Italian Leopard Velvet Box with 18K Solid Gold Seal"
+              loading="lazy"
+              decoding="async"
               className="h-full w-full object-cover filter contrast-[1.05]"
             />
           </div>
         </div>
 
         {/* Editorial Gateways */}
-        <div className="max-w-6xl mx-auto w-full mt-24 md:mt-32 grid grid-cols-1 sm:grid-cols-2 gap-12 pt-12 border-t border-[#2A241D]/10">
+        <div className="home-gateways max-w-6xl mx-auto w-full mt-24 md:mt-32 grid grid-cols-1 sm:grid-cols-2 gap-12 pt-12 ">
           <Link href="/collection/barrel" className="group block">
             <span className="font-serif lowercase text-2xl sm:text-3xl font-normal text-[#2A241D] group-hover:text-[#D4AF37] transition-colors flex items-center gap-2">
               the gun collection <ArrowUpRight size={18} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -401,6 +351,36 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      <footer className="relative z-10 overflow-hidden bg-[#141211] text-[#F9F6F0] px-6 md:px-20 py-20 md:py-28 pl-16 md:pl-28">
+        <div className="max-w-6xl mx-auto flex flex-col justify-between gap-12">
+          <h2 className="font-serif capitalize text-[clamp(4.2rem,10vw,10.5rem)] leading-[0.78] tracking-[-0.04em] text-white">
+            icon<br />
+            livin<span className="text-[#D4AF37]">’</span>.
+          </h2>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-10">
+            <span className="font-serif lowercase text-base sm:text-lg text-white/70">
+              "presence speaks before words do."
+            </span>
+
+            <nav aria-label="Information" className="flex flex-wrap items-center gap-x-8 gap-y-2">
+              <Link
+                href="/privacy"
+                className="inline-flex items-center min-h-11 font-sans lowercase text-xs tracking-wider text-[#F9F6F0] hover:text-[#D4AF37] transition-colors"
+              >
+                privacy policy
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center min-h-11 font-sans lowercase text-xs tracking-wider text-[#F9F6F0] hover:text-[#D4AF37] transition-colors"
+              >
+                contact
+              </Link>
+            </nav>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }

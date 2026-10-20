@@ -12,7 +12,7 @@ interface CollectionBespokeMotifsProps {
  * 1. "barrel" (The Gun Collection): Precision firearm rifling spiral grooves, twin cylindrical barrel contours, and subtle predatory rifling marks.
  * 2. "maharaja" (The Maharaja): Sovereign Mughal Jali architectural latticework, royal palace arch profiles, and imperial rosette jewels.
  * 3. "masquerade" (The Masquerade): Venetian mask silhouette curves, dramatic baroque drapery contours, ruby mineral facets, and mask rosettes.
- * 4. "savanah" (The Savanah): Organic cheetah rosettes and predatory coat markings, flowing savannah wind contours.
+ * 4. "savanah" (The Savanah): Flowing savannah wind contours.
  * 
  * All rendered in 100% vector SVG at ultra-low baseline opacity (3% to 4%) with interactive discovery
  * hover warming (blooming to 16% opacity with golden tone) rewarding curious users who glide across negative space.
@@ -62,10 +62,6 @@ export default function CollectionBespokeMotifs({
             <line x1="200" y1="365" x2="200" y2="395" strokeWidth="1.5" />
             <line x1="5" y1="200" x2="35" y2="200" strokeWidth="1.5" />
             <line x1="365" y1="200" x2="395" y2="200" strokeWidth="1.5" />
-            {/* Integrated predatory cheetah spots in reticle */}
-            <circle cx="200" cy="200" r="3" fill="currentColor" opacity="0.6" />
-            <circle cx="270" cy="130" r="2.5" fill="currentColor" opacity="0.5" />
-            <circle cx="130" cy="270" r="2.5" fill="currentColor" opacity="0.5" />
           </svg>
 
           {/* Mid-Left: Twin Barrel Browline Contour Lines with Rosette Flutes */}
@@ -207,36 +203,6 @@ export default function CollectionBespokeMotifs({
       {/* =================================================================== */}
       {id === "savanah" && (
         <>
-          {/* Top-Right: African Savannah Predator Cheetah Rosette Array */}
-          <svg
-            aria-label="The Savanah · Golden Cheetah Rosettes"
-            className={`absolute -top-8 -right-8 w-88 sm:w-[460px] h-auto opacity-[0.042] text-[#C97D28] ${hoverClass}`}
-            viewBox="0 0 380 340"
-            fill="currentColor"
-          >
-            {/* Prominent Golden Cheetah Rosette 1 */}
-            <path d="M80,60 C86,42 106,36 122,42 C108,52 105,68 113,80 C95,78 84,72 80,60 Z" />
-            <path d="M134,46 C150,52 160,70 154,86 C144,78 136,80 128,72 C132,62 130,54 134,46 Z" />
-            <path d="M102,90 C116,96 136,92 148,84 C140,94 126,104 112,100 C102,98 100,92 102,90 Z" />
-
-            {/* Rosette 2 */}
-            <path d="M210,90 C218,72 238,66 254,74 C240,82 238,98 246,108 C228,106 216,100 210,90 Z" />
-            <path d="M266,78 C282,86 288,104 282,120 C272,112 266,114 258,106 C262,96 260,86 266,78 Z" />
-            <path d="M232,120 C246,126 262,124 274,116 C266,126 254,134 240,132 C232,130 230,124 232,120 Z" />
-
-            {/* Rosette 3 */}
-            <path d="M140,160 C146,144 164,138 178,144 C166,152 164,166 170,176 C154,174 144,168 140,160 Z" />
-            <path d="M188,150 C202,156 208,172 202,186 C194,180 188,182 182,174 C184,166 184,158 188,150 Z" />
-            <path d="M160,186 C172,190 186,188 196,182 C190,190 180,196 170,194 C162,192 160,188 160,186 Z" />
-
-            {/* Flowing savannah spots */}
-            <ellipse cx="60" cy="110" rx="5" ry="8" transform="rotate(35 60 110)" />
-            <ellipse cx="175" cy="95" rx="7" ry="5" transform="rotate(-20 175 95)" />
-            <ellipse cx="300" cy="110" rx="6" ry="5" transform="rotate(15 300 110)" />
-            <ellipse cx="110" cy="180" rx="6" ry="7" transform="rotate(45 110 180)" />
-            <ellipse cx="230" cy="190" rx="5" ry="6" transform="rotate(-15 230 190)" />
-          </svg>
-
           {/* Mid-Left: Savannah Wind Contour Curves */}
           <svg
             aria-label="Savannah Wind & Dune Flow"

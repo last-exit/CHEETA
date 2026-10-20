@@ -153,6 +153,10 @@
     overflow-x: hidden;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    text-transform: capitalize;
+  }
+
   ::selection {
     background: #1A1410;
     color: #F4F1E8;
@@ -173,7 +177,186 @@
   }
 }
 
+.toaster[data-sonner-toaster] [data-sonner-toast][data-styled="true"] {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr) auto;
+  gap: 12px;
+  padding: 16px;
+  font-family: var(--font-sans);
+}
+
+.toaster[data-sonner-toaster] [data-sonner-toast] [data-content] {
+  min-width: 0;
+  gap: 4px;
+}
+
+.toaster[data-sonner-toaster] [data-sonner-toast] [data-description] {
+  color: #625a51;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.toaster[data-sonner-toaster] .bag-confirmation [data-description] {
+  text-transform: lowercase;
+}
+
+.toaster[data-sonner-toaster] [data-sonner-toast] [data-button] {
+  min-height: 44px;
+  height: auto;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 2px;
+  background: #2a241d;
+  color: #f9f6f0;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 @layer components {
+  .collection-page :is(h1, h2, h3) {
+    text-transform: none;
+    overflow-wrap: anywhere;
+  }
+
+  .collection-page .acquisition-action,
+  .collection-page p {
+    text-transform: lowercase;
+  }
+
+  .collection-study-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 32px;
+    row-gap: 12px;
+    margin-top: 20px;
+  }
+
+  .collection-lenses,
+  .frame-study-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+  }
+
+  .collection-lenses button,
+  .frame-study-actions button {
+    min-height: 44px;
+    padding: 6px 0;
+    color: #625a51;
+    cursor: pointer;
+    transition: color 180ms ease;
+  }
+
+  .collection-lenses button[aria-pressed="true"] {
+    color: #2a241d;
+    font-weight: 700;
+  }
+
+  .collection-lenses button:hover,
+  .frame-study-actions button:hover {
+    color: var(--color-maroon);
+  }
+
+  .frame-study-actions {
+    position: absolute;
+    bottom: 0;
+    inset-inline: 0;
+    justify-content: center;
+    gap: 8px 24px;
+  }
+
+  .acquisition-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+    min-height: 48px;
+    padding: 6px 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.025em;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: color 180ms ease, opacity 180ms ease;
+  }
+
+  .acquisition-action:hover {
+    color: var(--color-maroon);
+  }
+
+  .acquisition-action:active {
+    opacity: 0.65;
+  }
+
+  .acquisition-action:focus-visible {
+    outline: 1px solid currentColor;
+    outline-offset: 5px;
+  }
+
+  .acquisition-action:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .acquisition-action svg {
+    flex-shrink: 0;
+    transition: transform 180ms var(--ease-editorial);
+  }
+
+  .acquisition-action:hover:not(:disabled) svg {
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .acquisition-action:hover:not(:disabled) svg {
+      transform: none;
+    }
+  }
+
+  .philosophy-page {
+    isolation: isolate;
+    background-color: #fafaf7;
+  }
+
+  .philosophy-relief {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .philosophy-relief svg {
+    position: absolute;
+    top: -160px;
+    right: -120px;
+    width: min(900px, 75vw);
+    height: auto;
+    opacity: 0.7;
+    mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  }
+
+  @media (max-width: 767px) {
+    .philosophy-relief svg {
+      top: -64px;
+      right: -160px;
+      width: 560px;
+      opacity: 0.45;
+    }
+  }
+
   .font-serif,
   .font-display {
     font-family: var(--font-serif);

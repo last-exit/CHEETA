@@ -1,16 +1,16 @@
 /**
- * EYEWEAR 3D MODEL : Awwwards-Tier Photorealistic WebGL & Three.js Engine
- * Crafted with custom PBR physical materials, dual-rail double barrel bridge,
- * sculpted cheetah temple hinges, Fresnel glass coating, and smooth spring physics.
+ * Interactive eyewear study with studio lighting and manual lens inspection.
  */
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { orbitStep } from "@/lib/eyewearMotion";
 
 interface Eyewear3DModelProps {
   lensType: "ruby" | "obsidian" | "amber" | "emerald";
   frameType?: "gold" | "gunmetal" | "bronze";
   className?: string;
   autoRotate?: boolean;
+  fallbackImage?: string;
 }
 
 export default function Eyewear3DModel({
@@ -18,6 +18,7 @@ export default function Eyewear3DModel({
   frameType = "gold",
   className = "w-full h-full",
   autoRotate = true,
+  fallbackImage = "/manus-storage/cheeta-double-barrel-hero_c55a3dea.png",
 }: Eyewear3DModelProps) {
   const [hasWebGLError, setHasWebGLError] = React.useState(false);
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -27,12 +28,34 @@ export default function Eyewear3DModel({
   const modelGroupRef = useRef<THREE.Group | null>(null);
   const isDraggingRef = useRef(false);
   const prevMousePosRef = useRef({ x: 0, y: 0 });
-  const targetRotationRef = useRef({ x: 0, y: 0 });
-  const currentRotationRef = useRef({ x: 0, y: 0 });
+  const targetRotationRef = useRef({ x: -0.08, y: -0.32 });
+  const currentRotationRef = useRef({ x: -0.08, y: -0.32 });
 
   // State for Explosion / Inspect Mode
   const [isExploded, setIsExploded] = React.useState(false);
-  
+  const [isOrbiting, setIsOrbiting] = React.useState(autoRotate);
+  const [reducedMotion, setReducedMotion] = React.useState(false);
+  const requestRenderRef = useRef<() => void>(() => {});
+  const controlsRef = useRef({
+    autoRotate,
+    isOrbiting,
+    isExploded,
+    reducedMotion,
+  });
+
+  useEffect(() => setIsOrbiting(autoRotate), [autoRotate]);
+  useEffect(() => {
+    controlsRef.current = { autoRotate, isOrbiting, isExploded, reducedMotion };
+    requestRenderRef.current();
+  }, [autoRotate, isOrbiting, isExploded, reducedMotion]);
+
+  const resetView = () => {
+    setIsOrbiting(false);
+    setIsExploded(false);
+    targetRotationRef.current = { x: -0.08, y: -0.32 };
+    requestRenderRef.current();
+  };
+
   const partsRef = useRef({
     leftLens: null as THREE.Mesh | null,
     rightLens: null as THREE.Mesh | null,
@@ -118,30 +141,35 @@ export default function Eyewear3DModel({
   // Update lens materials dynamically
   useEffect(() => {
     const props = getLensProps(lensType);
-    lensMaterialsRef.current.forEach((mat) => {
+    lensMaterialsRef.current.forEach(mat => {
       mat.color.setHex(props.color);
       mat.transmission = props.transmission;
       mat.opacity = props.opacity;
       mat.roughness = props.roughness;
       mat.ior = props.ior;
+      mat.reflectivity = props.reflectivity;
+      mat.attenuationColor.setHex(props.attenuationColor);
+      mat.attenuationDistance = props.attenuationDistance;
       mat.needsUpdate = true;
     });
+    requestRenderRef.current();
   }, [lensType]);
 
   // Update frame materials dynamically
   useEffect(() => {
     const props = getFrameProps(frameType);
-    frameMaterialsRef.current.forEach((mat) => {
+    frameMaterialsRef.current.forEach(mat => {
       mat.color.setHex(props.color);
       mat.metalness = props.metalness;
       mat.roughness = props.roughness;
       mat.needsUpdate = true;
     });
+    requestRenderRef.current();
   }, [frameType]);
 
   useEffect(() => {
     const container = mountRef.current;
-    if (!container) return;
+    if (!container || hasWebGLError) return;
 
     const width = container.clientWidth || 700;
     const height = container.clientHeight || 500;
@@ -156,7 +184,11 @@ export default function Eyewear3DModel({
     // 3. Renderer with ACES Tone Mapping & Subpixel Antialiasing
     let renderer: THREE.WebGLRenderer;
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+      renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: "high-performance",
+      });
     } catch (e) {
       console.warn("WebGL not supported or context unavailable:", e);
       setHasWebGLError(true);
@@ -228,6 +260,8 @@ export default function Eyewear3DModel({
       clearcoat: 1.0,
       clearcoatRoughness: 0.03,
       ior: lensConfig.ior,
+      attenuationColor: new THREE.Color(lensConfig.attenuationColor),
+      attenuationDistance: lensConfig.attenuationDistance,
       side: THREE.DoubleSide,
     });
     lensMaterialsRef.current = [glassMaterial];
@@ -247,8 +281,18 @@ export default function Eyewear3DModel({
     const rimWireRadius = 0.03;
 
     // Dual Circular Rims with Outer Stepped Chamfer
-    const outerRimGeo = new THREE.TorusGeometry(lensRadius, rimWireRadius, 24, 72);
-    const innerBevelGeo = new THREE.TorusGeometry(lensRadius - 0.015, rimWireRadius * 0.6, 16, 64);
+    const outerRimGeo = new THREE.TorusGeometry(
+      lensRadius,
+      rimWireRadius,
+      24,
+      72
+    );
+    const innerBevelGeo = new THREE.TorusGeometry(
+      lensRadius - 0.015,
+      rimWireRadius * 0.6,
+      16,
+      64
+    );
 
     // Left Frame Assembly
     const leftRim = new THREE.Mesh(outerRimGeo, goldMaterial);
@@ -267,7 +311,12 @@ export default function Eyewear3DModel({
     eyewearGroup.add(rightInnerBevel);
 
     // Curved Mineral Lenses (Slight convex curvature for realistic glint)
-    const lensGeo = new THREE.CylinderGeometry(lensRadius - 0.008, lensRadius - 0.008, 0.024, 64);
+    const lensGeo = new THREE.CylinderGeometry(
+      lensRadius - 0.008,
+      lensRadius - 0.008,
+      0.024,
+      64
+    );
     lensGeo.rotateX(Math.PI / 2);
 
     const leftLens = new THREE.Mesh(lensGeo, glassMaterial);
@@ -288,7 +337,10 @@ export default function Eyewear3DModel({
       new THREE.Vector3(0.2, 0.34, 0.12),
       new THREE.Vector3(lensSpacing - lensRadius + 0.015, 0.26, 0.02)
     );
-    const topBridgeMesh = new THREE.Mesh(new THREE.TubeGeometry(topBridgeCurve, 36, 0.025, 16, false), goldMaterial);
+    const topBridgeMesh = new THREE.Mesh(
+      new THREE.TubeGeometry(topBridgeCurve, 36, 0.025, 16, false),
+      goldMaterial
+    );
     eyewearGroup.add(topBridgeMesh);
 
     // Bottom Nose Bridge Rail
@@ -298,7 +350,10 @@ export default function Eyewear3DModel({
       new THREE.Vector3(0.16, 0.12, 0.09),
       new THREE.Vector3(lensSpacing - lensRadius + 0.015, 0.08, 0.02)
     );
-    const bottomBridgeMesh = new THREE.Mesh(new THREE.TubeGeometry(bottomBridgeCurve, 36, 0.022, 16, false), goldMaterial);
+    const bottomBridgeMesh = new THREE.Mesh(
+      new THREE.TubeGeometry(bottomBridgeCurve, 36, 0.022, 16, false),
+      goldMaterial
+    );
     eyewearGroup.add(bottomBridgeMesh);
 
     // Precision Vertical Reinforcement Columns
@@ -341,7 +396,10 @@ export default function Eyewear3DModel({
       new THREE.Vector3(-lensSpacing - lensRadius - 0.02, -0.04, -1.7),
       new THREE.Vector3(-lensSpacing - lensRadius + 0.02, -0.18, -1.9),
     ]);
-    const leftTemple = new THREE.Mesh(new THREE.TubeGeometry(leftTempleCurve, 48, templeRadius, 16, false), goldMaterial);
+    const leftTemple = new THREE.Mesh(
+      new THREE.TubeGeometry(leftTempleCurve, 48, templeRadius, 16, false),
+      goldMaterial
+    );
     leftTempleGroup.add(leftTemple);
 
     const rightTempleCurve = new THREE.CatmullRomCurve3([
@@ -351,7 +409,10 @@ export default function Eyewear3DModel({
       new THREE.Vector3(lensSpacing + lensRadius + 0.02, -0.04, -1.7),
       new THREE.Vector3(lensSpacing + lensRadius - 0.02, -0.18, -1.9),
     ]);
-    const rightTemple = new THREE.Mesh(new THREE.TubeGeometry(rightTempleCurve, 48, templeRadius, 16, false), goldMaterial);
+    const rightTemple = new THREE.Mesh(
+      new THREE.TubeGeometry(rightTempleCurve, 48, templeRadius, 16, false),
+      goldMaterial
+    );
     rightTempleGroup.add(rightTemple);
 
     // Cheetah Head / Micro-Hinge Hardware
@@ -374,154 +435,222 @@ export default function Eyewear3DModel({
     g2.position.set(lensSpacing + lensRadius + 0.045, 0.1, 0.045);
     rightTempleGroup.add(g2);
 
-    scene.add(eyewearGroup);
+    // Turn around the centre of the whole frame, including the temples.
+    const presentationGroup = new THREE.Group();
+    eyewearGroup.position.z = 0.85;
+    presentationGroup.add(eyewearGroup);
+    modelGroupRef.current = presentationGroup;
+    scene.add(presentationGroup);
 
-    // 7. Tactile 3D Orbit Interaction with Momentum Physics
-    const onMouseDown = (e: MouseEvent) => {
-      isDraggingRef.current = true;
-      prevMousePosRef.current = { x: e.clientX, y: e.clientY };
-    };
-
-    const onMouseMove = (e: MouseEvent) => {
-      if (!isDraggingRef.current) return;
-      const deltaX = e.clientX - prevMousePosRef.current.x;
-      const deltaY = e.clientY - prevMousePosRef.current.y;
-
-      targetRotationRef.current.y += deltaX * 0.007;
-      targetRotationRef.current.x += deltaY * 0.007;
-      targetRotationRef.current.x = Math.max(-0.45, Math.min(0.45, targetRotationRef.current.x));
-
-      prevMousePosRef.current = { x: e.clientX, y: e.clientY };
-    };
-
-    const onMouseUp = () => {
-      isDraggingRef.current = false;
-    };
-
-    const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 1) {
-        isDraggingRef.current = true;
-        prevMousePosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      }
-    };
-
-    const onTouchMove = (e: TouchEvent) => {
-      if (!isDraggingRef.current || e.touches.length !== 1) return;
-      const deltaX = e.touches[0].clientX - prevMousePosRef.current.x;
-      const deltaY = e.touches[0].clientY - prevMousePosRef.current.y;
-
-      targetRotationRef.current.y += deltaX * 0.007;
-      targetRotationRef.current.x += deltaY * 0.007;
-      targetRotationRef.current.x = Math.max(-0.45, Math.min(0.45, targetRotationRef.current.x));
-
-      prevMousePosRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    };
-
-    const onTouchEnd = () => {
-      isDraggingRef.current = false;
-    };
-
+    // Keep one renderer alive while changing colour, orbit or inspection mode.
     const domElem = renderer.domElement;
-    domElem.addEventListener("mousedown", onMouseDown);
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
-    domElem.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
-    window.addEventListener("touchend", onTouchEnd);
+    let raf = 0;
+    let disposed = false;
+    let visible = false;
+    let lastTime = performance.now();
 
-    // 8. Continuous Render Loop with Spring Interpolation (Emil Kowalski Philosophy)
-    let animId: number;
-    const clock = new THREE.Clock();
-
-    const animate = () => {
-      animId = requestAnimationFrame(animate);
-      const elapsedTime = clock.getElapsedTime();
-
-      if (modelGroupRef.current) {
-        // Idle gentle floating sine wave
-        modelGroupRef.current.position.y = Math.sin(elapsedTime * 1.5) * 0.04;
-
-        if (!isDraggingRef.current && autoRotate) {
-          targetRotationRef.current.y += 0.0035;
-          targetRotationRef.current.x *= 0.985;
-        }
-
-        // Spring lerp rotation for natural inertia
-        currentRotationRef.current.y += (targetRotationRef.current.y - currentRotationRef.current.y) * 0.08;
-        currentRotationRef.current.x += (targetRotationRef.current.x - currentRotationRef.current.x) * 0.08;
-
-        modelGroupRef.current.rotation.y = currentRotationRef.current.y;
-        modelGroupRef.current.rotation.x = currentRotationRef.current.x;
+    const schedule = () => {
+      if (!disposed && visible && !document.hidden && !raf) {
+        raf = requestAnimationFrame(animate);
       }
-      
-      // Explosion Animation Lerp
-      const targetExp = partsRef.current.explosionProgress;
-      partsRef.current.explosionProgress += (isExploded ? 1 - targetExp : 0 - targetExp) * 0.06;
-      const progress = partsRef.current.explosionProgress;
-      
-      if (partsRef.current.leftLens && partsRef.current.rightLens) {
-        // Pop lenses forward and slightly outwards
-        partsRef.current.leftLens.position.z = progress * 0.6;
-        partsRef.current.leftLens.position.x = -lensSpacing - (progress * 0.1);
-        partsRef.current.leftLens.rotation.y = progress * -0.15;
-        
-        partsRef.current.rightLens.position.z = progress * 0.6;
-        partsRef.current.rightLens.position.x = lensSpacing + (progress * 0.1);
-        partsRef.current.rightLens.rotation.y = progress * 0.15;
-      }
-      
-      if (partsRef.current.leftTempleGroup && partsRef.current.rightTempleGroup) {
-        // Separate temples outwards and rotate them to expose the hinges
-        partsRef.current.leftTempleGroup.position.x = progress * -0.6;
-        partsRef.current.leftTempleGroup.position.z = progress * 0.2;
-        partsRef.current.leftTempleGroup.rotation.y = progress * -0.25;
-        
-        partsRef.current.rightTempleGroup.position.x = progress * 0.6;
-        partsRef.current.rightTempleGroup.position.z = progress * 0.2;
-        partsRef.current.rightTempleGroup.rotation.y = progress * 0.25;
-      }
-
-      renderer.render(scene, camera);
     };
+    requestRenderRef.current = schedule;
 
-    animate();
+    const stopOrbit = () => {
+      controlsRef.current.isOrbiting = false;
+      setIsOrbiting(false);
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!event.isPrimary || event.button !== 0) return;
+      stopOrbit();
+      isDraggingRef.current = true;
+      prevMousePosRef.current = { x: event.clientX, y: event.clientY };
+      container.setPointerCapture(event.pointerId);
+      schedule();
+    };
+    const onPointerMove = (event: PointerEvent) => {
+      if (!isDraggingRef.current) return;
+      targetRotationRef.current.y +=
+        (event.clientX - prevMousePosRef.current.x) * 0.0045;
+      targetRotationRef.current.x = THREE.MathUtils.clamp(
+        targetRotationRef.current.x +
+          (event.clientY - prevMousePosRef.current.y) * 0.0045,
+        -0.45,
+        0.45
+      );
+      prevMousePosRef.current = { x: event.clientX, y: event.clientY };
+      schedule();
+    };
+    const onPointerUp = () => {
+      isDraggingRef.current = false;
+      schedule();
+    };
+    container.addEventListener("pointerdown", onPointerDown);
+    container.addEventListener("pointermove", onPointerMove);
+    container.addEventListener("pointerup", onPointerUp);
+    container.addEventListener("pointercancel", onPointerUp);
+    container.addEventListener("lostpointercapture", onPointerUp);
+
+    function animate(now: number) {
+      raf = 0;
+      if (disposed || !visible || document.hidden) return;
+      const delta = Math.max(0, Math.min((now - lastTime) / 1000, 0.05));
+      lastTime = now;
+      const controls = controlsRef.current;
+      const orbiting =
+        controls.autoRotate &&
+        controls.isOrbiting &&
+        !controls.reducedMotion &&
+        !isDraggingRef.current;
+      if (orbiting) targetRotationRef.current.y += orbitStep(delta);
+
+      const blend = controls.reducedMotion ? 1 : 1 - Math.exp(-5 * delta);
+      const rotation = currentRotationRef.current;
+      const target = targetRotationRef.current;
+      rotation.y += (target.y - rotation.y) * blend;
+      rotation.x += (target.x - rotation.x) * blend;
+      presentationGroup.rotation.set(rotation.x, rotation.y, 0);
+
+      const parts = partsRef.current;
+      const targetExpansion = controls.isExploded ? 1 : 0;
+      parts.explosionProgress +=
+        (targetExpansion - parts.explosionProgress) * blend;
+      const progress = parts.explosionProgress;
+      if (parts.leftLens && parts.rightLens) {
+        parts.leftLens.position.z = progress * 0.6;
+        parts.leftLens.position.x = -lensSpacing - progress * 0.1;
+        parts.leftLens.rotation.y = progress * -0.15;
+        parts.rightLens.position.z = progress * 0.6;
+        parts.rightLens.position.x = lensSpacing + progress * 0.1;
+        parts.rightLens.rotation.y = progress * 0.15;
+      }
+      if (parts.leftTempleGroup && parts.rightTempleGroup) {
+        parts.leftTempleGroup.position.set(progress * -0.6, 0, progress * 0.2);
+        parts.leftTempleGroup.rotation.y = progress * -0.25;
+        parts.rightTempleGroup.position.set(progress * 0.6, 0, progress * 0.2);
+        parts.rightTempleGroup.rotation.y = progress * 0.25;
+      }
+      renderer.render(scene, camera);
+      const unsettled =
+        Math.abs(target.y - rotation.y) +
+          Math.abs(target.x - rotation.x) +
+          Math.abs(targetExpansion - progress) >
+        0.0001;
+      if (orbiting || isDraggingRef.current || unsettled) schedule();
+    }
 
     const handleResize = () => {
-      if (!container) return;
       const w = container.clientWidth;
       const h = container.clientHeight;
+      if (!w || !h) return;
       camera.aspect = w / h;
+      camera.position.set(
+        0,
+        0.1,
+        Math.max(
+          5.2,
+          4.8 / (2 * Math.tan(THREE.MathUtils.degToRad(16)) * camera.aspect)
+        )
+      );
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      schedule();
     };
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(container);
+    handleResize();
 
-    window.addEventListener("resize", handleResize);
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      lastTime = performance.now();
+      if (visible) schedule();
+      else {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    });
+    visibilityObserver.observe(container);
+    const onVisibility = () => {
+      lastTime = performance.now();
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      } else schedule();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    const motionQuery = matchMedia("(prefers-reduced-motion: reduce)");
+    const onMotionPreference = () => {
+      controlsRef.current.reducedMotion = motionQuery.matches;
+      setReducedMotion(motionQuery.matches);
+      if (motionQuery.matches) stopOrbit();
+      schedule();
+    };
+    motionQuery.addEventListener("change", onMotionPreference);
+    onMotionPreference();
+    const onContextLost = (event: Event) => {
+      event.preventDefault();
+      setHasWebGLError(true);
+    };
+    domElem.addEventListener("webglcontextlost", onContextLost);
 
     return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", handleResize);
-      domElem.removeEventListener("mousedown", onMouseDown);
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("mouseup", onMouseUp);
-      domElem.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onTouchEnd);
-
-      if (container && renderer.domElement) {
-        container.removeChild(renderer.domElement);
-      }
+      disposed = true;
+      cancelAnimationFrame(raf);
+      requestRenderRef.current = () => {};
+      resizeObserver.disconnect();
+      visibilityObserver.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+      motionQuery.removeEventListener("change", onMotionPreference);
+      domElem.removeEventListener("webglcontextlost", onContextLost);
+      container.removeEventListener("pointerdown", onPointerDown);
+      container.removeEventListener("pointermove", onPointerMove);
+      container.removeEventListener("pointerup", onPointerUp);
+      container.removeEventListener("pointercancel", onPointerUp);
+      container.removeEventListener("lostpointercapture", onPointerUp);
+      const geometries = new Set<THREE.BufferGeometry>();
+      const materials = new Set<THREE.Material>(accentMaterialsRef.current);
+      scene.traverse(object => {
+        if (!(object instanceof THREE.Mesh)) return;
+        geometries.add(object.geometry);
+        for (const material of Array.isArray(object.material)
+          ? object.material
+          : [object.material]) {
+          materials.add(material);
+        }
+      });
+      geometries.forEach(geometry => geometry.dispose());
+      materials.forEach(material => material.dispose());
+      scene.clear();
+      modelGroupRef.current = null;
+      lensMaterialsRef.current = [];
+      frameMaterialsRef.current = [];
+      accentMaterialsRef.current = [];
+      partsRef.current = {
+        leftLens: null,
+        rightLens: null,
+        leftTempleGroup: null,
+        rightTempleGroup: null,
+        explosionProgress: 0,
+      };
+      if (container.contains(domElem)) container.removeChild(domElem);
       renderer.dispose();
     };
-  }, [isExploded]); // Added isExploded to dependency array to capture state changes!
+  }, [hasWebGLError]);
 
   if (hasWebGLError) {
     return (
-      <div className={`relative flex items-center justify-center p-6 select-none ${className}`}>
+      <div
+        className={`relative flex items-center justify-center p-6 ${className}`}
+      >
         <img
-          src="/manus-storage/cheeta-double-barrel-hero_c55a3dea.png"
-          alt="3D Eyewear Model Archive"
-          className="max-h-full max-w-full object-contain filter drop-shadow-[0_24px_48px_rgba(0,0,0,0.12)]"
+          src={fallbackImage}
+          alt="eyewear frame study"
+          className="max-h-full max-w-full object-contain"
         />
+        <span className="absolute bottom-0 font-sans text-xs text-[#2A241D]/65">
+          3d view unavailable
+        </span>
       </div>
     );
   }
@@ -530,34 +659,59 @@ export default function Eyewear3DModel({
     <div className={`relative ${className}`}>
       <div
         ref={mountRef}
-        className="absolute inset-0 cursor-grab active:cursor-grabbing"
+        role="group"
+        aria-label="3d eyewear viewer, use arrow keys to turn and home to reset"
+        tabIndex={0}
+        onKeyDown={event => {
+          const steps: Record<string, [number, number]> = {
+            ArrowLeft: [0, -0.12],
+            ArrowRight: [0, 0.12],
+            ArrowUp: [-0.08, 0],
+            ArrowDown: [0.08, 0],
+          };
+          if (event.key === "Home") {
+            event.preventDefault();
+            resetView();
+          } else if (event.key === "Escape") {
+            setIsExploded(false);
+            setIsOrbiting(false);
+          } else if (steps[event.key]) {
+            event.preventDefault();
+            controlsRef.current.isOrbiting = false;
+            setIsOrbiting(false);
+            targetRotationRef.current.x = THREE.MathUtils.clamp(
+              targetRotationRef.current.x + steps[event.key][0],
+              -0.45,
+              0.45
+            );
+            targetRotationRef.current.y += steps[event.key][1];
+            requestRenderRef.current();
+          }
+        }}
+        className="absolute inset-x-0 top-0 bottom-14 cursor-grab active:cursor-grabbing touch-pan-y"
       />
-      
-      {/* Explode / Inspect Mode Button */}
-      <div className="absolute bottom-6 right-6 md:bottom-8 md:right-8 z-10 flex flex-col items-end space-y-2 pointer-events-none">
-        {isExploded && (
-          <span className="text-[10px] uppercase tracking-widest text-[#2A241D]/60 font-semibold mb-1 pointer-events-none transition-opacity duration-500">
-            inspect mode active
-          </span>
+      <div className="frame-study-actions">
+        {!reducedMotion && autoRotate && (
+          <button
+            type="button"
+            onClick={() => setIsOrbiting(value => !value)}
+            aria-pressed={isOrbiting}
+          >
+            {isOrbiting ? "pause orbit" : "resume orbit"}
+          </button>
         )}
         <button
-          onClick={() => setIsExploded(!isExploded)}
-          className={`group flex items-center justify-center h-12 w-12 rounded-full transition-all duration-500 cursor-pointer shadow-xl pointer-events-auto backdrop-blur-md border ${
-            isExploded 
-              ? "bg-[#D4AF37]/20 border-[#D4AF37]/40 text-[#D4AF37]" 
-              : "bg-black/5 border-black/10 text-black/40 hover:bg-black/10 hover:text-black"
-          }`}
-          title="Toggle Inspect Mode"
+          type="button"
+          aria-pressed={isExploded}
+          onClick={() => {
+            setIsOrbiting(false);
+            setIsExploded(value => !value);
+          }}
         >
-          {isExploded ? (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          ) : (
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-            </svg>
-          )}
+          {isExploded ? "assemble" : "separate lenses"}
+        </button>
+        <button type="button" onClick={resetView}>
+          reset view
         </button>
       </div>
     </div>

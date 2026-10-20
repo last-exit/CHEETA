@@ -10,7 +10,6 @@ import { Link } from "wouter";
 import { toast } from "sonner";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
-import SubtleLuxuryBackground from "@/components/SubtleLuxuryBackground";
 import { useCart } from "@/contexts/CartContext";
 import { playMetallicClick, playVaultAcquisition } from "@/lib/soundEffects";
 
@@ -44,17 +43,15 @@ export default function Cart() {
   };
 
   return (
-    <main className="relative min-h-screen w-full bg-[#F4F3EE] text-[#0B0B0C] selection:bg-[#0B0B0C] selection:text-[#F4F3EE] overflow-hidden">
+    <main className="cart-page relative min-h-screen w-full bg-[#F4F3EE] text-[#0B0B0C] selection:bg-[#0B0B0C] selection:text-[#F4F3EE] overflow-hidden">
       {/* Floating Transparent Cheetah Bar */}
       <CheetahBar />
 
       {/* Centered Transparent CHEETA JEWELS Header Wordmark */}
       <HeaderWordmark dark={false} />
 
-      {/* Subtle Background Swirls & Cheetah Rosettes (3-4% Opacity) */}
-      <SubtleLuxuryBackground variant="full" />
 
-      <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-20 py-24 md:py-36 pl-16 md:pl-28">
+      <div className="cart-shell relative z-10 max-w-5xl mx-auto px-6 md:px-20 py-24 md:py-36 pl-16 md:pl-28">
         {/* Back Link */}
         <div className="mb-12 font-sans lowercase text-xs tracking-wider">
           <Link
@@ -68,7 +65,7 @@ export default function Cart() {
 
         {/* Header */}
         <header className="mb-16 flex items-baseline justify-between pb-6">
-          <h1 className="font-serif lowercase text-4xl md:text-5xl font-normal tracking-tight">
+          <h1 className="font-serif capitalize text-4xl md:text-5xl font-normal tracking-tight">
             bag
           </h1>
           <span className="font-sans lowercase text-xs tracking-wider text-[#0B0B0C]/40">
@@ -82,7 +79,7 @@ export default function Cart() {
             animate={{ opacity: 1, y: 0 }}
             className="py-16 text-center space-y-4"
           >
-            <h2 className="font-serif lowercase text-3xl font-normal text-[#0B0B0C]">
+            <h2 className="font-serif capitalize text-3xl font-normal text-[#0B0B0C]">
               acquisition initiated
             </h2>
             <p className="font-sans text-sm text-[#0B0B0C]/70 max-w-md mx-auto leading-relaxed">
@@ -117,9 +114,9 @@ export default function Cart() {
               {cart.map((item) => (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8"
+                  className="bag-item flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8"
                 >
-                  <div className="flex items-center gap-6">
+                  <div className="bag-item-description flex items-center gap-6">
                     <div className="h-20 w-20 flex items-center justify-center shrink-0 bg-[#EBEAE4]/40 p-2">
                       <img
                         src={item.image}
@@ -131,15 +128,15 @@ export default function Cart() {
                       <h3 className="font-serif text-2xl font-normal text-[#0B0B0C]">
                         {item.name}
                       </h3>
-                      <p className="font-sans text-xs uppercase tracking-[0.12em] text-[#0B0B0C]/50 mt-1">
+                      <p className="font-sans text-xs lowercase tracking-normal text-[#0B0B0C]/50 mt-1">
                         {item.frame}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-8">
+                  <div className="bag-item-actions flex items-center justify-between sm:justify-end w-full sm:w-auto gap-8">
                     {/* Quantity Controls */}
-                    <div className="flex items-center gap-2 font-sans text-sm">
+                    <div className="bag-quantity flex items-center gap-2 font-sans text-sm">
                       <button
                         onClick={() => handleUpdateQty(item.id, -1)}
                         className="p-1 text-[#0B0B0C]/40 hover:text-[#0B0B0C] transition-colors cursor-pointer"

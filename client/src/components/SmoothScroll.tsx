@@ -1,56 +1,44 @@
-/**
- * LENIS KINETIC SCROLL ENGINE
- * Provides unhurried, heavy physical scroll inertia (Balenciaga / Gentle Monster feel).
- * Fully hardware-accelerated with reduced motion compliance.
- */
 import Lenis from "lenis";
 import React, { useEffect, useRef } from "react";
 import { useLocation } from "wouter";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+export default function SmoothScroll({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [location] = useLocation();
   const lenisRef = useRef<Lenis | null>(null);
+  const smooth = useMediaQuery(
+    "(min-width: 768px) and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)"
+  );
 
   useEffect(() => {
-    // Check if user prefers reduced motion
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
-
-    // Initialize Lenis with luxury inertia dampening
+    if (!smooth) return;
     const lenis = new Lenis({
       duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: "vertical",
-      gestureOrientation: "vertical",
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 0.85,
-      touchMultiplier: 1.5,
     });
     lenisRef.current = lenis;
-
-    let rafId: number;
-    function raf(time: number) {
+    let frame = 0;
+    const animate = (time: number) => {
       lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-
-    rafId = requestAnimationFrame(raf);
-
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
     return () => {
-      cancelAnimationFrame(rafId);
+      cancelAnimationFrame(frame);
       lenis.destroy();
       lenisRef.current = null;
     };
-  }, []);
+  }, [smooth]);
 
-  // Reset scroll to top on route change
   useEffect(() => {
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { immediate: true });
-    } else {
-      window.scrollTo(0, 0);
-    }
+    if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
   }, [location]);
-
   return <>{children}</>;
 }
