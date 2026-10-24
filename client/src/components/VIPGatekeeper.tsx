@@ -77,7 +77,6 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
   return (
     <div className="min-h-screen w-full bg-[#FFFFFF] text-[#1A1410] flex flex-col justify-between items-center px-8 py-10 sm:px-12 sm:py-12 relative overflow-hidden select-none">
       {/* Subtle Architectural Ambient Ground */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(212,175,55,0.03),transparent_70%)] pointer-events-none" />
 
       {/* Spacer to push card to true center without top bar */}
       <div className="w-full h-4" />

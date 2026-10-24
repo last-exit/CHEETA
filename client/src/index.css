@@ -1,64 +1,87 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Tenor+Sans&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* CHEETAH JEWELZ : Modern Jewelry With Instinct
+/* Cheeta Jewels */
 
-/* GT Sectra Display (Upright, Normal, High-Contrast Luxury) & GT America */
+/* GT Sectra Display. DM Sans is the explicit temporary body fallback. */
 @font-face {
   font-family: "GT Sectra Display";
   font-style: normal;
-  font-weight: 600 700 800;
+  font-weight: 600 800;
   font-display: swap;
-  src: url("/manus-storage/fonts/GT-Sectra-Display-Bold.woff") format("woff"),
-       url("/manus-storage/fonts/GT-Sectra-Display-Bold.ttf") format("truetype");
+  src:
+    url("/manus-storage/fonts/GT-Sectra-Display-Bold.woff") format("woff"),
+    url("/manus-storage/fonts/GT-Sectra-Display-Bold.ttf") format("truetype");
 }
 @font-face {
   font-family: "GT Sectra Display";
   font-style: normal;
-  font-weight: 300 400 500;
+  font-weight: 300 500;
   font-display: swap;
-  src: url("/manus-storage/fonts/GT-Sectra-Fine-Book.woff") format("woff"),
-       url("/manus-storage/fonts/GT-Sectra-Fine-Book.ttf") format("truetype");
+  src:
+    url("/manus-storage/fonts/GT-Sectra-Fine-Book.woff") format("woff"),
+    url("/manus-storage/fonts/GT-Sectra-Fine-Book.ttf") format("truetype");
 }
 @font-face {
   font-family: "GT Sectra Display";
   font-style: italic;
   font-weight: 400 700;
   font-display: swap;
-  src: url("/manus-storage/fonts/GT-Sectra-Display-Trial-Bold-Italic.otf") format("opentype");
+  src: url("/manus-storage/fonts/GT-Sectra-Display-Trial-Bold-Italic.otf")
+    format("opentype");
+}
+
+/* Bodoni Moda display serif */
+@font-face {
+  font-family: "Bodoni Moda";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/manus-storage/fonts/bodoni-moda-500.ttf") format("truetype");
 }
 @font-face {
-  font-family: "GT America";
+  font-family: "Bodoni Moda";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/manus-storage/fonts/bodoni-moda-500.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Bodoni Moda";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/manus-storage/fonts/bodoni-moda-600.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Bodoni Moda";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/manus-storage/fonts/bodoni-moda-600.ttf") format("truetype");
+}
+/* DM Sans UI sans */
+@font-face {
+  font-family: "DM Sans";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url("/manus-storage/fonts/dm-sans-400.ttf") format("truetype");
 }
 @font-face {
-  font-family: "GT America";
+  font-family: "DM Sans";
   font-style: normal;
   font-weight: 500;
   font-display: swap;
   src: url("/manus-storage/fonts/dm-sans-500.ttf") format("truetype");
 }
 @font-face {
-  font-family: "GT America";
+  font-family: "DM Sans";
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   font-display: swap;
   src: url("/manus-storage/fonts/dm-sans-600.ttf") format("truetype");
 }
-
-/* Bodoni Moda display serif */
-@font-face { font-family: "Bodoni Moda"; font-style: normal; font-weight: 400; font-display: swap; src: url("/manus-storage/fonts/bodoni-moda-500.ttf") format("truetype"); }
-@font-face { font-family: "Bodoni Moda"; font-style: normal; font-weight: 500; font-display: swap; src: url("/manus-storage/fonts/bodoni-moda-500.ttf") format("truetype"); }
-@font-face { font-family: "Bodoni Moda"; font-style: normal; font-weight: 600; font-display: swap; src: url("/manus-storage/fonts/bodoni-moda-600.ttf") format("truetype"); }
-@font-face { font-family: "Bodoni Moda"; font-style: normal; font-weight: 700; font-display: swap; src: url("/manus-storage/fonts/bodoni-moda-600.ttf") format("truetype"); }
-/* DM Sans UI sans */
-@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 400; font-display: swap; src: url("/manus-storage/fonts/dm-sans-400.ttf") format("truetype"); }
-@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 500; font-display: swap; src: url("/manus-storage/fonts/dm-sans-500.ttf") format("truetype"); }
-@font-face { font-family: "DM Sans"; font-style: normal; font-weight: 600; font-display: swap; src: url("/manus-storage/fonts/dm-sans-600.ttf") format("truetype"); }
 
 @custom-variant dark (&:is(.dark *));
 
@@ -87,18 +110,19 @@
   --color-input: transparent;
   --color-ring: var(--ring);
   /* Brand tokens */
-  --color-ivory: #FFFFFF;
-  --color-bone: #FFFFFF;
-  --color-stone: #EFEFEF;
-  --color-ink: #000000;
-  --color-ink-soft: #555555;
-  --color-maroon: #6B1A2C;
-  --color-maroon-deep: #4A0E16;
-  --color-gold: #B8985F;
+  --color-ivory: #fafaf7;
+  --color-bone: #fafaf7;
+  --color-stone: #efefef;
+  --color-ink: #2a241d;
+  --color-ink-soft: #6a635d;
+  --color-maroon: #6b1a2c;
+  --color-maroon-deep: #4a0e16;
+  --color-gold: #b8985f;
 
-  /* Type stack: GT Sectra Display & GT America */
+  /* Genuine GT America files have not been supplied. */
   --font-serif: "GT Sectra Display", "Bodoni Moda", "Didot", Georgia, serif;
-  --font-sans: "GT America", "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans:
+    "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Motion tokens (per brief: 150-250ms interactions, 400-700ms reveals) */
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
@@ -110,22 +134,22 @@
 
 :root {
   --radius: 0px;
-  --background: #FFFFFF;
-  --foreground: #000000;
-  --card: #FFFFFF;
-  --card-foreground: #000000;
-  --popover: #FFFFFF;
-  --popover-foreground: #000000;
-  --primary: #000000;
-  --primary-foreground: #FFFFFF;
-  --secondary: #F2F2F2;
+  --background: #fafaf7;
+  --foreground: #2a241d;
+  --card: #fafaf7;
+  --card-foreground: #2a241d;
+  --popover: #ffffff;
+  --popover-foreground: #2a241d;
+  --primary: #2a241d;
+  --primary-foreground: #ffffff;
+  --secondary: #f2f2f2;
   --secondary-foreground: #000000;
-  --muted: #F8F8F8;
-  --muted-foreground: #666666;
+  --muted: #f8f8f8;
+  --muted-foreground: #6a635d;
   --accent: #000000;
-  --accent-foreground: #FFFFFF;
-  --destructive: #6B1A2C;
-  --destructive-foreground: #FFFFFF;
+  --accent-foreground: #ffffff;
+  --destructive: #6b1a2c;
+  --destructive-foreground: #ffffff;
   --border: transparent;
   --input: transparent;
   --ring: #000000;
@@ -153,22 +177,30 @@
     overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    text-transform: capitalize;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-transform: none;
   }
 
   ::selection {
-    background: #1A1410;
-    color: #F4F1E8;
+    background: #1a1410;
+    color: #f4f1e8;
   }
 
-  button:not(:disabled), a[href] {
+  button:not(:disabled),
+  a[href] {
     cursor: pointer;
   }
 
   /* Reduced motion per brief */
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -288,7 +320,9 @@
     letter-spacing: 0.025em;
     line-height: 1.5;
     cursor: pointer;
-    transition: color 180ms ease, opacity 180ms ease;
+    transition:
+      color 180ms ease,
+      opacity 180ms ease;
   }
 
   .acquisition-action:hover {
@@ -329,38 +363,13 @@
     background-color: #fafaf7;
   }
 
-  .philosophy-relief {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    overflow: hidden;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .philosophy-relief svg {
-    position: absolute;
-    top: -160px;
-    right: -120px;
-    width: min(900px, 75vw);
-    height: auto;
-    opacity: 0.7;
-    mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
-  }
-
-  @media (max-width: 767px) {
-    .philosophy-relief svg {
-      top: -64px;
-      right: -160px;
-      width: 560px;
-      opacity: 0.45;
-    }
-  }
-
   .font-serif,
   .font-display {
     font-family: var(--font-serif);
-    font-feature-settings: "liga" 1, "dlig" 1, "kern" 1;
+    font-feature-settings:
+      "liga" 1,
+      "dlig" 1,
+      "kern" 1;
     font-weight: 400;
   }
 
@@ -380,13 +389,6 @@
 
   .tracking-mark {
     letter-spacing: 0.32em;
-  }
-
-  /* Hairline rule used as a quiet divider (no boxy lines) */
-  .rule-hair {
-    height: 1px;
-    background: currentColor;
-    opacity: 0.08;
   }
 
   /* Custom luxury focus ring (replaces default blue) */
@@ -435,4 +437,3 @@
     letter-spacing: normal;
   }
 }
-

@@ -63,7 +63,7 @@ export interface CollectionData {
   video: string;
   campaign: string;
   frames: string;
-  stills: string[]; // [3:4 portrait, col 1-5 4:5, col 8-12 4:3, 16:9 wide]
+  stills: string[]; // Campaign portrait, second portrait, close-up, wide still
   theme: CollectionTheme;
   products: CollectionProduct[];
   credits: CollectionCredit[];
@@ -161,7 +161,8 @@ export const COLLECTIONS: Record<string, CollectionData> = {
         { id: "obsidian", label: "Obsidian Smoke", hex: "#1A1C20" },
       ],
       title: "18K Solid Gold Octagonal Chisel",
-      subtitle: "Bespoke Jali Latticework & Cabochon Hinge · Drag to Rotate 360°",
+      subtitle:
+        "Bespoke Jali Latticework & Cabochon Hinge · Drag to Rotate 360°",
     },
     nextId: "barrel",
     nextName: "THE GUN COLLECTION",
@@ -349,7 +350,8 @@ export const COLLECTIONS: Record<string, CollectionData> = {
         { id: "ruby", label: "Sunset Ruby", hex: "#8A0E1C" },
       ],
       title: "Sand-Cast Patina Bronze Billet",
-      subtitle: "Dune Mirage Silhouette & Bone-Warmed Metal · Drag to Rotate 360°",
+      subtitle:
+        "Dune Mirage Silhouette & Bone-Warmed Metal · Drag to Rotate 360°",
     },
     nextId: "barrel",
     nextName: "THE GUN COLLECTION",
@@ -380,10 +382,10 @@ export const COLLECTIONS: Record<string, CollectionData> = {
     campaign: "/barrel/barrel-campaign.jpg",
     frames: "/barrel/barrel-quad.png",
     stills: [
-      "/barrel/barrel-still-1.png",
-      "/barrel/barrel-campaign.jpg",
-      "/stills/barrel-still-3.jpg",
-      "/stills/barrel-still-4.jpg",
+      "/stills/barrel-founder-portrait-1.jpg",
+      "/stills/barrel-founder-portrait-2.jpg",
+      "/stills/barrel-founder-detail.jpg",
+      "/stills/barrel-founder-wide.jpg",
     ],
     theme: {
       bg: "#FFFFFF",
@@ -443,7 +445,8 @@ export const COLLECTIONS: Record<string, CollectionData> = {
         { id: "amber", label: "Amber Gradient", hex: "#B86314" },
       ],
       title: "The Gun Collection 01",
-      subtitle: "Charred Oak Grain & Knurled Titanium Bridge · Drag to Rotate 360°",
+      subtitle:
+        "Charred Oak Grain & Knurled Titanium Bridge · Drag to Rotate 360°",
     },
     nextId: "masquerade",
     nextName: "THE MASQUERADE",

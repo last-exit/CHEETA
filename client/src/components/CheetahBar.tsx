@@ -23,18 +23,19 @@ import { playMetallicClick } from "@/lib/soundEffects";
 
 interface CheetahBarProps {
   dark?: boolean;
+  tone?: "light" | "dark";
 }
 
 const COLLECTIONS_LIST = [
-  { name: "The gun collection", href: "/collection/barrel" },
-  { name: "The masquerade", href: "/collection/masquerade" },
-  { name: "The maharaja", href: "/collection/maharaja" },
-  { name: "The savanah", href: "/collection/savanah" },
+  { name: "The Gun Collection", href: "/collection/barrel" },
+  { name: "The Masquerade", href: "/collection/masquerade" },
+  { name: "The Maharaja", href: "/collection/maharaja" },
+  { name: "The Savanah", href: "/collection/savanah" },
 ];
 
 const TRANSITION_EASE = [0.16, 1, 0.3, 1] as const;
 
-export default function CheetahBar({ dark = false }: CheetahBarProps) {
+export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [collectionsExpanded, setCollectionsExpanded] = useState(false);
   const [location] = useLocation();
@@ -157,18 +158,20 @@ export default function CheetahBar({ dark = false }: CheetahBarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isHome, dark, location]);
 
+  const progress = tone ? (tone === "light" ? 0 : 1) : scrollProgress;
+
   // Calculate dynamic RGB color for text:
   // Starts at pure white rgb(255, 255, 255) at scrollY=0
   // Fades continuously to rich obsidian rgb(42, 36, 29) as you scroll down
-  const r = Math.round(255 - scrollProgress * (255 - 42));
-  const g = Math.round(255 - scrollProgress * (255 - 36));
-  const b = Math.round(255 - scrollProgress * (255 - 29));
+  const r = Math.round(255 - progress * (255 - 42));
+  const g = Math.round(255 - progress * (255 - 36));
+  const b = Math.round(255 - progress * (255 - 29));
   const dynamicTextColor =
     mobile && isOpen ? "#2a241d" : `rgb(${r}, ${g}, ${b})`;
   const dynamicSubTextColor =
     mobile && isOpen
       ? "#6a635d"
-      : `rgba(${r}, ${g}, ${b}, ${0.72 - scrollProgress * 0.05})`;
+      : `rgba(${r}, ${g}, ${b}, ${0.72 - progress * 0.05})`;
 
   // Hover triggers for paw and dropdown menu
   const handleMouseEnter = () => {
@@ -261,24 +264,24 @@ export default function CheetahBar({ dark = false }: CheetahBarProps) {
           <motion.img
             src="/brand/cheetah-paw-white.png"
             alt="Cheetah Jewels"
-            style={{ opacity: mobile && isOpen ? 0 : 1 - scrollProgress }}
+            style={{ opacity: mobile && isOpen ? 0 : 1 - progress }}
             animate={{ scale: reducedMotion || mobile ? 1 : [1, 1.08, 1] }}
             transition={{
               scale: { repeat: Infinity, duration: 3, ease: "easeInOut" },
             }}
-            className="absolute inset-0 h-full w-full object-contain pointer-events-none select-none drop-shadow-sm transition-transform duration-300 group-hover:scale-115"
+            className="absolute inset-0 h-full w-full object-contain pointer-events-none select-none  transition-transform duration-300 group-hover:scale-115"
           />
 
           {/* Dark Paw (fades in as user scrolls down into character select region) */}
           <motion.img
             src="/brand/cheetah-paw.png"
             alt="Cheetah Jewels"
-            style={{ opacity: mobile && isOpen ? 1 : scrollProgress }}
+            style={{ opacity: mobile && isOpen ? 1 : progress }}
             animate={{ scale: reducedMotion || mobile ? 1 : [1, 1.08, 1] }}
             transition={{
               scale: { repeat: Infinity, duration: 3, ease: "easeInOut" },
             }}
-            className="absolute inset-0 h-full w-full object-contain pointer-events-none select-none drop-shadow-sm transition-transform duration-300 group-hover:scale-115"
+            className="absolute inset-0 h-full w-full object-contain pointer-events-none select-none  transition-transform duration-300 group-hover:scale-115"
           />
         </div>
         {mobile && isOpen && (

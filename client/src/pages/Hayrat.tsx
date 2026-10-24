@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
+import { InformationLinks } from "@/components/HouseFooter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
 import "./Hayrat.css";
@@ -31,13 +32,6 @@ export default function Hayrat() {
               />
             </div>
           </header>
-          <div className="hayrat-note">
-            <p>
-              Hayrat’s world of fine gems and antique art helped shape the
-              beginning of Cheeta Jewels. A tribute to their belief and
-              generosity.
-            </p>
-          </div>
         </div>
 
         <div
@@ -72,6 +66,9 @@ export default function Hayrat() {
           <span>The masquerade</span>
           <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.25} />
         </Link>
+        <div className="mt-8 flex justify-center">
+          <InformationLinks />
+        </div>
       </footer>
     </main>
   );

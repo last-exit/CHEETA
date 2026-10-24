@@ -88,7 +88,7 @@ export default function MacroJewelryLoupe({
       <img
         src={imageSrc}
         alt={altText}
-        className="h-full w-full object-contain pointer-events-none drop-shadow-[0_25px_40px_rgba(0,0,0,0.07)]"
+        className="h-full w-full object-contain pointer-events-none "
       />
 
       {/* Floating 4x Macro Inspection Loupe */}
@@ -107,7 +107,7 @@ export default function MacroJewelryLoupe({
               height: loupeSize,
               pointerEvents: "none",
             }}
-            className="rounded-full shadow-2xl overflow-hidden ring-2 ring-[#B8985F]/80 bg-[#F4F1E8] z-30"
+            className="rounded-full  overflow-hidden  bg-[#FAFAF7] z-30"
           >
             {/* Magnified Image Background */}
             <div
@@ -119,27 +119,20 @@ export default function MacroJewelryLoupe({
                 backgroundSize: `${zoomLevel * 100}%`,
                 backgroundPosition: `${coords.percentX}% ${coords.percentY}%`,
               }}
-              className="relative filter contrast-[1.08] brightness-[1.02]"
-            >
-              {/* Loupe Glass Glint & Optical Crosshair */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-white/30 pointer-events-none" />
-              <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
-                <div className="w-full h-[0.5px] bg-[#6B1A2C]" />
-                <div className="h-full w-[0.5px] bg-[#6B1A2C] absolute" />
-              </div>
-            </div>
+              className="relative"
+            ></div>
 
             {/* Brass Outer Rim Bevel */}
             <div className="absolute inset-0 rounded-full border border-black/20 pointer-events-none" />
-            <div className="absolute bottom-1 right-2 font-sans text-[8px] uppercase tracking-widest text-[#6B1A2C] font-semibold">
-              4x
+            <div className="absolute bottom-1 right-2 font-sans text-[8px] lowercase tracking-widest text-[#6B1A2C] font-semibold">
+              {zoomLevel}×
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Subtle Bottom Instruction */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-sans text-[11px] lowercase tracking-normal text-[#1A1410]/35 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-sans text-[11px] lowercase tracking-normal text-[#2A241D]/35 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none">
         hover to look closer
       </div>
     </div>

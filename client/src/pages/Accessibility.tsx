@@ -44,15 +44,12 @@ export default function Accessibility() {
         <p>
           Email{" "}
           <a
-            href="mailto:access@cheetahjewelz.com"
+            href="mailto:mohammadfazalhaque@gmail.com"
             className="text-[#6B1A2C] underline-offset-4 hover:underline"
           >
-            access@cheetahjewelz.com
+            mohammadfazalhaque@gmail.com
           </a>{" "}
-          with what you need. We respond within one business day, and the
-          concierge will arrange an alternative format (large-print
-          catalogue, voice note, video call) for any part of the
-          experience.
+          with a description of what you need help accessing.
         </p>
       </Section>
     </LegalPage>

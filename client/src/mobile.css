@@ -274,50 +274,11 @@
     min-height: 44px;
   }
 
-  .philosophy-page > section {
-    padding-inline: 24px;
-    padding-block: 40px;
-  }
-  .philosophy-page > section:first-of-type {
-    padding-top: 120px;
-    padding-bottom: 24px;
-  }
-  .philosophy-page > section:first-of-type p {
-    font-size: 15px;
-  }
-  .philosophy-page article {
-    padding-block: 28px;
-    gap: 16px;
-  }
-  .philosophy-page article > div:last-child {
-    font-size: 15px;
-    line-height: 1.7;
-  }
-  .philosophy-page > section:nth-of-type(4) > div:first-child {
-    margin-bottom: 28px;
-  }
-  .philosophy-page > section:nth-of-type(4) > .grid {
-    gap: 32px;
-    margin-bottom: 48px;
-  }
   .hayrat-page .hayrat-viewing {
     padding-top: 112px;
   }
   .collection-page > section {
     scroll-margin-top: 88px;
-  }
-  .collection-page #frames {
-    padding-top: 48px;
-    padding-bottom: 64px;
-  }
-  .collection-page #frames > div:first-child {
-    margin-bottom: 28px;
-  }
-  .collection-page #frames > div {
-    margin-bottom: 48px;
-  }
-  .collection-page #frames h3 {
-    overflow-wrap: anywhere;
   }
   .collection-lenses button {
     min-width: 44px;

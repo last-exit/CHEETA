@@ -249,7 +249,7 @@
   }
 }
 
-@media (max-width: 699px) {
+@media (max-width: 767px) {
   .retail-shell {
     width: calc(100% - 48px);
     padding-block: 128px 56px;
@@ -333,7 +333,7 @@
   justify-content: space-between;
   gap: 24px;
 }
-@media (max-width: 699px) {
+@media (max-width: 767px) {
   .retail-shell {
     padding-top: 112px;
   }

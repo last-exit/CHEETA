@@ -56,7 +56,7 @@ export default function Terms() {
 
       <Section no="05" title="Intellectual property">
         <p>
-          All imagery, copy, and the Cheetah Jewelz name and crest are
+          All imagery, copy, and the Cheeta Jewels name and crest are
           property of the house. Unauthorised commercial use is
           prohibited. Press and editorial use is welcome with written
           permission.

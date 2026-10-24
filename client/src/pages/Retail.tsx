@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useSearchParams } from "wouter";
 import { ArrowUpRight } from "lucide-react";
+import { InformationFooter } from "@/components/HouseFooter";
 import CheetahBar from "@/components/CheetahBar";
 import AcquisitionButton from "@/components/AcquisitionButton";
 import HeaderWordmark from "@/components/HeaderWordmark";
@@ -10,81 +11,8 @@ import { collectionHeading } from "@/lib/collectionPresentation";
 import { useBagConfirmation } from "@/hooks/useBagConfirmation";
 import "./Retail.css";
 
-export interface ProductItem {
-  id: string;
-  name: string;
-  category: "Eyewear" | "High Jewelry";
-  slug: string;
-  frame: string;
-  lens: string;
-  price: number;
-  priceDisplay: string;
-  productImage: string;
-  altImage?: string;
-}
-
-export const PRODUCTS: ProductItem[] = [
-  {
-    id: "barrel-01",
-    name: "The Gun Collection 01",
-    category: "Eyewear",
-    slug: "double-barrel-01",
-    frame: "18K Brushed Gold",
-    lens: "Custom Ruby Mineral Lenses",
-    price: 15000,
-    priceDisplay: "AED 15,000",
-    productImage: "/manus-storage/cheeta-double-barrel-hero_c55a3dea.png",
-    altImage: "/manus-storage/cheeta-double-barrel-gold-still.jpg",
-  },
-  {
-    id: "barrel-02",
-    name: "The Gun Collection 02",
-    category: "Eyewear",
-    slug: "double-barrel-02",
-    frame: "Gunmetal Obsidian",
-    lens: "Polarized Smoke Mineral Lenses",
-    price: 15000,
-    priceDisplay: "AED 15,000",
-    productImage: "/manus-storage/cheeta-double-barrel-gunmetal.jpg",
-    altImage: "/manus-storage/cheeta-double-barrel-alt_8f963d0f.png",
-  },
-  {
-    id: "barrel-03",
-    name: "The Gun Collection 03",
-    category: "Eyewear",
-    slug: "double-barrel-03",
-    frame: "Antique Bronze",
-    lens: "Amber Gradient Mineral Lenses",
-    price: 15000,
-    priceDisplay: "AED 15,000",
-    productImage: "/manus-storage/cheeta-double-barrel-bronze.jpg",
-    altImage: "/manus-storage/cheeta-double-barrel-gold-still.jpg",
-  },
-  {
-    id: "emerald-signet",
-    name: "The Emerald Signet Ring",
-    category: "High Jewelry",
-    slug: "emerald-signet-ring",
-    frame: "Solid 18K Yellow Gold",
-    lens: "4.20 ct Muzo Emerald",
-    price: 42000,
-    priceDisplay: "AED 42,000",
-    productImage: "/manus-storage/cheeta-emerald-ring_510231e1.png",
-    altImage: "/manus-storage/cheeta-emerald-signet-still.jpg",
-  },
-  {
-    id: "atrium-necklace",
-    name: "The Atrium Gold Necklace",
-    category: "High Jewelry",
-    slug: "atrium-gold-necklace",
-    frame: "Solid 18K Gold",
-    lens: "3.45 ct Pavé Diamonds",
-    price: 68000,
-    priceDisplay: "AED 68,000",
-    productImage: "/manus-storage/cheeta-necklace-atrium_e7928040.png",
-    altImage: "/manus-storage/cheeta-atrium-necklace-alt_37930290.png",
-  },
-];
+import { PRODUCTS, type ProductItem } from "@/data/retailCatalog";
+export { PRODUCTS, type ProductItem } from "@/data/retailCatalog";
 
 type FilterCategory = "all" | "eyewear" | "jewelry";
 type ViewMode = "lookbook" | "grid";
@@ -304,6 +232,7 @@ export default function Retail() {
           />
         </section>
       </div>
+      <InformationFooter />
     </main>
   );
 }

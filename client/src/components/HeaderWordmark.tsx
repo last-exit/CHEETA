@@ -45,13 +45,25 @@ export function getPageColor(pathname: string, isDark: boolean): string {
 
   // Product Details (aware of variant minerals)
   if (pathname.startsWith("/product")) {
-    if (pathname.includes("01") || pathname.includes("ruby") || pathname.includes("masquerade")) {
+    if (
+      pathname.includes("01") ||
+      pathname.includes("ruby") ||
+      pathname.includes("masquerade")
+    ) {
       return "#8A0E1C"; // Ruby Mineral
     }
-    if (pathname.includes("02") || pathname.includes("obsidian") || pathname.includes("smoke")) {
+    if (
+      pathname.includes("02") ||
+      pathname.includes("obsidian") ||
+      pathname.includes("smoke")
+    ) {
       return "#2A241D"; // Gunmetal Obsidian
     }
-    if (pathname.includes("03") || pathname.includes("bronze") || pathname.includes("amber")) {
+    if (
+      pathname.includes("03") ||
+      pathname.includes("bronze") ||
+      pathname.includes("amber")
+    ) {
       return "#B86314"; // Honey Amber Bronze
     }
     return "#D4AF37"; // 18K Gold
@@ -99,7 +111,11 @@ export function getPageColor(pathname: string, isDark: boolean): string {
   return "#2A241D";
 }
 
-export default function HeaderWordmark({ dark = false, color, className = "" }: HeaderWordmarkProps) {
+export default function HeaderWordmark({
+  dark = false,
+  color,
+  className = "",
+}: HeaderWordmarkProps) {
   const [location] = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const isHomePage = location === "/";
@@ -107,7 +123,9 @@ export default function HeaderWordmark({ dark = false, color, className = "" }: 
   useEffect(() => {
     const handleScroll = () => {
       // On home page, reveal as user scrolls past hero towards character select
-      const threshold = isHomePage ? Math.min(220, window.innerHeight * 0.3) : 20;
+      const threshold = isHomePage
+        ? Math.min(220, window.innerHeight * 0.3)
+        : 20;
       setScrolled(window.scrollY > threshold);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -132,19 +150,15 @@ export default function HeaderWordmark({ dark = false, color, className = "" }: 
   return (
     <header
       className={`house-wordmark fixed top-0 left-0 right-0 z-40 px-6 py-3 sm:py-4 flex items-center justify-center pointer-events-none select-none transition-all duration-500 ease-out ${
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3 pointer-events-none"
+        isVisible
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 -translate-y-3 pointer-events-none"
       } ${className}`}
     >
       <Link
         href="/"
         onClick={handleClick}
-        className={`pointer-events-auto flex items-center justify-center p-2 rounded-full transition-all duration-500 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none ${
-          scrolled
-            ? dark
-              ? "bg-black/15 backdrop-blur-[2px]"
-              : "bg-white/20 backdrop-blur-[2px]"
-            : "bg-transparent"
-        }`}
+        className={`pointer-events-auto flex items-center justify-center p-2 rounded-full transition-all duration-500 hover:scale-105 active:scale-95 cursor-pointer focus:outline-none bg-transparent`}
         aria-label="Cheetah Jewels - Return to Home"
         title="Cheetah Jewels - Return to Home"
       >
@@ -161,11 +175,9 @@ export default function HeaderWordmark({ dark = false, color, className = "" }: 
             WebkitMaskRepeat: "no-repeat",
             maskPosition: "center",
             WebkitMaskPosition: "center",
-            filter: `drop-shadow(0 2px 8px ${finalColor}30)`,
           }}
         />
       </Link>
     </header>
   );
 }
-

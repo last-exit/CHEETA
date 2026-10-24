@@ -56,12 +56,12 @@ export default function Privacy() {
           You can request a copy of your data, correct it, or have it
           deleted, at any time, by emailing{" "}
           <a
-            href="mailto:privacy@cheetahjewelz.com"
+            href="mailto:mohammadfazalhaque@gmail.com"
             className="text-[#6B1A2C] underline-offset-4 hover:underline"
           >
-            privacy@cheetahjewelz.com
+            mohammadfazalhaque@gmail.com
           </a>
-          . We respond within 5 business days.
+          .
         </p>
       </Section>
 

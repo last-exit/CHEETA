@@ -10,7 +10,6 @@ interface Eyewear3DModelProps {
   frameType?: "gold" | "gunmetal" | "bronze";
   className?: string;
   autoRotate?: boolean;
-  fallbackImage?: string;
 }
 
 export default function Eyewear3DModel({
@@ -18,7 +17,6 @@ export default function Eyewear3DModel({
   frameType = "gold",
   className = "w-full h-full",
   autoRotate = true,
-  fallbackImage = "/manus-storage/cheeta-double-barrel-hero_c55a3dea.png",
 }: Eyewear3DModelProps) {
   const [hasWebGLError, setHasWebGLError] = React.useState(false);
   const mountRef = useRef<HTMLDivElement | null>(null);
@@ -643,13 +641,8 @@ export default function Eyewear3DModel({
       <div
         className={`relative flex items-center justify-center p-6 ${className}`}
       >
-        <img
-          src={fallbackImage}
-          alt="eyewear frame study"
-          className="max-h-full max-w-full object-contain"
-        />
-        <span className="absolute bottom-0 font-sans text-xs text-[#2A241D]/65">
-          3d view unavailable
+        <span className="font-sans text-sm text-[#6A635D]" role="status">
+          3d study unavailable
         </span>
       </div>
     );
