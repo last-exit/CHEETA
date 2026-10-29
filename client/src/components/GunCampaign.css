@@ -1,0 +1,90 @@
+.gun-founder-pair,
+.gun-founder-contact-sheet {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+.gun-founder-pair {
+  gap: 0;
+}
+.gun-founder-pair img,
+.gun-founder-contact-sheet img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 832 / 464;
+}
+.gun-founder-contact-sheet {
+  max-width: 1280px;
+}
+.gun-founder-signature {
+  padding-top: 144px;
+}
+.gun-founder-signature-art {
+  position: relative;
+}
+.gun-founder-signature-art > img {
+  display: block;
+  width: min(38%, 480px);
+  height: auto;
+  margin-inline: auto;
+}
+.gun-founder-signature h2 {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  inset: 50% 0 auto;
+  transform: translateY(-50%);
+  font: 400 clamp(64px, 8.2vw, 128px) / 1 var(--font-serif);
+  letter-spacing: -0.045em;
+  pointer-events: none;
+}
+.gun-founder-signature-copy {
+  max-width: 560px;
+  margin: 56px auto 0;
+}
+.gun-founder-signature-copy p {
+  color: var(--house-muted);
+  font-size: 18px;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+.gun-founder-signature-copy a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  gap: 24px;
+  font-size: 14px;
+  margin-top: 24px;
+}
+@media (max-width: 1023px) {
+  .gun-founder-signature {
+    padding-top: 112px;
+  }
+  .gun-founder-signature-copy p {
+    font-size: 17px;
+  }
+}
+@media (max-width: 767px) {
+  .gun-founder-pair,
+  .gun-founder-contact-sheet {
+    gap: 12px;
+  }
+  .gun-founder-signature {
+    padding-top: 64px;
+  }
+  .gun-founder-signature h2 {
+    position: static;
+    transform: none;
+    justify-content: center;
+    gap: 16px;
+    font-size: 56px;
+    margin-bottom: 32px;
+  }
+  .gun-founder-signature-art > img {
+    width: min(100%, 400px);
+  }
+  .gun-founder-signature-copy {
+    margin-top: 32px;
+  }
+}

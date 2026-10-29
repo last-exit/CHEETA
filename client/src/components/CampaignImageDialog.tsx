@@ -1,5 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import {
+  campaignGalleryReducer,
+  createCampaignGallery,
+} from "@/lib/campaignGallery";
+import "./CampaignImageDialog.css";
 
 export default function CampaignImageDialog({
   title,
@@ -13,26 +18,32 @@ export default function CampaignImageDialog({
   dismiss: () => void;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const [index, setIndex] = useState(initial);
-  const [loaded, setLoaded] = useState<Set<number>>(() => new Set());
-  const [failed, setFailed] = useState<Set<number>>(() => new Set());
+  const close = useRef<HTMLButtonElement>(null);
+  const alive = useRef(true);
+  const [state, dispatch] = useReducer(campaignGalleryReducer, initial, value =>
+    createCampaignGallery(value, images.length)
+  );
   const numerals = ["I", "II", "III", "IV"];
+  const failed = state.failed[state.requested];
+  const pending = state.displayed !== state.requested;
   useEffect(() => {
     const element = dialog.current;
     if (!element) return;
+    alive.current = true;
     const previousFocus = document.activeElement;
     const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     element.showModal();
+    close.current?.focus({ preventScroll: true });
     return () => {
+      alive.current = false;
       element.close();
       document.body.style.overflow = overflow;
       if (previousFocus instanceof HTMLElement && previousFocus.isConnected)
         previousFocus.focus({ preventScroll: true });
     };
   }, []);
-  const turn = (direction: number) =>
-    setIndex(value => (value + direction + images.length) % images.length);
+  const turn = (delta: number) => dispatch({ type: "step", delta });
   return (
     <dialog
       ref={dialog}
@@ -56,8 +67,8 @@ export default function CampaignImageDialog({
       <header>
         <span>{title}</span>
         <button
+          ref={close}
           type="button"
-          autoFocus
           onClick={dismiss}
           aria-label="Close photographs"
         >
@@ -65,21 +76,36 @@ export default function CampaignImageDialog({
           <X size={18} strokeWidth={1} aria-hidden="true" />
         </button>
       </header>
-      <div className="campaign-dialog-image">
-        {images.map((source, i) => (
-          <img
-            key={source}
-            src={source}
-            alt={`${title}, photograph ${numerals[i]}`}
-            hidden={i !== index || failed.has(i)}
-            onLoad={() => setLoaded(value => new Set(value).add(i))}
-            onError={() => setFailed(value => new Set(value).add(i))}
-          />
-        ))}
-        {!loaded.has(index) && !failed.has(index) && (
-          <span role="status">loading photograph</span>
+      <div className="campaign-dialog-image" aria-busy={pending && !failed}>
+        {images.map((source, index) => {
+          const attempt = state.attempts[index];
+          return (
+            <img
+              key={`${source}-${attempt}`}
+              src={source}
+              alt={`${title}, photograph ${numerals[index]}`}
+              data-displayed={state.displayed === index}
+              aria-hidden={state.displayed !== index}
+              decoding="async"
+              onLoad={async event => {
+                const image = event.currentTarget;
+                try {
+                  await image.decode();
+                } catch {
+                  /* A loaded image can still be usable after a decode cancellation. */
+                }
+                if (alive.current && image.complete && image.naturalWidth)
+                  dispatch({ type: "ready", index, attempt });
+              }}
+              onError={() => dispatch({ type: "failed", index, attempt })}
+            />
+          );
+        })}
+        {state.displayed === null && !failed && (
+          <span className="campaign-gallery-loading" role="status">
+            loading photograph
+          </span>
         )}
-        {failed.has(index) && <span role="alert">photograph unavailable</span>}
       </div>
       <footer>
         <button
@@ -89,9 +115,27 @@ export default function CampaignImageDialog({
         >
           <ArrowLeft size={24} strokeWidth={1} aria-hidden="true" />
         </button>
-        <span aria-live="polite">
-          {numerals[index]} / {numerals[images.length - 1]}
-        </span>
+        <div className="campaign-gallery-caption" aria-live="polite">
+          <span>
+            {numerals[state.requested]} / {numerals[images.length - 1]}
+          </span>
+          {failed ? (
+            <>
+              <p>photograph unavailable</p>
+              <button
+                type="button"
+                onClick={() => {
+                  close.current?.focus({ preventScroll: true });
+                  dispatch({ type: "retry" });
+                }}
+              >
+                retry photograph
+              </button>
+            </>
+          ) : pending && state.displayed !== null ? (
+            <p>loading photograph</p>
+          ) : null}
+        </div>
         <button
           type="button"
           aria-label="Next photograph"

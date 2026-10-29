@@ -1,0 +1,134 @@
+.collection-page .campaign-exhibition p {
+  text-transform: none;
+}
+.exhibition-cover {
+  padding-block: clamp(88px, 8vw, 128px) 64px;
+}
+.exhibition-cover h1 {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 32px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  white-space: nowrap;
+}
+.exhibition-cover-lead {
+  font-size: clamp(28px, 3vw, 48px);
+  letter-spacing: -0.025em;
+}
+.exhibition-cover-name {
+  font-size: clamp(88px, 13.4vw, 216px);
+}
+.exhibition-passage {
+  max-width: 650px;
+  padding-block: 56px 0;
+}
+.exhibition-passage p,
+.exhibition-essay-copy p {
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--house-muted);
+  text-wrap: pretty;
+}
+.exhibition-prologue {
+  padding-block: 88px 56px;
+}
+.exhibition-prologue p {
+  font-size: 21px;
+  line-height: 1.7;
+  text-align: center;
+  color: var(--house-ink);
+}
+.exhibition-essay {
+  padding-block: 112px;
+}
+.exhibition-essay h2 {
+  max-width: 18ch;
+  margin-inline: auto;
+  margin-bottom: 48px;
+  font: 400 clamp(44px, 5.7vw, 88px) / 1.04 var(--font-serif);
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+.exhibition-essay-copy {
+  max-width: 650px;
+  margin-inline: auto;
+}
+.exhibition-essay-copy p + p {
+  margin-top: 24px;
+}
+.exhibition-chapter-title {
+  padding-block: 24px 56px;
+  font: 400 clamp(64px, 9vw, 144px) / 1 var(--font-serif);
+  letter-spacing: -0.045em;
+  text-align: center;
+}
+.exhibition-photograph img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.exhibition-photograph {
+  margin: 0 auto;
+}
+.exhibition-final-copy {
+  padding-bottom: 40px;
+}
+@media (max-width: 1023px) {
+  .exhibition-cover h1 {
+    gap: 24px;
+  }
+  .exhibition-passage p,
+  .exhibition-essay-copy p {
+    font-size: 17px;
+  }
+  .exhibition-prologue p {
+    font-size: 19px;
+  }
+}
+@media (max-width: 767px) {
+  .exhibition-cover {
+    padding-block: 64px 40px;
+  }
+  .exhibition-cover h1 {
+    display: block;
+    white-space: normal;
+    text-align: center;
+  }
+  .exhibition-cover-lead {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  .exhibition-cover-name {
+    display: block;
+    font-size: clamp(42px, 12.2vw, 88px);
+  }
+  .exhibition-passage {
+    padding-block: 40px 0;
+  }
+  .exhibition-prologue {
+    padding-block: 48px 16px;
+  }
+  .exhibition-prologue p {
+    font-size: 18px;
+    line-height: 1.75;
+  }
+  .exhibition-essay {
+    padding-block: 64px;
+  }
+  .exhibition-essay h2 {
+    margin-bottom: 32px;
+    font-size: 44px;
+  }
+  .exhibition-chapter-title {
+    padding-block: 8px 32px;
+    font-size: clamp(52px, 12vw, 80px);
+  }
+  .exhibition-final-copy {
+    padding-bottom: 0;
+  }
+}

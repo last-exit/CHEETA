@@ -1,0 +1,358 @@
+.home-page #characters.home-character-section {
+  padding: 64px var(--house-gutter) var(--house-section);
+  background: var(--house-paper);
+  overflow: clip;
+}
+.character-select {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 1280px;
+  height: clamp(640px, 88svh, 900px);
+  margin-inline: auto;
+  color: var(--house-ink);
+}
+.character-title {
+  position: absolute;
+  z-index: 2;
+  top: 24px;
+  left: 0;
+  max-width: 230px;
+  margin: 0;
+  font: 400 36px / 1.12 var(--font-serif);
+  letter-spacing: -0.025em;
+}
+.character-stage {
+  position: relative;
+  height: 100%;
+  min-width: 0;
+}
+.character-watermark {
+  position: absolute;
+  inset: 0 160px 124px;
+  display: grid;
+  place-items: center;
+  font: 400 clamp(300px, 40vw, 580px) / 1 var(--font-serif);
+  color: var(--fitting-accent);
+  opacity: 0.045;
+  pointer-events: none;
+  user-select: none;
+}
+.character-main-view {
+  position: absolute;
+  inset: 0 190px 124px;
+  overflow: clip;
+}
+.character-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.character-main-canvas {
+  height: 100%;
+  width: auto;
+  aspect-ratio: 4 / 5;
+  margin-inline: auto;
+  transform-origin: var(--eye-x) var(--eye-y);
+  translate: calc(50% - var(--eye-x)) calc(18% - var(--eye-y));
+}
+.character-stage[data-motion="true"] .character-main-canvas {
+  transition: transform 540ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.fitting-figure {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.character-stage[data-inspect="true"] .character-main-canvas {
+  transform: translateY(24%) scale(2.15);
+}
+.character-roster {
+  position: absolute;
+  inset: auto 190px 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 24px;
+}
+.character-roster button {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 68px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--house-muted);
+  cursor: pointer;
+}
+.character-roster svg {
+  width: 56px;
+  height: 60px;
+}
+.character-roster span {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  font: 400 20px var(--font-serif);
+}
+.character-roster button[aria-pressed="true"] {
+  color: var(--fitting-accent);
+}
+.character-roster button[aria-pressed="true"] span {
+  font-weight: 600;
+}
+.character-inspect {
+  position: absolute;
+  top: 8px;
+  right: 208px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: none;
+  color: var(--house-muted);
+  cursor: pointer;
+}
+.character-inspect:disabled {
+  visibility: hidden;
+}
+.character-loading {
+  position: absolute;
+  bottom: 130px;
+  left: 190px;
+  right: 190px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--house-muted);
+}
+.character-loading button {
+  min-height: 44px;
+  padding: 8px;
+  cursor: pointer;
+  background: var(--house-paper);
+}
+.character-inventory {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 50%;
+  translate: 0 -50%;
+  width: 172px;
+}
+.fitting-lenses {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.fitting-lens-options {
+  display: grid;
+  gap: 20px;
+}
+.fitting-lens-options button {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+  min-height: 80px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--house-muted);
+  cursor: pointer;
+}
+.fitting-lens-object {
+  display: block;
+  width: 148px;
+  height: 68px;
+  object-fit: cover;
+  transition: transform 200ms ease;
+}
+.fitting-lens-options button > span {
+  min-height: 24px;
+  font-size: 12px;
+  font-weight: 400;
+}
+.fitting-lens-options button[aria-pressed="true"] {
+  color: var(--fitting-accent);
+}
+.fitting-lens-options button[aria-pressed="true"] > span {
+  font-weight: 600;
+}
+@media (hover: hover) {
+  .fitting-lens-options button:hover .fitting-lens-object {
+    transform: translateY(-2px);
+  }
+}
+.fitting-selection {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  height: 52px;
+  margin-top: 20px;
+}
+.fitting-selection .price {
+  font: 400 24px / 1.2 var(--font-serif);
+  white-space: nowrap;
+}
+.fitting-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 14px;
+}
+.fitting-actions :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 13px;
+}
+.fitting-actions .acquisition-action {
+  gap: 12px;
+  padding: 0;
+}
+.fitting-actions a {
+  color: var(--house-muted);
+}
+.fitting-actions button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.fitting-unequip {
+  display: block;
+  min-height: 44px;
+  margin: 4px auto 0;
+  padding: 0 12px;
+  background: none;
+  color: var(--house-muted);
+  font-size: 12px;
+  cursor: pointer;
+}
+.fitting-unequip:disabled {
+  visibility: hidden;
+}
+.character-select :is(button, a):focus-visible {
+  outline: 2px solid var(--fitting-accent);
+  outline-offset: 5px;
+}
+.fitting-equipment--enter {
+  animation: fitting-equip 280ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+@keyframes fitting-equip {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .character-title {
+    max-width: 160px;
+    font-size: 32px;
+  }
+  .character-inventory {
+    width: 144px;
+  }
+  .character-main-view {
+    left: 120px;
+    right: 150px;
+  }
+  .character-roster {
+    left: 120px;
+    right: 150px;
+    gap: 12px;
+  }
+  .character-inspect {
+    right: 154px;
+  }
+  .fitting-lens-object {
+    width: 132px;
+  }
+}
+@media (max-width: 767px) {
+  .home-page #characters.home-character-section {
+    padding: 72px 24px 56px;
+  }
+  .character-select {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .character-title {
+    position: static;
+    max-width: none;
+    margin-bottom: 28px;
+    font-size: 32px;
+  }
+  .character-stage {
+    height: clamp(420px, 64svh, 560px);
+  }
+  .character-main-view {
+    inset: 0 -12px 112px;
+  }
+  .character-watermark {
+    inset: 0 -12px 112px;
+    font-size: 320px;
+  }
+  .character-roster {
+    inset: auto 0 0;
+    gap: 24px;
+  }
+  .character-roster svg {
+    width: 52px;
+    height: 56px;
+  }
+  .character-inspect {
+    right: -8px;
+    top: 0;
+  }
+  .character-loading {
+    left: 0;
+    right: 0;
+    bottom: 116px;
+  }
+  .character-inventory {
+    position: static;
+    width: 100%;
+    translate: none;
+    margin-top: 32px;
+  }
+  .fitting-lens-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .fitting-lens-object {
+    width: 100%;
+    height: 56px;
+  }
+  .fitting-lens-options button {
+    min-height: 84px;
+  }
+  .fitting-selection {
+    height: 40px;
+    margin-top: 20px;
+  }
+  .fitting-actions {
+    justify-content: center;
+    gap: 36px;
+    margin-top: 8px;
+  }
+  .fitting-unequip {
+    margin-top: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .character-stage[data-motion="true"] .character-main-canvas,
+  .fitting-lens-object {
+    transition: none;
+  }
+  .fitting-equipment--enter {
+    animation: none;
+  }
+}

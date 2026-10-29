@@ -1,0 +1,111 @@
+.masquerade-reveal {
+  --scene-x: 50%;
+  --scene-y: 12%;
+  --object-opacity: 1;
+  --object-scale: 0.94;
+  --object-rotation: -2deg;
+  --seen-opacity: 1;
+  --unseen-opacity: 0;
+  position: relative;
+  height: 200svh;
+  margin-top: 0;
+}
+.masquerade-reveal-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: clip;
+  background: var(--house-paper);
+}
+.masquerade-seen,
+.masquerade-unseen {
+  position: absolute;
+  z-index: 3;
+  font: 400 clamp(88px, 12vw, 192px) / 0.92 var(--font-serif);
+  letter-spacing: -0.045em;
+  pointer-events: none;
+}
+.masquerade-seen {
+  top: 12%;
+  left: var(--house-gutter);
+  color: var(--campaign-accent);
+  opacity: var(--seen-opacity);
+}
+.masquerade-unseen {
+  right: var(--house-gutter);
+  bottom: 6%;
+  font-style: italic;
+  color: var(--campaign-accent);
+  opacity: var(--unseen-opacity);
+}
+.masquerade-object {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(80vw, 1200px);
+  height: min(68svh, 720px);
+  object-fit: contain;
+  opacity: var(--object-opacity);
+  transform: translate(-50%, -45%) scale(var(--object-scale))
+    rotate(var(--object-rotation));
+}
+.masquerade-reveal-scene {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(var(--scene-y) var(--scene-x));
+}
+.masquerade-shadow {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 44%;
+}
+
+.masquerade-reveal[data-fallback="true"] {
+  height: 100svh;
+}
+.masquerade-static {
+  display: grid;
+  justify-items: center;
+  gap: 48px;
+  padding-block: var(--house-section);
+}
+.masquerade-static h2 {
+  font: 400 clamp(40px, 5vw, 72px) / 1.1 var(--font-serif);
+  color: var(--campaign-accent);
+}
+.masquerade-static > img {
+  display: block;
+  width: min(100%, 1000px);
+  height: auto;
+}
+.masquerade-static-shadow {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+@media (max-width: 767px) {
+  .masquerade-reveal {
+    height: 180svh;
+  }
+  .masquerade-object {
+    width: 100%;
+    height: 52svh;
+  }
+  .masquerade-seen {
+    top: 18%;
+    font-size: clamp(64px, 17vw, 104px);
+  }
+  .masquerade-unseen {
+    bottom: 16%;
+    font-size: clamp(64px, 17vw, 104px);
+  }
+  .masquerade-shadow {
+    object-position: 52% 45%;
+  }
+  .masquerade-static {
+    gap: 32px;
+  }
+}

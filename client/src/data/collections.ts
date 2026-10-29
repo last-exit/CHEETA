@@ -258,9 +258,9 @@ export const COLLECTIONS: Record<string, CollectionData> = {
       title: "Black Rhodium Obsidian Titanium",
       subtitle: "Concealed Visor Optics & Cabochon Hinge · Drag to Rotate 360°",
     },
-    nextId: "maharaja",
-    nextName: "MAHARAJA",
-    nextCampaign: "/campaigns/maharaja-poster.jpg",
+    nextId: "barrel",
+    nextName: "THE GUN COLLECTION",
+    nextCampaign: "/barrel/barrel-campaign.jpg",
   },
 
   savanah: {
@@ -454,5 +454,5 @@ export const COLLECTIONS: Record<string, CollectionData> = {
   },
 };
 
-export const COLLECTION_ORDER = ["barrel", "masquerade", "maharaja"] as const;
+export const COLLECTION_ORDER = ["barrel", "masquerade"] as const;
 export type CollectionId = (typeof COLLECTION_ORDER)[number];

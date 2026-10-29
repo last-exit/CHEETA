@@ -1,0 +1,42 @@
+/* Masquerade keeps the house typefaces; the campaign imagery leads. */
+.collection-masquerade .collection-masthead {
+  padding-block: 72px 64px;
+}
+.collection-masquerade .collection-masthead h1 {
+  color: var(--house-ink);
+  font-size: clamp(44px, 5vw, 72px);
+  font-style: normal;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+.collection-masquerade .campaign-title-lead,
+.collection-masquerade .campaign-title-name {
+  display: inline;
+  margin: 0;
+  font-size: 1em;
+  font-style: normal;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+.collection-masquerade .collection-portraits {
+  width: min(1040px, calc(100% - var(--house-gutter) * 2));
+  margin-inline: auto;
+  gap: 24px;
+}
+.collection-masquerade .collection-portraits img {
+  aspect-ratio: 4 / 5;
+  object-position: 50% 42%;
+}
+@media (max-width: 767px) {
+  .collection-masquerade .collection-masthead {
+    padding-block: 56px 40px;
+  }
+  .collection-masquerade .collection-masthead h1 {
+    font-size: clamp(36px, 9vw, 48px);
+  }
+  .collection-masquerade .collection-portraits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: calc(100% - 48px);
+    gap: 12px;
+  }
+}

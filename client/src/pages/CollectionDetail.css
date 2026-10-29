@@ -1,7 +1,11 @@
 .collection-page {
+  --campaign-accent: #2a241d;
   background: var(--house-paper, #fafaf7);
   color: var(--house-ink, #2a241d);
   overflow: clip;
+}
+.collection-masquerade {
+  --campaign-accent: #6b1a2c;
 }
 .collection-film {
   position: relative;
@@ -17,368 +21,6 @@
   object-fit: cover;
   object-position: center;
 }
-.collection-masthead {
-  padding-block: var(--house-section);
-  text-align: center;
-}
-.collection-masthead h1 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(48px, 6.5vw, 96px);
-  line-height: 1.05;
-  letter-spacing: -0.04em;
-}
-.collection-portraits {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 4px;
-}
-.collection-portraits img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  object-position: center 38%;
-}
-.collection-stills {
-  display: grid;
-  gap: var(--house-section);
-  padding-top: var(--house-section);
-}
-.collection-stills figure {
-  margin-block: 0;
-}
-.collection-stills img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.collection-still-detail img {
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-.collection-still-wide img {
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-.collection-next {
-  padding-block: var(--house-section);
-}
-.collection-next > a {
-  display: block;
-}
-.collection-next > a > span {
-  font-size: 12px;
-  color: var(--house-muted);
-}
-.collection-next > a > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
-  margin-top: 24px;
-}
-.collection-next h2 {
-  font-family: var(--font-serif);
-  font-size: clamp(36px, 5vw, 72px);
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-}
-.collection-next svg {
-  flex-shrink: 0;
-}
-.collection-page :is(button, a):focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 5px;
-}
-@media (max-width: 767px) {
-  .collection-film {
-    height: auto;
-    min-height: 0;
-    aspect-ratio: 16 / 9;
-  }
-  .collection-film-media {
-    object-fit: contain;
-  }
-  .collection-masthead h1 {
-    font-size: clamp(40px, 10.5vw, 72px);
-  }
-  .collection-portraits {
-    grid-template-columns: 1fr;
-    gap: 4px;
-  }
-  .collection-next > a > div {
-    gap: 16px;
-  }
-  .collection-next svg {
-    width: 24px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .collection-page *,
-  .collection-page *::before,
-  .collection-page *::after {
-    scroll-behavior: auto;
-    transition: none;
-  }
-}
-
-/* The campaigns share a house, but each has its own typographic voice. */
-.collection-page {
-  --campaign-accent: #2a241d;
-}
-.collection-masquerade {
-  --campaign-accent: #6b1a2c;
-}
-.collection-maharaja {
-  --campaign-accent: #24533f;
-}
-.collection-savanah {
-  --campaign-accent: #946228;
-}
-.campaign-title-lead,
-.campaign-title-name {
-  display: block;
-}
-.campaign-title-lead {
-  font-size: 0.3em;
-  letter-spacing: 0;
-  line-height: 1.4;
-  margin-bottom: 8px;
-}
-.collection-masthead h1 {
-  color: var(--campaign-accent);
-  font-size: clamp(64px, 9vw, 144px);
-}
-.collection-masquerade .campaign-title-name {
-  font-style: italic;
-  font-size: 1.13em;
-  letter-spacing: -0.05em;
-}
-.collection-barrel .campaign-title-lead {
-  font-size: 0.5em;
-}
-.collection-barrel .collection-masthead h1 {
-  font-size: clamp(72px, 9vw, 148px);
-  line-height: 0.95;
-}
-.collection-maharaja .campaign-title-name {
-  letter-spacing: 0.015em;
-}
-.collection-savanah .campaign-title-name {
-  letter-spacing: 0.055em;
-}
-.campaign-introduction {
-  max-width: 52ch;
-  margin: 32px auto 0;
-  font-size: 15px;
-  line-height: 1.85;
-  color: var(--house-muted);
-  text-wrap: pretty;
-}
-.collection-maharaja .collection-portraits,
-.collection-barrel .collection-portraits {
-  width: min(1280px, calc(100% - var(--house-gutter) * 2));
-  margin-inline: auto;
-  gap: 24px;
-}
-.collection-barrel .collection-portraits img {
-  object-position: 40% center;
-}
-.collection-maharaja .collection-portraits {
-  clip-path: polygon(
-    36px 0,
-    calc(100% - 36px) 0,
-    100% 36px,
-    100% calc(100% - 36px),
-    calc(100% - 36px) 100%,
-    36px 100%,
-    0 calc(100% - 36px),
-    0 36px
-  );
-}
-.collection-savanah .collection-portraits {
-  gap: 24px;
-}
-.collection-masquerade .collection-still-detail {
-  max-width: 960px;
-}
-.collection-barrel .collection-still-detail {
-  width: 100%;
-  max-width: none;
-}
-.collection-barrel .collection-still-wide {
-  width: min(1280px, calc(100% - var(--house-gutter) * 2));
-  margin-inline: auto;
-}
-.campaign-closing-copy {
-  text-align: center;
-  padding-block: 24px;
-}
-.campaign-closing-copy h2 {
-  font-family: var(--font-serif);
-  font-size: clamp(40px, 5vw, 80px);
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  color: var(--campaign-accent);
-}
-.collection-masquerade .campaign-closing-copy h2 {
-  font-style: italic;
-}
-.campaign-closing-copy p {
-  font-size: 14px;
-  line-height: 1.8;
-  max-width: 46ch;
-  margin: 24px auto 0;
-  color: var(--house-muted);
-}
-.campaign-motion-chapter {
-  position: relative;
-  height: 170svh;
-  min-height: 1000px;
-  margin-top: var(--house-section);
-}
-.campaign-motion-stage {
-  position: sticky;
-  top: 0;
-  min-height: 640px;
-  height: 100svh;
-  display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.5fr);
-  align-items: center;
-  gap: 80px;
-}
-.campaign-chapter-label {
-  font-size: 12px;
-  color: var(--house-muted);
-}
-.campaign-motion-copy h2 {
-  font-family: var(--font-serif);
-  color: var(--campaign-accent);
-  font-size: clamp(42px, 4.3vw, 68px);
-  line-height: 1.08;
-  letter-spacing: -0.035em;
-  margin-top: 0;
-}
-.collection-masquerade .campaign-motion-copy h2 {
-  font-style: italic;
-}
-.campaign-motion-copy p {
-  margin-top: 24px;
-  color: var(--house-muted);
-  font-size: 14px;
-  line-height: 1.85;
-  max-width: 34ch;
-}
-.campaign-motion-composition {
-  position: relative;
-  min-width: 0;
-}
-.campaign-motion-media {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-}
-.campaign-motion-film {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-.collection-savanah .campaign-motion-media {
-  aspect-ratio: 4 / 3;
-}
-.collection-barrel .campaign-motion-media {
-  aspect-ratio: 1;
-}
-.campaign-clip-definition {
-  position: absolute;
-  pointer-events: none;
-}
-@media (max-width: 1023px) {
-  .campaign-motion-stage {
-    gap: 32px;
-  }
-}
-@media (max-width: 767px) {
-  .collection-masthead h1 {
-    font-size: clamp(52px, 10.8vw, 80px);
-  }
-  .collection-masquerade .campaign-title-name {
-    font-size: 0.97em;
-  }
-  .collection-barrel .collection-masthead h1 {
-    font-size: clamp(58px, 15vw, 90px);
-  }
-  .campaign-introduction {
-    font-size: 14px;
-    margin-top: 24px;
-  }
-  .collection-maharaja .collection-portraits,
-  .collection-barrel .collection-portraits {
-    width: 100%;
-    gap: 4px;
-    clip-path: none;
-  }
-  .collection-savanah .collection-portraits {
-    gap: 4px;
-  }
-  .campaign-motion-chapter {
-    height: 150svh;
-    min-height: 1100px;
-  }
-  .campaign-motion-stage {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    align-content: center;
-    height: 100svh;
-    min-height: 760px;
-    padding-block: 80px 24px;
-  }
-  .campaign-motion-copy h2 {
-    font-size: 40px;
-    margin-top: 0;
-  }
-  .campaign-motion-copy p {
-    margin-top: 16px;
-    max-width: 100%;
-    font-size: 13px;
-    line-height: 1.75;
-  }
-  .campaign-motion-media {
-    height: min(45svh, 400px);
-    aspect-ratio: auto;
-  }
-  .collection-savanah .campaign-motion-media,
-  .collection-barrel .campaign-motion-media {
-    aspect-ratio: auto;
-  }
-  .campaign-closing-copy {
-    padding-block: 0;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .campaign-motion-chapter {
-    height: auto;
-    min-height: 0;
-  }
-  .campaign-motion-stage {
-    position: static;
-    height: auto;
-    padding-block: var(--house-section);
-  }
-}
-.campaign-motion-media {
-  height: min(68svh, 720px);
-  aspect-ratio: auto;
-}
-.collection-savanah .campaign-motion-media {
-  height: min(58svh, 560px);
-  aspect-ratio: auto;
-}
-.collection-barrel .campaign-motion-media {
-  aspect-ratio: auto;
-}
 .campaign-photograph {
   display: block;
   position: relative;
@@ -390,212 +32,73 @@
   cursor: zoom-in;
   text-align: left;
 }
-.campaign-inspect-cue {
-  position: absolute;
-  bottom: 20px;
-  right: 24px;
-  color: #fff;
-  font-size: 12px;
-  opacity: 0;
-  transition: opacity 200ms ease;
+.collection-next {
+  padding-block: 112px 80px;
 }
-.collection-maharaja .campaign-inspect-cue {
-  color: var(--house-ink);
+.collection-next > a {
+  display: block;
 }
-.campaign-photograph:is(:hover, :focus-visible) .campaign-inspect-cue {
-  opacity: 1;
-}
-.campaign-image-dialog {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  width: 100%;
-  height: 100dvh;
-  max-width: none;
-  max-height: none;
-  margin: 0;
-  padding: 32px var(--house-gutter);
-  border: 0;
-  background: var(--house-paper);
-  color: var(--house-ink);
-}
-.campaign-image-dialog[open] {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: 24px;
-}
-.campaign-image-dialog::backdrop {
-  background: var(--house-paper);
-}
-.campaign-image-dialog header {
+.collection-next > a > div {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  gap: 24px;
+  gap: 32px;
 }
-.campaign-image-dialog header > span {
-  font-family: var(--font-serif);
-  font-size: clamp(22px, 3vw, 36px);
-  color: var(--campaign-accent);
+.collection-next h2 {
+  font: 400 clamp(40px, 5vw, 72px) / 1.05 var(--font-serif);
+  letter-spacing: -0.035em;
 }
-.campaign-image-dialog button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  min-width: 44px;
-  min-height: 44px;
-  cursor: pointer;
+.collection-next svg {
+  flex-shrink: 0;
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.campaign-image-dialog header button {
-  font-size: 12px;
+@media (hover: hover) {
+  .collection-next a:hover svg {
+    transform: translateX(8px);
+  }
 }
-.campaign-dialog-image {
-  position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 0;
+.collection-page :is(button, a):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
 }
-.campaign-dialog-image img {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  position: absolute;
-  inset: 0;
+.collection-page .house-footer {
+  background: var(--house-paper);
+  color: var(--house-ink);
+  padding-top: 64px;
 }
-.campaign-dialog-image img[hidden] {
-  display: none;
-}
-.campaign-dialog-image > span {
-  font-size: 12px;
+.collection-page .house-footer .information-links {
   color: var(--house-muted);
 }
-.campaign-image-dialog footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 32px;
-  font-size: 12px;
-}
-@media (hover: none) {
-  .campaign-inspect-cue {
-    opacity: 1;
-  }
-}
 @media (max-width: 767px) {
-  .campaign-motion-media,
-  .collection-savanah .campaign-motion-media {
-    height: min(45svh, 400px);
+  .collection-film {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
   }
-  .campaign-image-dialog {
-    padding: 16px 24px;
+  .collection-film-media {
+    object-fit: contain;
   }
-  .campaign-image-dialog[open] {
+  .collection-next {
+    padding-block: 64px 32px;
+  }
+  .collection-next > a > div {
     gap: 16px;
   }
-}
-@media (max-width: 767px) {
-  .campaign-motion-chapter {
-    height: auto;
-    min-height: 0;
+  .collection-next h2 {
+    font-size: 36px;
   }
-  .campaign-motion-stage {
-    position: static;
-    height: auto;
-    min-height: 0;
-    padding-block: 24px;
+  .collection-next svg {
+    width: 24px;
+  }
+  .collection-page .house-footer {
+    padding-top: 40px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .campaign-motion-stage {
-    min-height: 0;
+  .collection-page *,
+  .collection-page *::before,
+  .collection-page *::after {
+    scroll-behavior: auto;
+    transition: none;
   }
-}
-
-@media (min-width: 768px) {
-  .collection-barrel .campaign-motion-stage {
-    grid-template-columns: 1fr;
-    align-content: center;
-    gap: 24px;
-  }
-  .collection-barrel .campaign-motion-composition {
-    order: -1;
-    width: min(100%, 1000px);
-    justify-self: center;
-  }
-  .collection-barrel .campaign-motion-media {
-    height: min(48svh, 500px);
-  }
-  .collection-barrel .campaign-motion-copy {
-    display: block;
-    width: 100%;
-    text-align: center;
-  }
-  .collection-barrel .campaign-chapter-label {
-    grid-column: 1 / -1;
-  }
-  .collection-barrel .campaign-motion-copy h2 {
-    margin: 0;
-    max-width: none;
-  }
-  .collection-barrel .campaign-motion-copy p {
-    margin-top: 12px;
-    max-width: 44ch;
-  }
-  .collection-maharaja .campaign-motion-stage {
-    grid-template-columns: 1fr;
-    align-content: center;
-    justify-items: center;
-    gap: 24px;
-  }
-  .collection-maharaja .campaign-motion-copy {
-    text-align: center;
-  }
-  .collection-maharaja .campaign-motion-copy h2 {
-    margin-top: 0;
-  }
-  .collection-maharaja .campaign-motion-copy p {
-    max-width: 54ch;
-    margin: 16px auto 0;
-  }
-  .collection-maharaja .campaign-motion-composition {
-    width: min(100%, 580px);
-  }
-  .collection-maharaja .campaign-motion-media {
-    height: min(45svh, 480px);
-  }
-  .collection-savanah .campaign-motion-stage {
-    grid-template-columns: 1fr;
-    align-content: center;
-    gap: 32px;
-  }
-  .collection-savanah .campaign-motion-copy {
-    display: block;
-    width: 100%;
-    text-align: center;
-  }
-  .collection-savanah .campaign-chapter-label {
-    grid-column: 1 / -1;
-  }
-  .collection-savanah .campaign-motion-copy h2 {
-    margin: 0;
-    max-width: none;
-  }
-  .collection-savanah .campaign-motion-copy p {
-    margin-top: 12px;
-    max-width: 46ch;
-  }
-  .collection-savanah .campaign-motion-media {
-    height: min(46svh, 480px);
-  }
-}
-.campaign-motion-media {
-  overflow: hidden;
-}
-.campaign-motion-film {
-  transform: scale(1.015);
-}
-.collection-savanah .campaign-motion-film {
-  object-position: center 25%;
 }

@@ -29,8 +29,6 @@ interface CheetahBarProps {
 const COLLECTIONS_LIST = [
   { name: "The Gun Collection", href: "/collection/barrel" },
   { name: "The Masquerade", href: "/collection/masquerade" },
-  { name: "The Maharaja", href: "/collection/maharaja" },
-  { name: "The Savanah", href: "/collection/savanah" },
 ];
 
 const TRANSITION_EASE = [0.16, 1, 0.3, 1] as const;

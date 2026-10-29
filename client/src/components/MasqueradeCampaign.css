@@ -1,0 +1,245 @@
+.masquerade-exhibition {
+  --campaign-flow: 0;
+}
+.masquerade-title {
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(80px, 8vw, 128px);
+  padding-bottom: 56px;
+}
+.masquerade-title h1 {
+  font: 400 clamp(88px, 13.2vw, 208px) / 0.94 var(--font-serif);
+  letter-spacing: -0.055em;
+  text-align: center;
+}
+.masquerade-title h1 > span:first-child {
+  display: block;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+.masquerade-title h1 > span:last-child {
+  display: block;
+}
+.masquerade-portrait-composition {
+  position: relative;
+  min-height: clamp(860px, 91svh, 1040px);
+  margin-bottom: 80px;
+}
+.masquerade-portrait-introduction {
+  width: 28%;
+  padding-top: 32px;
+}
+.masquerade-portrait-introduction p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--house-muted);
+  text-wrap: pretty;
+}
+.masquerade-portrait-main {
+  position: relative;
+  width: 64%;
+  margin: 0 0 0 auto;
+  overflow: clip;
+}
+.masquerade-portrait-main img {
+  display: block;
+  width: 100%;
+  height: clamp(860px, 91svh, 1040px);
+  object-fit: cover;
+  object-position: center 42%;
+  transform: translateY(calc(var(--campaign-flow) * -24px)) scale(1.065);
+}
+.masquerade-portrait-introduction {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.masquerade-portrait-profile {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: -36px;
+  width: 38%;
+  margin: 0;
+  transform: translateY(calc(var(--campaign-flow) * -48px));
+}
+.masquerade-portrait-profile img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.masquerade-openwork-essay {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 7vw, 112px);
+  padding-block: clamp(80px, 9vw, 144px);
+  align-items: start;
+}
+.masquerade-openwork-essay h2 {
+  font: 400 clamp(56px, 6.2vw, 96px) / 1 var(--font-serif);
+  letter-spacing: -0.04em;
+}
+.masquerade-exhibition em {
+  font-weight: 400;
+}
+.masquerade-openwork-essay p,
+.masquerade-night-copy p {
+  font-size: 17px;
+  line-height: 1.85;
+  color: var(--house-muted);
+  text-wrap: pretty;
+}
+.masquerade-openwork-essay p + p,
+.masquerade-night-copy p + p {
+  margin-top: 24px;
+}
+.masquerade-openwork-essay .masquerade-study-note {
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 40ch;
+}
+.masquerade-night-panorama {
+  margin: 0;
+  overflow: clip;
+}
+.masquerade-night-panorama img {
+  display: block;
+  width: 100%;
+  height: clamp(560px, 83svh, 940px);
+  object-fit: cover;
+  object-position: center 45%;
+  transform: translateY(calc(var(--campaign-flow) * -28px)) scale(1.08);
+}
+.masquerade-night-composition {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(48px, 7vw, 112px);
+  align-items: start;
+  padding-bottom: 48px;
+}
+.masquerade-night-moment {
+  position: relative;
+  margin: -104px 0 0;
+  transform: translateY(calc(var(--campaign-flow) * -36px));
+}
+.masquerade-night-moment img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.masquerade-night-copy {
+  padding-top: 64px;
+}
+.masquerade-night-copy h2 {
+  font: 400 clamp(56px, 6.2vw, 96px) / 1 var(--font-serif);
+  letter-spacing: -0.04em;
+  margin-bottom: 40px;
+}
+@media (max-width: 1023px) and (min-width: 768px) {
+  .masquerade-portrait-introduction {
+    width: 30%;
+    padding-top: 0;
+  }
+  .masquerade-portrait-introduction p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .masquerade-portrait-main {
+    width: 64%;
+  }
+  .masquerade-portrait-profile {
+    width: 38%;
+  }
+  .masquerade-portrait-composition {
+    margin-bottom: 40px;
+  }
+  .masquerade-night-moment {
+    margin-top: -64px;
+  }
+}
+@media (max-width: 767px) {
+  .masquerade-title {
+    padding-block: 64px 32px;
+  }
+  .masquerade-title h1 {
+    font-size: clamp(40px, 11.8vw, 88px);
+    letter-spacing: -0.045em;
+  }
+  .masquerade-title h1 > span:first-child {
+    font-size: 21px;
+    margin-bottom: 14px;
+  }
+  .masquerade-portrait-composition {
+    min-height: 0;
+    margin-bottom: 48px;
+  }
+  .masquerade-portrait-introduction {
+    position: static;
+    width: 100%;
+    padding: 0 0 32px;
+  }
+  .masquerade-portrait-introduction p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  .masquerade-portrait-main {
+    width: 78%;
+  }
+  .masquerade-portrait-main img {
+    height: auto;
+    aspect-ratio: 4 / 5;
+    transform: none;
+  }
+  .masquerade-portrait-profile {
+    width: 44%;
+    bottom: -24px;
+    transform: none;
+  }
+  .masquerade-openwork-essay {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 56px;
+  }
+  .masquerade-openwork-essay h2,
+  .masquerade-night-copy h2 {
+    font-size: 48px;
+  }
+  .masquerade-openwork-essay p,
+  .masquerade-night-copy p {
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  .masquerade-night-panorama img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-position: 52% center;
+    transform: none;
+  }
+  .masquerade-night-composition {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-bottom: 0;
+  }
+  .masquerade-night-moment {
+    width: 78%;
+    margin: -28px 0 0;
+    transform: none;
+  }
+  .masquerade-night-copy {
+    padding-top: 40px;
+  }
+  .masquerade-night-copy h2 {
+    margin-bottom: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .masquerade-portrait-main img,
+  .masquerade-portrait-profile,
+  .masquerade-night-panorama img,
+  .masquerade-night-moment {
+    transform: none;
+  }
+}

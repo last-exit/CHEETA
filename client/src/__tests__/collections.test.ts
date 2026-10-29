@@ -3,10 +3,9 @@ import { COLLECTIONS, COLLECTION_ORDER } from "../data/collections";
 
 describe("ICON LIVIN Dedicated Collections Specification", () => {
   it("should contain the active collections in COLLECTION_ORDER", () => {
-    expect(COLLECTION_ORDER).toEqual(["barrel", "masquerade", "maharaja"]);
+    expect(COLLECTION_ORDER).toEqual(["barrel", "masquerade"]);
     expect(COLLECTIONS.barrel.title).toBe("THE GUN COLLECTION");
     expect(COLLECTIONS.masquerade.title).toBe("THE MASQUERADE");
-    expect(COLLECTIONS.maharaja.title).toBe("MAHARAJA");
   });
 
   it("should enforce pure white canvas palettes across all collections", () => {
@@ -19,10 +18,10 @@ describe("ICON LIVIN Dedicated Collections Specification", () => {
   });
 
   it("should enforce 40-55 word all-caps intro paragraphs", () => {
-    COLLECTION_ORDER.forEach((id) => {
+    COLLECTION_ORDER.forEach(id => {
       const col = COLLECTIONS[id];
       const words = col.intro.trim().split(/\s+/);
-      
+
       expect(words.length).toBeGreaterThanOrEqual(40);
       expect(words.length).toBeLessThanOrEqual(55);
       expect(col.intro).toBe(col.intro.toUpperCase());
@@ -31,16 +30,15 @@ describe("ICON LIVIN Dedicated Collections Specification", () => {
 
   it("should form an unbroken collection loop in nextId sequence", () => {
     expect(COLLECTIONS.barrel.nextId).toBe("masquerade");
-    expect(COLLECTIONS.masquerade.nextId).toBe("maharaja");
-    expect(COLLECTIONS.maharaja.nextId).toBe("barrel");
+    expect(COLLECTIONS.masquerade.nextId).toBe("barrel");
   });
 
   it("should provide 4 honest products per collection with materials and prices", () => {
-    COLLECTION_ORDER.forEach((id) => {
+    COLLECTION_ORDER.forEach(id => {
       const col = COLLECTIONS[id];
       expect(col.products).toHaveLength(4);
 
-      col.products.forEach((product) => {
+      col.products.forEach(product => {
         expect(product.id).toBeTruthy();
         expect(product.name).toBeTruthy();
         expect(product.material).toBeTruthy();
@@ -52,7 +50,7 @@ describe("ICON LIVIN Dedicated Collections Specification", () => {
   });
 
   it("should include 4 editorial stills, 4 chapters, and credits for each collection", () => {
-    COLLECTION_ORDER.forEach((id) => {
+    COLLECTION_ORDER.forEach(id => {
       const col = COLLECTIONS[id];
       expect(col.stills).toHaveLength(4);
       expect(col.chapters).toHaveLength(4);
