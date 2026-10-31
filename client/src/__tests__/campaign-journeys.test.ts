@@ -1,3 +1,4 @@
+import { CASE_FILM_AVAILABLE } from "../lib/collectorCase";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Router } from "wouter";
@@ -44,7 +45,9 @@ describe("Long-form collection campaigns", () => {
         ).toBeGreaterThanOrEqual(6);
         for (const still of COLLECTIONS[id].stills)
           expect(markup).toContain(still);
-        expect(markup.match(/<video\b/g)).toHaveLength(1);
+        expect(markup.match(/<video\b/g)).toHaveLength(
+          id === "barrel" && CASE_FILM_AVAILABLE ? 2 : 1
+        );
         expect(markup.indexOf('class="collection-film"')).toBeLessThan(
           markup.indexOf("<h1")
         );

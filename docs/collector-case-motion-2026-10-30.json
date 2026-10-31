@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "status": "completed",
+  "job_id": "mvva0rc0-06b6e7",
+  "files": [
+    "/Users/fazalhaque/Downloads/cheeta-jewels(2)/collector-case-motion-review-2026-10-30/downloads/flow_6f23e04e_mvva0rc0-06b6e7.mp4"
+  ],
+  "media_ids": ["6f23e04e"],
+  "elapsed_ms": 144178,
+  "references_attached": 2,
+  "model": "Veo 3.1 - Quality",
+  "ratio": "16:9",
+  "prompt": "Generate one 8-second 16:9 video with Veo 3.1 - Quality, using the attached image as the first frame and keeping its composition, palette and subject. Do not add text, captions, music or narration. Scene: User approved exactly ONE 8-second Veo 3.1 Quality video for 100 credits, 16:9, silent. No alternatives or additional paid generations. Use ONLY the TWO attached case images, ignore earlier unrelated project footage. FIRST image = exact starting frame, closed Cheeta collector's trunk with brass antler handles. SECOND image = exact ending frame, open burgundy-lined trunk with octagonal ruby Maharajah eyewear, rectangular brass-coloured case, folded cloth and booklet. Generate one continuous real-mechanical opening shot, NO fade, dissolve, crossfade, cut, slideshow or morph. 0-0.7s: central clasp releases subtly, the case body and marble table stay completely stationary. 0.7-6.3s: the SAME solid wooden lid rotates smoothly backwards around its rear brass hinges, carrying the attached antler handles rigidly with the lid. Antlers and lid do not detach, vanish, melt or bend. Simultaneously the camera makes a controlled, restrained upward crane and slight forward move to see into the compartments. Preserve wood grain, brass corners, keyhole, branding, burgundy velvet divisions and all four objects. Ruby lenses stay octagonal, two lenses, one gold bridge; no aviator replacement. 6.3-8s: settle into the supplied final open-case composition and hold perfectly still. No objects move or rearrange inside the tray. No hands, people, text overlays, particles, flares, sound or music. Realistic weight and luxury product-film precision; exact start/end matching and physical hinge motion matter more than dramatic camera movement.",
+  "duration": 8,
+  "authorization": "User approved one 8-second Veo Quality film for 100 credits.",
+  "deliveryNotes": "Film reframed with a smooth camera push towards the tray and pullback; generated lid-only watches are excluded by this crop. Audio removed. Reverse file encoded locally. Source and full contact sheet retained outside repo for review. Artwork remains provisional; film changes clasp/engraving and eyewear outline in intermediate frames.",
+  "delivery_directory": "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/campaigns/gun/collectors-case",
+  "files_bytes": {
+    "open-motion-v1.webp": 113348,
+    "closed-motion-v1.webp": 138890,
+    "closing-v1.mp4": 4439821,
+    "opening-v1.mp4": 4367767
+  },
+  "encoding": {
+    "forward_filter": "zoompan=z='1+1.15*(clip((on/24-0.9)/2.1,0,1)*clip((on/24-0.9)/2.1,0,1)*(3-2*clip((on/24-0.9)/2.1,0,1)))*(1-(clip((on/24-4.8)/2.8,0,1)*clip((on/24-4.8)/2.8,0,1)*(3-2*clip((on/24-4.8)/2.8,0,1))))':x='iw/2-iw/zoom/2':y='ih-ih/zoom':d=1:s=1280x720:fps=24",
+    "reverse_filter": "reverse",
+    "delivery": "H.264 CRF 19, slow preset, 12-frame GOP, yuv420p, faststart, audio removed",
+    "posters": "WebP quality 90; exact forward frames at 0 and 7.875 seconds",
+    "duration_seconds": 7.916666666666667,
+    "resolution": [1280, 720]
+  }
+}

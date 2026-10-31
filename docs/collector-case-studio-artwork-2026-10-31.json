@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-31",
+  "mode": "built-in imagegen",
+  "status": "Interactive studio stills ready. Replacement film awaits the user's separate 100-credit approval; no new paid Flow generation made.",
+  "reference": "https://www.gentlemonster.com/int/en/stories/veggie-collection",
+  "assets": [
+    {
+      "id": "closed",
+      "saved_path": "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/campaigns/gun/collectors-case/closed-studio-v2.webp",
+      "generated_output": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-48903dd2-0635-4f9e-bd23-7ebcea3dbcff.png",
+      "references": [
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/campaigns/gun/collectors-case/closed-motion-v1.webp"
+      ],
+      "prompt": "Use case: background-extraction. Asset type: precise studio object for a minimal interactive luxury website. Edit the supplied closed collector's chest. Remove ONLY the antique room, candles, cheetah painting, marble tabletop and surrounding environment. Preserve the SAME complete dark polished wooden chest, gold brass corners, central clasp and keyhole, plaque, leather straps and attached tall brass antlers. Do not redesign its silhouette or add ornament. Neutral soft studio illumination, clear real wood grain, restrained gold reflections. Full object including antler tips and all lower corners centered in a wide 16:9 composition with generous transparent space all around and beneath it. Frontal camera with a modest elevated view of the lid. Real alpha transparency outside the chest, not white paint or a checkerboard. Keep natural contact shading at its feet very subtle; no pedestal, display panel or background. Source chest branding stays CHEETAJEWELS / ICON LIVIN'. Photoreal product photography, no UI or captions.",
+      "bytes": 270916
+    },
+    {
+      "id": "open",
+      "saved_path": "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/campaigns/gun/collectors-case/open-studio-v2.webp",
+      "generated_output": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-f69b46ab-9d7f-4375-af44-bd2587aa783e.png",
+      "references": [
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/campaigns/gun/collectors-case/open-motion-v1.webp",
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/character-select/lens-ruby.webp",
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/character-select/lens-smoke.webp",
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/character-select/lens-amber.webp"
+      ],
+      "prompt": "Use case: compositing. Asset type: open collector's chest studio scene for a minimal luxury website. Image 1 defines the exact dark wooden CHEETAJEWELS collector's chest, brass corner fittings, front keyhole/clasp, burgundy velvet lining and lid logo. Images 2, 3 and 4 define THREE complete octagonal Maharajah eyewear pairs: ruby, smoke, amber. Preserve their identical octagonal frame shape, gold bridge and folded temples. Change ONLY the contents arrangement and environment: remove the room, candles, marble, rolled cloth, metal case, booklet and folded cloth. Refit the existing inner tray into THREE equal side-by-side burgundy velvet compartments, holding exactly the three reference eyewear pairs, ruby LEFT, smoke CENTRE, amber RIGHT, all fully visible with both lenses and hinges, resting naturally and facing the viewer. No other items, no watches, no new text. Preserve the exterior chest width/proportions, wood grain, brass details, logo inside the open burgundy lid, and complete bottom corners. Lid open on its back hinges. Antlers remain rigidly attached to the OUTSIDE of the lid, naturally behind it, not added inside the box. Camera frontal slightly elevated to clearly see into the tray, full case and full lid centered in a wide 16:9 frame with generous empty margins. Soft neutral studio illumination, no dramatic glow. Real alpha transparency outside the complete object and a very subtle contact shadow directly underneath its feet. No room, no tabletop line, no pedestal or display panel, no UI. High-resolution photoreal precise luxury product photograph.",
+      "bytes": 277316
+    }
+  ],
+  "delivery": {
+    "dimensions": [1672, 941],
+    "transparent": true,
+    "encoding": "cwebp quality 90, alpha quality 100"
+  },
+  "limitation": "Provisional generated campaign illustration, not verified product or packaging photography. Three lens colours use existing provisional Maharajah previews; no new product identities or purchase promises.",
+  "flow": {
+    "status": "quote_only",
+    "model": "Veo 3.1 Quality",
+    "duration": 8,
+    "ratio": "16:9",
+    "resolution": "720p",
+    "credits": 100,
+    "project": "https://flow.google.com/project/f35a0ec9-046a-435c-afec-dd714c3b6cbb",
+    "reference_check": "Use only the closed-studio-v2 and open-studio-v2 image ingredients. Do not include the old room video.",
+    "prepared_request": {
+      "auto_confirm": false,
+      "duration": 8,
+      "model": "veo-3.1-quality",
+      "ratio": "16:9",
+      "output_dir": "/Users/fazalhaque/Downloads/cheeta-jewels(2)/collector-case-studio-review-2026-10-31/downloads",
+      "project_url": "https://flow.google.com/project/f35a0ec9-046a-435c-afec-dd714c3b6cbb",
+      "reference_images": [
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/collector-case-studio-review-2026-10-31/closed-studio-v2.png",
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/collector-case-studio-review-2026-10-31/open-studio-v2.png"
+      ],
+      "prompt": "Exactly ONE silent 8-second 16:9 Veo 3.1 Quality film. Use ONLY the TWO newly supplied collector-case studio images, ignore all old project footage and images. Composite transparent pixels onto perfectly flat untextured warm white #FAFAF7, not black, grey or a room. Image 1 is the closed start. Image 2 is the open end, with exactly THREE octagonal Maharajah eyewear pairs: ruby LEFT, smoke CENTRE, amber RIGHT. One continuous physical hinge-opening shot. Hold closed for 0.5s, release the central clasp, smoothly rotate the same rigid wooden lid back on the rear brass hinges. Antlers remain rigidly attached to the exterior lid, naturally disappearing behind it, never melting or detaching. The case body stays grounded. Slight controlled forward camera move to the end composition. Keep exactly THREE complete stationary eyewear pairs in their individual velvet compartments, with identical octagonal gold frames, two lenses and folded temples. No aviators, extra objects, watches or accessories. Preserve wood, brass corners, burgundy velvet and Cheeta branding. Hold the exact end image for the last second. Soft neutral studio lighting and a subtle physical contact shadow under the feet, no floor line or rectangular backdrop. No cuts, fades, dissolves, gradients, room, candles, marble, hands, people, particles, text overlays or audio."
+    }
+  },
+  "review_directory": "/Users/fazalhaque/Downloads/cheeta-jewels(2)/collector-case-studio-review-2026-10-31"
+}

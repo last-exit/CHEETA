@@ -2,6 +2,7 @@ import { Link } from "wouter";
 import type { CollectionData } from "@/data/collections";
 import { CAMPAIGN_EDITORIAL } from "@/data/campaignEditorial";
 import GunChapter from "@/components/GunChapter";
+import CollectorCase from "@/components/CollectorCase";
 import { CampaignPhotograph } from "@/components/CampaignEditorial";
 import {
   ExhibitionCover,
@@ -50,6 +51,7 @@ export default function GunCampaign({
       <ExhibitionEssay title={copy.origin.title} chapter="the-reference">
         <p>{copy.origin.body}</p>
       </ExhibitionEssay>
+      <CollectorCase />
       <section
         className="gun-founder-closing"
         data-campaign-chapter="the-campaign"

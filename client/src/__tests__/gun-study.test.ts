@@ -1,3 +1,4 @@
+import { CASE_FILM_AVAILABLE } from "../lib/collectorCase";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Router } from "wouter";
@@ -27,7 +28,10 @@ const campaign = () =>
 describe("Gun campaign", () => {
   it("shows the founder film once, then the founder portraits and Maharajah study", () => {
     const markup = campaign();
-    expect(markup.match(/<video\b/g)).toHaveLength(1);
+    expect(markup.match(/<video\b/g)).toHaveLength(CASE_FILM_AVAILABLE ? 2 : 1);
+    expect(markup.match(/class="collection-film"/g)).toHaveLength(1);
+    if (CASE_FILM_AVAILABLE)
+      expect(markup).toContain('class="collector-case-player" preload="none"');
     expect(markup).not.toContain('class="campaign-motion-chapter"');
     const film = markup.indexOf('class="collection-film"');
     const portraits = markup.indexOf('data-campaign-chapter="portraits"');

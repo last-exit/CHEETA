@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-30",
+  "mode": "built-in imagegen",
+  "transparent_background": false,
+  "approval": "Provisional campaign illustrations; not verified physical packaging or product photography.",
+  "original_source": "/var/folders/hd/2n588k_n74nf_q_8ww88jwyr0000gn/T/codex-clipboard-cb2d3bf5-1586-4829-8806-6e6aeb1a3aca.png",
+  "delivery_directory": "/Users/fazalhaque/Downloads/cheeta-jewels(2)/collector-case-motion-review-2026-10-30/superseded-stills",
+  "closed": {
+    "source": "/var/folders/hd/2n588k_n74nf_q_8ww88jwyr0000gn/T/codex-clipboard-cb2d3bf5-1586-4829-8806-6e6aeb1a3aca.png",
+    "delivery": "closed-source-v1.webp",
+    "operation": "Unchanged client composition converted to WebP quality 88. CSS presents only its top 697px photograph; original remains untouched."
+  },
+  "generations": [
+    {
+      "id": "open",
+      "referenced_image_paths": [
+        "/var/folders/hd/2n588k_n74nf_q_8ww88jwyr0000gn/T/codex-clipboard-cb2d3bf5-1586-4829-8806-6e6aeb1a3aca.png",
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/character-select/lens-ruby.webp"
+      ],
+      "generated_output": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-3fb9ffbe-5df8-489c-807b-df1d24de25bf.png",
+      "delivery": "open-v1.webp",
+      "prompt": "Use case: compositing. Asset type: single full-width editorial photograph for an interactive collector's case, landscape 16:10 composition, high resolution. Image 1 is the edit target and defines the EXACT case, dark polished wood, ornamental brass corner fittings, brass lock and plate, burgundy velvet compartments, and candlelit antique room. Use the OPEN case view in the LOWER LEFT of image 1 as the composition, expand it into ONE clean photograph, not a collage. Image 2 is the exact eyewear to place inside: octagonal ruby lenses and gold frame. Replace ONLY the aviator eyewear in the front middle compartment with this octagonal Maharajah eyewear, resting naturally in the velvet, both lenses visible. Preserve its octagonal geometry; do not invent new engraving. Keep the rectangular metal eyewear case in rear middle, rolled burgundy cloth on left, booklet on right and folded cloth in front-right as in the reference. Keep the inside lid's restrained gold CHEETAJEWELS / ICON LIVIN' branding. Camera centered, slightly elevated looking down enough to clearly see all compartments, dark antique room soft behind, realistic warm restrained candlelight, no added glow or filters. The open trunk occupies the center 90 percent of the image, full front lock and both lower corners visible. Burgundy lid fills upper third; tray fills lower two thirds. No antlers inside the compartments. No external text, UI, borders, collage panels, people, hands or new objects. Match the supplied case rather than redesigning it."
+    },
+    {
+      "id": "eyewear",
+      "referenced_image_paths": [
+        "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-3fb9ffbe-5df8-489c-807b-df1d24de25bf.png",
+        "/Users/fazalhaque/Downloads/cheeta-jewels(2)/cheetah final website 2.0/client/public/character-select/lens-ruby.webp"
+      ],
+      "generated_output": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-9892d3bf-51d2-42a5-9d27-60c1c7d8f8aa.png",
+      "delivery": "eyewear-v1.webp",
+      "prompt": "Use case: precise-object-edit. Asset type: one landscape 16:9 high-resolution macro photograph for the SAME interactive collector's case as image 1. Input image 1 is the edit target and exact scene/material/lighting reference. Create a closer photographic inspection view of the octagonal ruby-lensed Maharajah eyewear in the FRONT CENTER tray. Both complete octagonal lenses, gold bridge and hinge ends visible, resting in burgundy velvet. Use supporting image 2 to preserve exact octagonal frame geometry. The lens colour stays ruby. No aviator shape. Camera close and centered, with the brass case soft behind. Preserve the object's source design and the original warm restrained candlelight, deep burgundy velvet and natural metal reflections. Photorealistic editorial still, precise quiet framing. Fill the whole composition with the relevant compartment, no background room, no UI, no captions, no collage, no invented decoration, no added glow, no artificial grain, no hands or people. This is the same object and same case, only the camera moves closer. Sharp object, gentle optical background falloff."
+    },
+    {
+      "id": "case",
+      "referenced_image_paths": [
+        "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-3fb9ffbe-5df8-489c-807b-df1d24de25bf.png"
+      ],
+      "generated_output": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-8d80dffa-fd36-4a1f-b225-32f300c8f518.png",
+      "delivery": "case-v1.webp",
+      "prompt": "Use case: precise-object-edit. Asset type: one landscape 16:9 high-resolution macro photograph for the SAME interactive collector's case as image 1. Input image 1 is the edit target and exact scene/material/lighting reference. Create a closer photographic inspection view of the rectangular metal eyewear case in the REAR CENTER compartment. The complete closed rectangular case and clasp must be visible, brushed warm brass-coloured surface, the same restrained CHEETAJEWELS / ICON LIVIN' engraving, burgundy velvet surrounds. Camera close from slightly above, case occupies central 80 percent, no eyewear in foreground. Preserve the object's source design and the original warm restrained candlelight, deep burgundy velvet and natural metal reflections. Photorealistic editorial still, precise quiet framing. Fill the whole composition with the relevant compartment, no background room, no UI, no captions, no collage, no invented decoration, no added glow, no artificial grain, no hands or people. This is the same object and same case, only the camera moves closer. Sharp object, gentle optical background falloff."
+    },
+    {
+      "id": "cloth",
+      "referenced_image_paths": [
+        "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-3fb9ffbe-5df8-489c-807b-df1d24de25bf.png"
+      ],
+      "generated_output": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-11266483-7cff-4552-aee1-93fb3a4fbc1b.png",
+      "delivery": "cloth-v1.webp",
+      "prompt": "Use case: precise-object-edit. Asset type: one landscape 16:9 high-resolution macro photograph for the SAME interactive collector's case as image 1. Input image 1 is the edit target and exact scene/material/lighting reference. Create a closer photographic inspection view of the FOLDED burgundy cloth with the gold CJ monogram in the FRONT RIGHT compartment. The complete folded cloth with scalloped edges visible, weave and gold monogram readable, burgundy velvet surrounding it. Camera close from slightly above. No extra objects on top of it. Keep monogram design from input. Preserve the object's source design and the original warm restrained candlelight, deep burgundy velvet and natural metal reflections. Photorealistic editorial still, precise quiet framing. Fill the whole composition with the relevant compartment, no background room, no UI, no captions, no collage, no invented decoration, no added glow, no artificial grain, no hands or people. This is the same object and same case, only the camera moves closer. Sharp object, gentle optical background falloff."
+    },
+    {
+      "id": "booklet",
+      "referenced_image_paths": [
+        "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-3fb9ffbe-5df8-489c-807b-df1d24de25bf.png"
+      ],
+      "generated_output": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-85f7906f-4333-47a3-bfdd-7c8aba49bc14.png",
+      "delivery": "booklet-v1.webp",
+      "prompt": "Use case: precise-object-edit. Asset type: one landscape 16:9 high-resolution macro photograph for the SAME interactive collector's case as image 1. Input image 1 is the edit target and exact scene/material/lighting reference. Create a closer photographic inspection view of the closed burgundy BOOKLET behind the folded cloth in the REAR RIGHT compartment. The complete booklet is visible on burgundy velvet, slightly angled, CHEETAJEWELS / ICON LIVIN' lettering exactly as on the supplied cover, with small gold ornament. Remove the cloth from in front for this close inspection. No invented text, pages, certificates or promises. Preserve the object's source design and the original warm restrained candlelight, deep burgundy velvet and natural metal reflections. Photorealistic editorial still, precise quiet framing. Fill the whole composition with the relevant compartment, no background room, no UI, no captions, no collage, no invented decoration, no added glow, no artificial grain, no hands or people. This is the same object and same case, only the camera moves closer. Sharp object, gentle optical background falloff."
+    }
+  ],
+  "status": "Historical still-based prototype, superseded by the motion version. Retained artwork is not downloaded by the website.",
+  "motion_start": {
+    "mode": "built-in imagegen",
+    "referenced_image_paths": [
+      "/var/folders/hd/2n588k_n74nf_q_8ww88jwyr0000gn/T/codex-clipboard-cb2d3bf5-1586-4829-8806-6e6aeb1a3aca.png"
+    ],
+    "generated_output": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-7ce84d8c-0351-4a92-b429-60e66f17ef61.png",
+    "prompt": "Use case: precise-object-edit. Create ONE single 16:9 landscape photograph by extracting only the TOP closed-trunk photograph from this supplied collage. This is an edit, not a redesign. Preserve the exact closed dark polished wood collector's chest, its brass corner ornaments, hinges, leather straps, central keyhole lock, gold antler handles, marble table, antique room, candlelight and background cheetah painting. Preserve the plaque CHEETAJEWELS / ICON LIVIN' as in source. Keep the complete antlers and the complete chest in frame, with a little breathing room. Straight frontal camera exactly as the upper source photograph. Do not show any lower collage panel or open case. No borders, no UI, no new ornaments, no people or hands, no changes to materials, no invented text. High-resolution photorealistic still. The output is the start frame for a continuous hinge-opening film."
+  }
+}

@@ -33,13 +33,17 @@ export default function CollectionDetail() {
       frame = 0;
       const filmBottom = opening.current?.getBoundingClientRect().bottom ?? 0;
       const images = Array.from(
-        page.current?.querySelectorAll<HTMLImageElement>(
-          'img[data-campaign-dark="true"]'
+        page.current?.querySelectorAll<HTMLElement>(
+          '[data-campaign-dark="true"]'
         ) ?? []
       );
       const onDarkImage = (x: number, y: number) =>
         images.some(image => {
-          if (!image.complete || !image.naturalWidth) return false;
+          if (
+            image instanceof HTMLImageElement &&
+            (!image.complete || !image.naturalWidth)
+          )
+            return false;
           const rect = image.getBoundingClientRect();
           return (
             rect.left <= x &&
@@ -59,12 +63,21 @@ export default function CollectionDetail() {
       if (!frame) frame = requestAnimationFrame(syncNavigation);
     };
     syncNavigation();
+    const anchorFrame =
+      window.location.hash === "#collectors-case"
+        ? requestAnimationFrame(() => {
+            document
+              .getElementById("collectors-case")
+              ?.scrollIntoView({ behavior: "instant", block: "start" });
+          })
+        : 0;
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     page.current?.addEventListener("load", schedule, true);
     const root = page.current;
     return () => {
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(anchorFrame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       root?.removeEventListener("load", schedule, true);
