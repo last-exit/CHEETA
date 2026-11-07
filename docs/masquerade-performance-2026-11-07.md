@@ -1,0 +1,11 @@
+# Masquerade scroll performance
+
+Kept the accepted film, framing, 440svh scroll distance and Seen/Unseen timing. Re-encoded the original approved source at native 1280 × 720, 24fps, H.264 CRF18, every frame independently seekable, no B-frames, silent and faststart. The new `journey-scrub-v2.mp4` contains the same 190 frames. The existing first/last posters still match the source. No new generation or credits.
+
+The shared scroll painter now caps its drawing surface to the source detail instead of enlarging a 720p frame to a high-DPI fullscreen canvas. At 1480 × 1034 and DPR2 this avoids about 88% of the previous pixel work. It caches the surface size until resize, draws each decoded time only once, updates React state only on first paint, and draws immediately on `seeked` instead of inserting an extra animation-frame delay. Seeks remain serialized and resolve to the latest native scroll position. A ready frame stays visible while the next request decodes. Hidden/offscreen pausing, error/retry and reduced-motion posters are preserved.
+
+In this browser, a temporary comparison page performed 127 forward, reverse and nonsequential seeks on each fully loaded file. Mean seek time changed from 2.96ms to 2.40ms; p95 from 4.0ms to 2.7ms. These are decoder measurements, not a claim about end-to-end frame rate or all devices. The tradeoff is a larger file: approximately 7.1MiB rather than 3.3MiB. The player still retains a poster while loading and preloads as the section approaches.
+
+Verified the real 1480 × 1034 page through native scrolling and quick reversals. At progress 0.523 the displayed frame settled to 4.125s, matching the latest requested frame; the closing hold reached frame189 at 7.875s. The 375 × 812 view retained framing, no horizontal overflow and a 428 × 720 drawing surface. The shared Gun case was smoke-tested after the painter change. A regression test now checks source-limited surface sizing and aspect ratio. Type checking, all78 existing/updated tests and the production build pass. No push or deployment.
+
+Evidence: `../masquerade-performance-review-2026-11-07/decoder-comparison.json`, `desktop-optimized.png`, `mobile-optimized.png`. Temporary QA pages were removed before the production build.

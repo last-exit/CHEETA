@@ -5,7 +5,7 @@ export default function Contact() {
     <LegalPage
       eyebrow="Cheeta Jewels"
       title="Contact"
-      intro="For product enquiries and information about Cheeta Jewels."
+      intro="For Retail enquiries or to arrange a showroom visit for The Masquerade and The Gun Collection."
     >
       <Section no="01" title="Email">
         <p>

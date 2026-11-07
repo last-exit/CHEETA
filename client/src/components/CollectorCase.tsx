@@ -1,356 +1,317 @@
 import {
   useEffect,
-  useReducer,
+  useId,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
 } from "react";
-import { ArrowLeft } from "lucide-react";
-import { useCollectorCaseMotion } from "@/hooks/useCollectorCaseMotion";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
-  COLLECTOR_CASE_ITEMS,
-  COLLECTOR_CASE_VIEWS,
-  collectorCaseReducer,
-  createCollectorCase,
-} from "@/lib/collectorCase";
+  GUN_JOURNEY,
+  GUN_LENSES,
+  gunCaseOpen,
+  gunLensIndex,
+} from "@/lib/gunJourney";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useScrollCinema } from "@/hooks/useScrollCinema";
 import "./CollectorCase.css";
 
+/** One continuous scene, separate from the retail catalogue and bag. */
 export default function CollectorCase() {
-  const [state, dispatch] = useReducer(
-    collectorCaseReducer,
-    undefined,
-    createCollectorCase
+  const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const compact = useMediaQuery("(max-width: 1023px)");
+  const staticView = reduced || compact || !GUN_JOURNEY.available;
+  const [attempt, setAttempt] = useState(0);
+  const { root, player, screen, poster, painted, failed } = useScrollCinema(
+    GUN_JOURNEY,
+    staticView,
+    attempt
   );
+  const [lens, setLens] = useState(0);
+  const [inspecting, setInspecting] = useState(false);
   const [immediate, setImmediate] = useState(false);
-  const alive = useRef(true);
-  const itemButtons = useRef<(HTMLButtonElement | null)[]>([]);
-  const openingButton = useRef<HTMLButtonElement>(null);
-  const backButton = useRef<HTMLButtonElement>(null);
-  const heading = useRef<HTMLHeadingElement>(null);
-  const errorRetry = useRef<HTMLButtonElement>(null);
-  const restoreItem = useRef<number | null>(null);
-  const restoreClosed = useRef(false);
-  const motion = useCollectorCaseMotion({
-    target: state.displayed,
-    requested: state.requested,
-    failed: state.failed[state.requested],
-    immediate,
-  });
-  const displayed = motion.presented;
-  const hasOpened = displayed !== null && displayed > 0;
-  const travelling = motion.phase !== "idle";
-  const lidMoving = motion.phase === "opening" || motion.phase === "closing";
-  const pending = displayed !== state.requested || travelling;
-  const failed = state.failed[state.requested];
-  const inspecting = state.requested > 1;
-  const item = COLLECTOR_CASE_ITEMS.find(entry => entry.view === displayed);
+  const [endPainted, setEndPainted] = useState(false);
+  const [stillReady, setStillReady] = useState(false);
+  const [stillFailed, setStillFailed] = useState(false);
+  const [near, setNear] = useState(false);
+  const frameButton = useRef<HTMLButtonElement>(null);
+  const restoreRetryFocus = useRef(false);
+  const filterId = useId().replace(/:/g, "");
+  const stillView = staticView || failed;
+  const open = stillView ? stillReady : endPainted && stillReady;
+  const ready = stillView ? stillReady : painted;
+  const selected = GUN_LENSES[lens];
+  const closing = `${GUN_JOURNEY.closing}${attempt ? `?attempt=${attempt}` : ""}`;
 
   useEffect(() => {
-    alive.current = true;
-    return () => {
-      alive.current = false;
-    };
-  }, []);
-  useEffect(() => {
-    if (
-      displayed === 1 &&
-      state.requested === 1 &&
-      !travelling &&
-      restoreItem.current !== null
-    ) {
-      itemButtons.current[restoreItem.current]?.focus({ preventScroll: true });
-      restoreItem.current = null;
-    }
-    if (
-      displayed === 0 &&
-      state.requested === 0 &&
-      !travelling &&
-      restoreClosed.current
-    ) {
-      openingButton.current?.focus({ preventScroll: true });
-      restoreClosed.current = false;
-    }
-    if (displayed === 0 && state.requested > 0)
-      backButton.current?.focus({ preventScroll: true });
-    if (
-      (failed || motion.motionFailed) &&
-      document.activeElement === document.body
-    )
-      errorRetry.current?.focus({ preventScroll: true });
-  }, [displayed, state.requested, failed, travelling, motion.motionFailed]);
-
-  const request = (index: number, keyboard = false) => {
-    setImmediate(keyboard);
-    dispatch({ type: "request", index });
-  };
-  const open = (keyboard: boolean) => {
-    restoreItem.current = 0;
-    request(1, keyboard);
-  };
-  const inspect = (index: number, keyboard = false) => {
-    restoreItem.current = null;
-    itemButtons.current[index]?.focus({ preventScroll: true });
-    request(COLLECTOR_CASE_ITEMS[index].view, keyboard);
-  };
-  const back = (keyboard: boolean) => {
-    restoreItem.current = Math.max(
-      0,
-      COLLECTOR_CASE_ITEMS.findIndex(entry => entry.view === state.requested)
+    const element = root.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setNear(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "900px" }
     );
-    request(1, keyboard);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [root]);
+
+  useEffect(() => {
+    if (!near) return;
+    let cancelled = false;
+    const image = new Image();
+    setStillReady(false);
+    setStillFailed(false);
+    image.onload = async () => {
+      try {
+        await image.decode();
+        if (!cancelled && image.naturalWidth) setStillReady(true);
+      } catch {
+        if (!cancelled) setStillFailed(true);
+      }
+    };
+    image.onerror = () => {
+      if (!cancelled) setStillFailed(true);
+    };
+    image.src = closing;
+    return () => {
+      cancelled = true;
+      image.onload = image.onerror = null;
+    };
+  }, [near, closing]);
+
+  useEffect(() => {
+    const element = root.current,
+      canvas = screen.current;
+    if (!element || !canvas || stillView) return;
+    const update = () => {
+      const isOpen = gunCaseOpen(
+        Number(element.dataset.progress),
+        Number(canvas.dataset.time),
+        player.current?.duration ?? 0
+      );
+      setEndPainted(isOpen);
+      if (!isOpen) setInspecting(false);
+    };
+    const observer = new MutationObserver(update);
+    observer.observe(element, {
+      attributes: true,
+      attributeFilter: ["data-progress"],
+    });
+    observer.observe(canvas, {
+      attributes: true,
+      attributeFilter: ["data-time"],
+    });
+    update();
+    return () => observer.disconnect();
+  }, [root, screen, player, stillView, attempt]);
+
+  useEffect(() => {
+    if (ready && restoreRetryFocus.current) {
+      frameButton.current?.focus({ preventScroll: true });
+      restoreRetryFocus.current = false;
+    }
+  }, [ready]);
+
+  const inspect = (keyboard: boolean) => {
+    if (!ready) return;
+    setImmediate(keyboard || reduced);
+    if (!open) {
+      const element = root.current;
+      if (!element) return;
+      window.scrollTo({
+        top:
+          window.scrollY +
+          element.getBoundingClientRect().top +
+          (element.offsetHeight - window.innerHeight) * 0.9,
+        behavior: keyboard || reduced ? "instant" : "smooth",
+      });
+      return;
+    }
+    setInspecting(value => !value);
   };
-  const close = (keyboard: boolean) => {
-    restoreItem.current = null;
-    restoreClosed.current = true;
-    request(0, keyboard);
-  };
-  const navigate = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
-    let next: number;
-    if (event.key === "ArrowRight" || event.key === "ArrowDown")
-      next = (index + 1) % COLLECTOR_CASE_ITEMS.length;
-    else if (event.key === "ArrowLeft" || event.key === "ArrowUp")
-      next =
-        (index + COLLECTOR_CASE_ITEMS.length - 1) % COLLECTOR_CASE_ITEMS.length;
-    else if (event.key === "Home") next = 0;
-    else if (event.key === "End") next = COLLECTOR_CASE_ITEMS.length - 1;
-    else return;
-    event.preventDefault();
-    event.stopPropagation();
-    inspect(next, true);
+  const keys = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key === "Escape" && inspecting) {
+      event.preventDefault();
+      event.stopPropagation();
+      setImmediate(true);
+      setInspecting(false);
+      frameButton.current?.focus({ preventScroll: true });
+    } else if (
+      open &&
+      [
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown",
+        "Home",
+        "End",
+      ].includes(event.key)
+    ) {
+      event.preventDefault();
+      event.stopPropagation();
+      setImmediate(true);
+      setLens(value => gunLensIndex(value, event.key));
+    }
   };
   const retry = () => {
-    if (state.requested > 1 && hasOpened) {
-      const index = COLLECTOR_CASE_ITEMS.findIndex(
-        entry => entry.view === state.requested
-      );
-      itemButtons.current[index]?.focus({ preventScroll: true });
-    } else heading.current?.focus({ preventScroll: true });
-    dispatch({ type: "retry" });
+    restoreRetryFocus.current = true;
+    setEndPainted(false);
+    setInspecting(false);
+    setAttempt(value => value + 1);
   };
 
   return (
-    <section
-      id="collectors-case"
-      className="collector-case house-container"
-      data-campaign-chapter="the-collectors-case"
-      data-view={COLLECTOR_CASE_VIEWS[displayed ?? 0].id}
-      data-motion={motion.phase}
-      data-film-active={motion.painted}
-      data-immediate={immediate}
-      aria-labelledby="collector-case-title"
-      onKeyDown={event => {
-        if (event.key !== "Escape" || state.requested === 0) return;
-        event.preventDefault();
-        event.stopPropagation();
-        if (inspecting) back(true);
-        else close(true);
-      }}
-    >
-      <header className="collector-case-heading">
-        <h2 ref={heading} id="collector-case-title" tabIndex={-1}>
-          The collector’s case.
-        </h2>
-      </header>
-      <p id="collector-case-instructions" className="sr-only">
-        Open the case, then select a pair of glasses directly inside it. Use
-        arrow keys to compare ruby, smoke and amber. Escape returns to the case,
-        then closes it.
-      </p>
-      <div
-        id="collector-case-stage"
-        className="collector-case-stage"
+    <>
+      <section
+        ref={root}
+        id="collectors-case"
+        className="collector-case"
+        data-campaign-chapter="the-collectors-case"
+        data-static={staticView}
+        data-fallback={stillView}
+        data-painted={painted && !stillView}
+        data-inspecting={inspecting}
+        data-immediate={immediate || reduced}
+        data-open={open}
+        data-lens={selected.id}
+        style={
+          { "--case-scroll": `${GUN_JOURNEY.scrollVh}svh` } as CSSProperties
+        }
+        aria-labelledby="collector-case-title"
         aria-describedby="collector-case-instructions"
-        aria-busy={pending && !failed && !motion.motionFailed}
+        onKeyDown={keys}
       >
-        {inspecting && hasOpened && (
-          <button
-            type="button"
-            className="collector-case-return-surface"
-            aria-hidden="true"
-            tabIndex={-1}
-            onClick={() => back(false)}
-          />
-        )}
-        {COLLECTOR_CASE_VIEWS.map((view, index) => {
-          const attempt = state.attempts[index];
-          return (
-            <div
-              key={`${view.id}-${attempt}`}
-              ref={index === 1 ? motion.camera : undefined}
-              className={`collector-case-image${index === 1 ? " collector-case-camera" : ""}`}
-              data-active={
-                index === 0 ? displayed === 0 : index === 1 && hasOpened
-              }
-              data-kind={view.id}
-              aria-hidden={
-                index === 0 ? displayed !== 0 : index !== 1 || !hasOpened
-              }
+        <div
+          className="collector-case-stage"
+          data-campaign-dark={inspecting && !compact}
+          aria-busy={!ready && !failed && !stillFailed}
+        >
+          <div className="collector-case-world">
+            <img
+              ref={poster}
+              className="collector-case-poster"
+              src={stillView ? closing : GUN_JOURNEY.opening}
+              alt="A wood and brass collector’s case in a pale Mughal-inspired palace, holding one octagonal Maharajah frame"
+              width={GUN_JOURNEY.width}
+              height={GUN_JOURNEY.height}
+              loading={near ? "eager" : "lazy"}
+              decoding="async"
+            />
+            {!staticView && (
+              <>
+                <video
+                  ref={player}
+                  className="collector-case-source"
+                  muted
+                  playsInline
+                  preload="none"
+                  aria-hidden="true"
+                  tabIndex={-1}
+                />
+                <canvas
+                  ref={screen}
+                  className="collector-case-screen"
+                  aria-hidden="true"
+                />
+              </>
+            )}
+            <svg
+              className="collector-case-lens-tint"
+              viewBox={`0 0 ${GUN_JOURNEY.width} ${GUN_JOURNEY.height}`}
+              aria-hidden="true"
+              data-visible={open && selected.id !== "ruby"}
+              style={{ filter: selected.filter }}
             >
-              <img
-                src={attempt ? `${view.src}?attempt=${attempt}` : view.src}
-                alt={view.alt}
-                width={view.width}
-                height={view.height}
-                loading="lazy"
-                decoding="async"
-                onLoad={async event => {
-                  const image = event.currentTarget;
-                  try {
-                    await image.decode();
-                  } catch {
-                    /* Cached image may remain usable. */
-                  }
-                  if (alive.current && image.complete && image.naturalWidth)
-                    dispatch({ type: "ready", index, attempt });
-                }}
-                onError={() => {
-                  if (alive.current)
-                    dispatch({ type: "failed", index, attempt });
-                }}
+              <defs>
+                <clipPath id={`${filterId}-lenses`}>
+                  <path d={GUN_JOURNEY.lensMask} />
+                </clipPath>
+              </defs>
+              <image
+                href={near ? closing : undefined}
+                width={GUN_JOURNEY.width}
+                height={GUN_JOURNEY.height}
+                clipPath={`url(#${filterId}-lenses)`}
               />
-              {index === 0 && displayed === 0 && !travelling && (
-                <button
-                  ref={openingButton}
-                  type="button"
-                  className="collector-case-open-surface"
-                  aria-label="Open the collector’s case"
-                  disabled={pending}
-                  onClick={event => open(event.detail === 0)}
-                >
-                  <span className="collector-case-hint">open</span>
-                </button>
-              )}
-              {index === 1 && hasOpened && !lidMoving && (
-                <>
-                  <button
-                    ref={!inspecting ? backButton : undefined}
-                    type="button"
-                    className="collector-case-lid"
-                    aria-label="Close the collector’s case"
-                    onClick={event => close(event.detail === 0)}
-                  >
-                    <span className="collector-case-hint">close</span>
-                  </button>
-                  <div
-                    className="collector-case-hotspots"
-                    role="group"
-                    aria-label="Glasses inside the case"
-                  >
-                    {COLLECTOR_CASE_ITEMS.map((entry, itemIndex) => (
-                      <button
-                        key={entry.id}
-                        ref={node => {
-                          itemButtons.current[itemIndex] = node;
-                        }}
-                        type="button"
-                        aria-label={`Inspect ${entry.label.toLowerCase()} Maharajah`}
-                        aria-pressed={state.requested === entry.view}
-                        aria-controls="collector-case-stage"
-                        data-lens={entry.id}
-                        className="collector-case-glasses"
-                        style={{
-                          left: `${entry.region.left}%`,
-                          top: `${entry.region.top + entry.region.height / 2}%`,
-                          width: `${entry.region.width}%`,
-                          height: `${entry.region.height}%`,
-                        }}
-                        onKeyDown={event => navigate(event, itemIndex)}
-                        onClick={event =>
-                          inspect(itemIndex, event.detail === 0)
-                        }
-                      >
-                        <span className="collector-case-hint">
-                          {entry.label}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          );
-        })}
-        {motion.videoEnabled && (
-          <>
-            <video
-              ref={motion.video}
-              className="collector-case-player"
-              preload="none"
-              muted
-              playsInline
-              disablePictureInPicture
-              aria-hidden="true"
-              tabIndex={-1}
-            />
-            <canvas
-              ref={motion.canvas}
-              className="collector-case-film"
-              width={1280}
-              height={720}
-              data-active={motion.painted}
-              aria-hidden="true"
-            />
-          </>
-        )}
-        {motion.phase === "opening" && (
+            </svg>
+          </div>
           <button
-            ref={backButton}
+            ref={frameButton}
             type="button"
-            className="collector-case-cancel-opening"
-            aria-label="Close the collector’s case"
-            onClick={event => close(event.detail === 0)}
+            className="collector-case-inspect"
+            aria-label={
+              !open
+                ? "Open the Maharajah case"
+                : inspecting
+                  ? "Return to the full case"
+                  : "Look closer at Maharajah"
+            }
+            aria-pressed={inspecting}
+            disabled={!ready}
+            onFocus={event => {
+              if (event.currentTarget.matches(":focus-visible"))
+                setImmediate(true);
+            }}
+            onClick={event => inspect(event.detail === 0)}
           />
-        )}
-        {inspecting && hasOpened && !lidMoving && (
-          <button
-            ref={backButton}
-            type="button"
-            className="collector-case-back"
-            aria-label="Return to the collector’s case"
-            onClick={event => back(event.detail === 0)}
+          <header className="collector-case-heading">
+            <h2 id="collector-case-title">Maharajah</h2>
+          </header>
+          <div
+            className="collector-case-selection"
+            role="group"
+            aria-label="Change the lenses"
+            hidden={!open}
           >
-            <ArrowLeft size={22} strokeWidth={1.2} aria-hidden="true" />
-            <span className="collector-case-back-label">return</span>
-          </button>
-        )}
-        {(failed || motion.motionFailed) && (
-          <div className="collector-case-error" role="status">
-            <span>
-              {motion.motionFailed
-                ? "animation unavailable"
-                : "view unavailable"}
+            <button
+              type="button"
+              aria-label="Previous lens colour"
+              onClick={event => {
+                setImmediate(event.detail === 0);
+                setLens(value => gunLensIndex(value, "ArrowLeft"));
+              }}
+            >
+              <ArrowLeft size={19} strokeWidth={1.1} aria-hidden="true" />
+            </button>
+            <span aria-live="polite" aria-atomic="true">
+              {selected.label}
             </span>
             <button
-              ref={errorRetry}
               type="button"
-              onClick={motion.motionFailed ? motion.retryMotion : retry}
+              aria-label="Next lens colour"
+              onClick={event => {
+                setImmediate(event.detail === 0);
+                setLens(value => gunLensIndex(value, "ArrowRight"));
+              }}
             >
-              retry
+              <ArrowRight size={19} strokeWidth={1.1} aria-hidden="true" />
             </button>
-            {motion.motionFailed && (
-              <button type="button" onClick={() => setImmediate(true)}>
-                view without motion
-              </button>
-            )}
           </div>
-        )}
-        {displayed === null && !failed && (
-          <span className="collector-case-loading">loading the case</span>
-        )}
-      </div>
-      <div className="sr-only" aria-live="polite" aria-atomic="true">
-        {pending
-          ? motion.phase === "opening"
-            ? "Opening the case"
-            : motion.phase === "closing"
-              ? "Closing the case"
-              : "Loading the view"
-          : item
-            ? item.title
-            : hasOpened
-              ? "Case open. Select a pair of glasses."
-              : "Case closed."}
-      </div>
-    </section>
+          {(failed || stillFailed) && (
+            <div className="collector-case-error" role="status">
+              <span>
+                {stillFailed
+                  ? "the view couldn’t load"
+                  : "the film couldn’t load"}
+              </span>
+              <button type="button" onClick={retry}>
+                retry
+              </button>
+            </div>
+          )}
+        </div>
+        <p id="collector-case-instructions" className="sr-only">
+          Scroll to open the case, or activate it to open. One pair is shown at
+          a time. Use the arrows in the scene to change the lenses. Select the
+          frame for a closer view. Arrow keys, Home and End select lens colours;
+          Escape returns to the full case.
+        </p>
+      </section>
+    </>
   );
 }

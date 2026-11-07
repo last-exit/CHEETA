@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-06",
+  "purpose": "Replace separately transformed Gun case PNGs with one physically animated palace scene.",
+  "status": "Provisional generated campaign imagery, pending product approval; no catalog, price or checkout identity changes.",
+  "generation": {
+    "provider": "Google Flow",
+    "model": "Veo 3.1 Quality",
+    "approved_credits": 100,
+    "outputs": 1,
+    "quoted_seconds": 8,
+    "ratio": "16:9",
+    "project": "https://flow.google.com/project/f35a0ec9-046a-435c-afec-dd714c3b6cbb",
+    "scene": "d1cc75eb-c3ae-46f8-8b0a-e13d87e52f60",
+    "download": "Hinge_opening_box_with_eyewear_118ed8f3.mp4",
+    "original_request_prompt": "Prepare exactly ONE silent 8-second 16:9 Veo 3.1 Quality film. Use ONLY these TWO newly attached palace case keyframes. First image is the CLOSED start with brass antler handles, second image is the OPEN finish with exactly ONE octagonal ruby Maharajah pair. Ignore all previous Masquerade portraits, studio cases, videos and other reference images in this project. One continuous physical opening shot, no photo zoom or slideshow, no dissolve, fade, morph, cut or changing room. Hold the closed case briefly. The solid wood lid rotates backwards smoothly on its rear brass hinges with realistic weight; the two brass antler handles stay rigidly attached to its exterior and become naturally occluded behind the open lid. The case body, marble ledge and palace architecture remain stationary and identical. Keep the camera locked to the same reference composition; true hinge motion, moving reflections and physical occlusion provide depth. Exactly ONE Maharajah pair remains supported by the burgundy velvet inside throughout, never floating or lifting. Preserve its TWO OCTAGONAL ruby lenses, ornate gold rim and bridge, red cabochons, engraved paired barrel temples and the folded wooden arms from the END reference. Do not replace it with aviators, multiply the pair, detach the lenses or invent engraving. Preserve the case wood grain, brass corners, front keyhole, inner lid Cheeta branding and single undivided tray. No extra compartments, cloth, booklet, watches, metal accessories, hands, people, weapons or animals. Keep the pale Mughal palace, light direction and calm photographic exposure consistent. Finish with the exact open-keyframe composition, perfectly stationary for the last 1.25 seconds. This end hold will support direct website interaction, so do not reframe or drift. No text overlays, logos beyond the original case, particles, mist, flare, music, speech or audio.",
+    "confirmed_ui_prompt": "QUOTE ONLY. Do not generate or spend credits until I explicitly confirm the approval card. Quote exactly ONE silent 8-second 16:9 Veo 3.1 Quality video using ONLY the two attached images, in order: closed antler-handled case in the pale palace, then the same open case holding ONE octagonal ruby Maharajah pair. One continuous physical hinge opening, locked camera and stationary case body. The solid lid rotates backwards, antlers rigidly attached outside and naturally occluded behind it. Preserve the palace, marble, wood, brass corners, central keyhole and single burgundy tray. The ONE eyewear pair stays supported inside, with two octagonal ruby lenses, ornate gold rim, bridge, red cabochons and engraved paired-barrel temples. No aviators, extra pairs or objects. No fade, dissolve, slideshow, photo zoom, morph, cut, new engraving, hands, people, text overlays, particles or audio. Match the attached end image and hold it perfectly still for the last 1.25 seconds. No alternatives. Show the cost and wait for approval.",
+    "approval": "Explicit user approval for one 100-credit film; specific Approve radio selected once. No Always approve setting or extra output."
+  },
+  "keyframes": {
+    "tool": "Built-in image_gen",
+    "reference_sources": [
+      "client/public/campaigns/gun/palace/case-palace-v1.webp",
+      "client/public/campaigns/gun/maharajah-launch-study.jpg",
+      "client/public/campaigns/gun/collectors-case/closed-motion-v1.webp"
+    ],
+    "source_pngs": [
+      "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-690f9260-a09c-40db-9788-09c736e8d471.png",
+      "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-3c59a815-92b4-4bd4-a34f-398a49316d9f.png"
+    ],
+    "recorded_edit_briefs": {
+      "open": "Preserve the pale Mughal palace, marble ledge, camera, case body and burgundy undivided tray. Insert exactly one supported Maharajah pair using the supplied octagonal ruby reference. Keep both octagonal lenses, ornate gold rim, red cabochons and paired-barrel temples. Arms rest naturally folded behind. No floating cutout, extra objects, compartments, people or text overlays.",
+      "closed": "Edit the matching open keyframe into the closed state only. Preserve the architecture, body, camera, light, wood, brass corners, front keyhole and placement. Use the prior closed-lid reference only for the exterior antler handles, which must remain rigidly attached to the lid. No new plaque or extra objects."
+    },
+    "preserved_outputs": [
+      "client/public/campaigns/gun/cinema/case-closed-v2.webp",
+      "client/public/campaigns/gun/cinema/case-open-v2.webp"
+    ]
+  },
+  "processing": {
+    "runtime_video": "client/public/campaigns/gun/cinema/case-opening-v2.mp4",
+    "resolution": [1280, 720],
+    "fps": 24,
+    "frames": 190,
+    "duration_seconds": 7.916666666666667,
+    "encoding": "H.264, CRF 18, six-frame GOP, yuv420p, faststart; source audio removed. No artificial upscaling or added grading.",
+    "posters": "First and last decoded frames, WebP quality 94. The runtime tint uses only the final frame's glass, leaving the rim, bridge and temples unchanged.",
+    "runtime_posters": ["closed-film-v2.webp", "open-film-v2.webp"]
+  },
+  "quality_review": {
+    "viewed": "Eight-frame contact sheet and full final frame; browser forward/reverse playback and inspection.",
+    "observations": "One case and one octagonal pair. Rear-hinged opening, exterior antlers occlude behind the lid, consistent palace/case viewpoint. Mild generated reflections and detail variation remain; source is provisional. The prior aviator-morphing film is not used."
+  },
+  "archive": "../gun-case-film-review-2026-11-06/downloads/flow-case-opening-original.mp4"
+}

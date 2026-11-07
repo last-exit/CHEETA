@@ -15,7 +15,7 @@ export const CAMPAIGN_EDITORIAL = {
     },
     campaign: {
       title: "Out in the open.",
-      body: "Eisa Saidi appears on horseback in the campaign. The open landscape gives the frame a different setting from the studio study. A turn of the head, the movement of the horse and the changing angle of the light bring its outline back to the face.",
+      body: "Eisa Saidi appears on horseback in the campaign. The open landscape gives the frame a different setting from the palace gallery. A turn of the head, the movement of the horse and the changing angle of the light bring its outline back to the face.",
     },
     founder:
       "Cheeta Jewels begins with Eisa Saidi’s point of view. He steps into The Gun Collection campaign himself, taking the frame from the studio into the open landscape. The house philosophy continues his story.",

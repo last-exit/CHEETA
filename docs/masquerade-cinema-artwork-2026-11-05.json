@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-05",
+  "status": "Generated one approved 100-credit film, inspected and integrated on localhost. No GitHub push or deployment.",
+  "image_tool": "Built-in image_gen.imagegen",
+  "opening": {
+    "prompt": "Use case: ads-marketing. Asset type: START KEYFRAME for an eight-second single-take cinematic Cheeta Jewels Masquerade campaign, wide 16:9. Input 1 is the face/character identity reference. Input 2 is the exact black cat-eye eyewear and openwork silhouette reference. Preserve the same adult pale woman, dark eyes, burgundy lips, centre-parted jet black hair tightly smoothed into a small low bun. She is approximately 28 years old. Preserve the supplied frame: glossy black cat-eye front with two lenses, delicate irregular openwork wings at the outer brows/temples; no jewels, chains, silver, new engraving or additional mask. Camera close to the face, just below her eye level, three-quarter frontal portrait from her left. The woman occupies the right two-thirds of the frame, her head and upper chest visible; her gaze meets the camera through the very dark lenses. Victorian-inspired structured black silk evening gown, fully clothed, square neckline and long fitted sleeves. Setting: a single quiet ivory Mughal palace gallery, tall cusped arch, restrained carved pale stone, a dark burgundy door far behind, a few out-of-focus candle flames deep in the room. Intimate nocturnal fashion-film atmosphere, physically believable cinematic 3D lighting and depth: cool pale bounced light on skin, warm candle glints on the black openwork, deep soft shadow, realistic skin texture. The left quarter is simple softly lit ivory stone for sparse HTML typography. Editorial photographic fidelity, 50mm cinematic lens, not a flat illustration or beauty retouch. No extra people, furniture, plants, haze, smoke, particles, lens flares, grain, ornate props, collage, typography, logo or watermark. One coherent real space. The matching END keyframe will pull far back in the SAME room around this SAME woman. Treat this as a camera/identity anchor for an actual moving film, not a finished webpage.",
+    "source": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-bb7d9b86-0786-429d-b88a-d41c4b0755e5.png",
+    "asset": "client/public/campaigns/masquerade/cinema/opening-v1.webp"
+  },
+  "closing": {
+    "prompt": "Use case: identity-preserve. Asset type: matching END KEYFRAME for the same single-take Cheeta Jewels Masquerade film. Input 1 is the EXACT opening portrait and the identity/lighting/wardrobe/space reference. Input 2 is the exact eyewear geometry reference. Create the shot after the camera has slowly dolly-pulled back and orbited approximately 25 degrees to the woman's right, revealing her FULL FIGURE standing alone in this SAME quiet ivory Mughal palace gallery. Preserve her face, pale skin, burgundy lips, black centre-parted hair in a tightly smoothed low bun, SAME black openwork cat-eye frame and fitted long-sleeve black silk Victorian evening gown, now showing its long simple floor-length skirt. She stands still with relaxed hands, one at her side and one loosely in front, no props. Her head turns subtly towards the camera. The SAME mask stays on her face, exactly one pair, no floating or duplicated eyewear. Repeated cusped Mughal arches, still pale stone, distant dark burgundy doorway, a few small candle flames deep behind her. Intimate softly shadowed candlelit atmosphere with cool ivory bounced light and warm glints, high-end photographic 3D depth, natural skin, unretouched physical materials. Full person about 65% of image height, placed just RIGHT of centre at x60%, feet fully visible near y90%; plenty of quiet pale architecture left for small HTML text. Landscape 16:9, same 50mm physical perspective, no fisheye, no different room, no extra people, paintings, flowers, furniture, ornate props, animal patterns, mist, particles, grain, halo, flares, typography, branding or watermark. This must feel like the same camera has moved within one continuous space, not a different campaign or model.",
+    "source": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-44c8a104-856a-4c17-893b-881d38d2df93.png",
+    "asset": "client/public/campaigns/masquerade/cinema/closing-v1.webp"
+  },
+  "dimensions": [
+    1672,
+    941
+  ],
+  "encoding": "WebP q92, opaque photographs, source grading preserved",
+  "limits": "Provisional campaign scenography and generated model/eyewear depiction, pending approval; not a verified real venue or a new manufactured product. A generated cinematic film provides apparent 3D camera movement; there is no editable product/character 3D mesh.",
+  "flow": {
+    "quote": {
+      "duration_seconds": 8,
+      "ratio": "16:9",
+      "model": "Veo 3.1 Quality",
+      "resolution": "720p",
+      "outputs": 1,
+      "credits": 100
+    },
+    "status": "completed",
+    "prepared_request": {
+      "auto_confirm": false,
+      "model": "veo-3.1-quality",
+      "duration": 8,
+      "ratio": "16:9",
+      "project_url": "https://flow.google.com/project/f35a0ec9-046a-435c-afec-dd714c3b6cbb",
+      "output_dir": "/Users/fazalhaque/Downloads/cheeta-jewels(2)/masquerade-film-review-2026-11-05/downloads",
+      "reference_images": [
+        "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-bb7d9b86-0786-429d-b88a-d41c4b0755e5.png",
+        "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-44c8a104-856a-4c17-893b-881d38d2df93.png"
+      ],
+      "prompt": "Generate exactly ONE silent 8-second 16:9 Veo 3.1 Quality cinematic Masquerade campaign film, using ONLY the TWO newly attached Masquerade keyframes. Image1 is the exact START close portrait; Image2 the exact END full-figure palace view. Do not use ANY old Gun case images or old videos in this project. ONE continuous physical camera shot, no cuts, fades, dissolves, photo morphs or still-image slideshow. Preserve ONE identical adult pale woman with centre-parted jet-black hair tightly swept into a low bun, burgundy lips, structured black silk Victorian evening gown and the exact glossy black cat-eye openwork eyewear worn in both references. Preserve face, two lenses, bridge and delicate openwork wings in every frame; no invented stones, engraving or extra masks. Start at close eye level on her gaze. During seconds0-2 move laterally around her about20degrees so the black sculptural openwork catches warm candle reflections with actual perspective and occlusion. During seconds2-7 camera dollies slowly backwards and a little sideways through the SAME Mughal palace gallery, widening from face to full figure while arch layers reveal genuine spatial parallax. She barely turns her head to maintain eye contact, breathes naturally, stays in place. Same single room and continuous lighting: intimate ivory carved-stone cusped arches, pale cool bounce on skin, burgundy doorway far behind, only a few small candle flames. Hold the END composition the final second. Photoreal cinematic 3D depth, natural skin and physical black silk, subtle moving specular highlights, 50mm lens. No collage, flat photo zoom, scene change, floating eyewear, duplicate people, transformation/melting of the mask, props, text, logos, captions, watermark, particles, smoke, film grain, artificial flare or audio. This is a quiet luxury fashion film, sensual in expression and fully clothed."
+    },
+    "ingredients_verified": "The tool initially attached an old Gun case image incorrectly. It was removed through the UI. The quote-only chat now contains exactly the opening portrait and closing palace images, in that order. Confirmation setting remains Always. Never reattach reference_images blindly.",
+    "credit_approval": "User explicitly approved one Masquerade film for 100 credits on 2026-11-05.",
+    "delivered": {
+      "media": "6edf733f",
+      "editorId": "b1e6c5c7-4a8a-4755-8a55-1af38cefa928",
+      "source": "/Users/fazalhaque/Downloads/Woman_in_Victorian_gown_standing_6edf733f.mp4",
+      "downloadMethod": "Flow editor Download media > 720p Original size",
+      "credits": 100,
+      "outputs": 1
+    },
+    "source_media": {
+      "width": 1280,
+      "height": 720,
+      "frames": 190,
+      "fps": 24,
+      "duration": 7.933,
+      "source_audio": "AAC stereo, removed from delivery"
+    },
+    "delivery": {
+      "video": "client/public/campaigns/masquerade/cinema/journey-v1.mp4",
+      "opening": "client/public/campaigns/masquerade/cinema/opening-film-v1.webp",
+      "closing": "client/public/campaigns/masquerade/cinema/closing-film-v1.webp",
+      "video_encoding": "H264 crf18, 24fps, keyframe every6frames, yuv420p, faststart, no audio. Native1280x720, no upscale.",
+      "posters": "Actual source frames0 and189, WebP q95. Treatment keyframes retained unchanged."
+    }
+  },
+  "qa": {
+    "automated": "Type checking, production build, git diff --check and all 70 tests across 12 files pass.",
+    "browser": "Real delivered film checked at 1280x720, 1480x1034, 320px and 375px widths. No horizontal overflow; complete openwork phone framing. Forward and reverse returned to identical scroll position and decoded frame. Rapid scroll settled to latest requested frame. Gallery next/previous and Escape/focus restoration verified.",
+    "fallback": "Missing-source, reduced-motion and controller fixtures were tested and restored. Failure shows static posters and retry; reduced motion omits video/canvas and the pinned scroll section.",
+    "evidence": "../masquerade-film-review-2026-11-05/actual-film-checks.json; final-masquerade-opening.png; final-masquerade-reveal.png; film-contact-sheet.jpg",
+    "delivery": "Default Masquerade route now uses the single film. No GitHub push or deployment."
+  }
+}

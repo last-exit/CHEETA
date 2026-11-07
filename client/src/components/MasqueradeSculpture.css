@@ -1,0 +1,103 @@
+.masquerade-cinema-ending {
+  position: relative;
+  z-index: 1;
+}
+.masquerade-sculpture {
+  position: relative;
+  padding-block: 80px 0;
+  isolation: isolate;
+  color: var(--house-ink);
+}
+.masquerade-sculpture-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 40px;
+}
+.masquerade-sculpture-heading h2 {
+  max-width: 12ch;
+  font: 400 clamp(44px, 5.2vw, 78px) / 1.02 var(--font-serif);
+  letter-spacing: -0.04em;
+}
+.masquerade-sculpture-heading em {
+  font-weight: 400;
+}
+.masquerade-sculpture-stage {
+  position: relative;
+  height: clamp(320px, min(36vw, 58svh), 560px);
+  max-width: 1600px;
+  margin: 0 auto;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  cursor: grab;
+  outline: none;
+}
+.masquerade-sculpture-stage[data-dragging="true"] {
+  cursor: grabbing;
+}
+.masquerade-sculpture-stage:focus-visible {
+  outline: 1px solid #baa9a5;
+  outline-offset: -16px;
+  border-radius: 3px;
+}
+.masquerade-sculpture-canvas,
+.masquerade-sculpture-canvas canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.masquerade-sculpture-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.masquerade-sculpture-stage[data-state="ready"] .masquerade-sculpture-poster {
+  visibility: hidden;
+}
+.masquerade-sculpture-retry {
+  min-height: 44px;
+  font-size: 12px;
+}
+.masquerade-sculpture-retry button {
+  min-height: 44px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--house-muted);
+}
+@media (max-width: 767px) {
+  .masquerade-sculpture {
+    padding-top: 56px;
+  }
+  .masquerade-sculpture-heading {
+    display: block;
+  }
+  .masquerade-sculpture-heading h2 {
+    font-size: clamp(40px, 11vw, 60px);
+  }
+  .masquerade-sculpture-stage {
+    height: clamp(280px, 78vw, 420px);
+    margin-top: 12px;
+  }
+}
+
+.masquerade-sculpture::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -180px 0 -280px;
+  pointer-events: none;
+  background: url("/campaigns/masquerade/after-dark.webp") center / cover
+    no-repeat;
+  opacity: 0.07;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 26%,
+    #000 68%,
+    transparent
+  );
+}

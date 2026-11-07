@@ -35,7 +35,7 @@
   },
   "limitation": "Provisional generated campaign illustration, not verified product or packaging photography. Three lens colours use existing provisional Maharajah previews; no new product identities or purchase promises.",
   "flow": {
-    "status": "quote_only",
+    "status": "superseded_do_not_generate",
     "model": "Veo 3.1 Quality",
     "duration": 8,
     "ratio": "16:9",

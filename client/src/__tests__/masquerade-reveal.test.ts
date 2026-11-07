@@ -14,6 +14,7 @@ vi.mock("wouter", async importOriginal => ({
   useParams: () => ({ id: "masquerade" }),
 }));
 import { masqueradeReveal } from "../lib/masqueradeReveal";
+import { MASQUERADE_CINEMA } from "../lib/masqueradeCinema";
 
 describe("Masquerade scroll reveal", () => {
   it("reserves a complete object at entry and the exhibition at exit", () => {
@@ -78,7 +79,7 @@ describe("Masquerade reduced motion", () => {
 });
 
 describe("Masquerade campaign sequencing", () => {
-  it("plays the campaign once and reveals the exhibition without the old repeated studio image", () => {
+  it("continues one film into an interactive sculpture without a photograph carousel", () => {
     media.reduced = false;
     try {
       const markup = renderToStaticMarkup(
@@ -88,15 +89,41 @@ describe("Masquerade campaign sequencing", () => {
           createElement(CollectionDetail)
         )
       );
-      expect(markup.match(/<video\b/g)).toHaveLength(1);
-      expect(
-        markup.match(
-          /<img[^>]+src="\/campaigns\/masquerade\/exhibition-study-v1.webp"/g
-        )
-      ).toHaveLength(1);
+      expect(markup.match(/<video\b/g)).toHaveLength(
+        MASQUERADE_CINEMA.available ? 2 : 1
+      );
+      if (MASQUERADE_CINEMA.available) {
+        expect(markup).toContain('class="masquerade-cinema"');
+        expect(markup).toContain(MASQUERADE_CINEMA.opening);
+        expect(markup).not.toContain("masquerade-portrait-composition");
+        expect(markup).not.toContain("exhibition-study-v1.webp");
+        expect(markup).not.toContain("masquerade-cinema-room");
+        expect(markup).toContain(
+          'aria-label="Interactive Masquerade sculpture"'
+        );
+        expect(markup).toContain(
+          "A sculptural interpretation of The Masquerade"
+        );
+        expect(markup).not.toContain('aria-roledescription="carousel"');
+        expect(markup).not.toContain("campaign photographs");
+        expect(markup.indexOf('class="masquerade-sculpture"')).toBeGreaterThan(
+          markup.indexOf("</canvas>")
+        );
+        expect(markup.indexOf('class="masquerade-coda"')).toBeGreaterThan(
+          markup.indexOf('class="masquerade-sculpture"')
+        );
+        expect(markup).toContain("/videos/masquerade.mp4");
+        expect(markup).toContain("available exclusively at our showroom");
+        expect(markup).not.toContain("masquerade-sculpture-controls");
+        expect(markup).not.toContain("masquerade-sculpture-hint");
+      } else
+        expect(
+          markup.match(
+            /<img[^>]+src="\/campaigns\/masquerade\/exhibition-study-v1.webp"/g
+          )
+        ).toHaveLength(1);
       expect(markup).not.toContain("shadow-study.webp");
       expect(markup).not.toContain("campaign-editorial-note");
-      expect(markup).not.toContain("after-dark.webp");
       expect(markup).not.toContain("In detail");
       expect(markup).not.toContain("masquerade-study-choices");
       expect(markup).toContain("Unseen");

@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-07",
+  "purpose": "Product-led white and gold Gun campaign, replacing the founder portrait chapter.",
+  "selected": {
+    "tool": "Built-in image_gen",
+    "source_png": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-67426811-899a-4e0f-b092-2e837ceda87f.png",
+    "runtime": "client/public/campaigns/gun/folio/maharajah-front-v2.webp",
+    "width": 1983,
+    "height": 793,
+    "transparent": true,
+    "format_conversion": "WebP quality 94, alpha preserved. No crop, rescale or extra sharpening.",
+    "reference": "client/public/campaigns/gun/maharajah-launch-study.jpg",
+    "prompt": "Extract ONLY the straight-on front view of the real eyewear shown in the LOWER LEFT photograph of this reference collage. Produce a high-quality photographic studio cutout with a truly transparent background. Preserve the exact frame identity from that LOWER LEFT photograph: two large regular OCTAGONAL ruby tinted lenses, thin intricately engraved gold rims, thin gold arched bridge, nose pads, paired circular gun-barrel forms on EACH outer side, with exactly the small ruby jewel details at the outer hinges seen in the reference. Do NOT add round cabochons around the octagonal rims. The octagonal rims have engraved gold edges, not a ring of new gems. Keep the same proportions as that lower-left front view, do not use the top three-quarter view or invent another frame. Include both full outer barrel ends. Folded dark wood arms should remain visible through the translucent ruby lenses exactly as in the reference. Remove the black backdrop and reflections outside the eyewear. Clean antialiased gold edges with NO red fringe, NO yellow fringe, NO stray pixels outside the glasses. Transparent space between bridge and nose pads. Center the complete single pair in a wide canvas with 8 percent clear space. No external shadow, pedestal, border, lighting effect, text, branding, decorative elements or extra objects."
+  },
+  "rejected": {
+    "source_png": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-8660dcb7-dc7d-4ae7-b501-1d36a7d06b98.png",
+    "references": [
+      "client/public/campaigns/gun/palace/maharajah-front-v1.webp",
+      "client/public/campaigns/gun/maharajah-launch-study.jpg"
+    ],
+    "reason": "Cleanup of the older extraction retained extra round rim cabochons that were not sufficiently consistent with the launch reference. Not used.",
+    "prompt_brief": "Clean red/yellow edge fringing and background remnants from the existing straight-on extraction on transparent, preserving its existing geometry and engraving. The existing extraction was subsequently rejected as the wrong reference for this pass."
+  },
+  "status": "Provisional generated campaign interpretation informed by the supplied launch reference. Geometry/detail are not manufacturer-approved; not fit or production evidence.",
+  "unaltered_detail_source": "client/public/campaigns/gun/maharajah-launch-study.jpg",
+  "decoration": "Small code-native botanical ornament and an octagonal line drawing. Decorative only, not an official house mark or a product detail.",
+  "credits": "No new Google Flow or Higgsfield generation was submitted. Existing approved films are unchanged."
+}

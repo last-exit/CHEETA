@@ -1,0 +1,49 @@
+.collection-page.collection-barrel {
+  position: relative;
+  isolation: isolate;
+}
+.gun-architecture {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: clip;
+  pointer-events: none;
+  user-select: none;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 32%,
+    rgb(0 0 0 / 20%) 55%,
+    #000 90%
+  );
+}
+.gun-architecture-light {
+  position: absolute;
+  top: 8svh;
+  right: -10vw;
+  display: block;
+  width: clamp(660px, 72vw, 1180px);
+  height: max(120svh, 920px);
+  transform: skewX(-11deg) rotate(7deg);
+  transform-origin: 60% 70%;
+}
+.collection-barrel .gun-exhibition,
+.collection-page.collection-barrel .house-footer {
+  background: transparent;
+}
+@media (max-width: 767px) {
+  .gun-architecture {
+    opacity: 0.6;
+    mask-image: linear-gradient(
+      90deg,
+      transparent 18%,
+      rgb(0 0 0 / 25%) 55%,
+      #000
+    );
+  }
+  .gun-architecture-light {
+    top: 4svh;
+    right: -300px;
+    width: 640px;
+    height: max(120svh, 940px);
+  }
+}
