@@ -1,91 +1,138 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Volume2, VolumeX } from "lucide-react";
 import { Link } from "wouter";
-import CampaignVideo from "@/components/CampaignVideo";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
 import { HouseFooter } from "@/components/HouseFooter";
 import ScrollReveal from "@/components/ScrollReveal";
+import PhilosophyDiamond from "@/components/PhilosophyDiamond";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import "./Philosophy.css";
 
-/** A single native-scroll reveal; the photograph remains intact and unfiltered. */
-function InstinctChapter() {
-  const section = useRef<HTMLElement>(null);
-  const image = useRef<HTMLDivElement>(null);
+const identity = {
+  film: "/philosophy/identity-passage.mp4",
+  poster: "/philosophy/identity-film-poster.jpg",
+};
+
+/** The supplied founder film, silent until deliberately invited to speak. */
+function FounderFilm() {
+  const video = useRef<HTMLVideoElement>(null);
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const [listening, setListening] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    const root = section.current;
-    const visual = image.current;
-    if (!root || !visual) return;
-    let frame = 0;
+    const player = video.current;
+    if (reduced) setListening(false);
+    if (!player || reduced) return;
     let visible = false;
-    const render = () => {
-      frame = 0;
-      const rect = root.getBoundingClientRect();
-      const progress = Math.max(
-        0,
-        Math.min(1, -rect.top / Math.max(1, rect.height - window.innerHeight))
-      );
-      const staticView =
-        reduced || window.innerWidth < 768 || window.innerHeight < 600;
-      visual.style.clipPath = staticView
-        ? "none"
-        : `inset(${22 * (1 - progress)}% ${18 * (1 - progress)}%)`;
-    };
-    const schedule = () => {
-      if (visible && !document.hidden && !frame)
-        frame = window.requestAnimationFrame(render);
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      if (visible) schedule();
-      else if (frame) {
-        cancelAnimationFrame(frame);
-        frame = 0;
+    const sync = () => {
+      if (visible && !document.hidden) void player.play().catch(() => {});
+      else {
+        player.pause();
+        player.muted = true;
+        setListening(false);
       }
-    });
-    observer.observe(root);
-    const resize = new ResizeObserver(schedule);
-    resize.observe(root);
-    render();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    document.addEventListener("visibilitychange", schedule);
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(player);
+    player.addEventListener("loadeddata", sync);
+    document.addEventListener("visibilitychange", sync);
     return () => {
       observer.disconnect();
-      resize.disconnect();
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      document.removeEventListener("visibilitychange", schedule);
+      player.removeEventListener("loadeddata", sync);
+      document.removeEventListener("visibilitychange", sync);
+      player.pause();
+      player.muted = true;
     };
   }, [reduced]);
 
   return (
-    <section
-      ref={section}
-      className="philosophy-instinct"
-      aria-labelledby="instinct-title"
-    >
-      <div className="philosophy-instinct-stage house-container">
-        <div className="philosophy-instinct-heading">
-          <h2 id="instinct-title">A name earned in the ring.</h2>
+    <div className="philosophy-voice-player">
+      <div className="philosophy-voice-frame">
+        <div className="philosophy-voice-picture" data-philosophy-dark>
+          {reduced || failed ? (
+            <img
+              src={identity.poster}
+              alt="Eisa Saidi speaking in the supplied Cheeta identity film"
+              width="816"
+              height="576"
+              loading="lazy"
+            />
+          ) : null}
+          {!reduced && (
+            <video
+              ref={video}
+              src={identity.film}
+              poster={identity.poster}
+              muted={!listening}
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Eisa Saidi in his own words"
+              hidden={failed}
+              onError={() => {
+                setFailed(true);
+                setListening(false);
+              }}
+            />
+          )}
         </div>
-        <div ref={image} className="philosophy-gaze">
-          <img
-            src="/manus-storage/cheeta-gaze-landscape.jpg"
-            alt="A close view of a cheetah’s amber eye"
-            width="1200"
-            height="896"
-            loading="lazy"
-            decoding="async"
-            data-philosophy-dark
-          />
-        </div>
+        <img
+          className="philosophy-voice-surround"
+          src="/philosophy/ivory-film-surround-v3.webp"
+          alt=""
+          aria-hidden="true"
+          width="1536"
+          height="1024"
+          loading="lazy"
+          decoding="async"
+        />
       </div>
-    </section>
+      {!reduced && (
+        <div className="philosophy-voice-action">
+          {failed ? (
+            <button
+              type="button"
+              onClick={() => {
+                setFailed(false);
+                video.current?.load();
+              }}
+            >
+              retry film <ArrowUpRight size={16} aria-hidden="true" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              aria-pressed={listening}
+              aria-label={
+                listening ? "Mute Eisa’s film" : "Listen to Eisa’s film"
+              }
+              onClick={() => {
+                const player = video.current;
+                if (!player) return;
+                player.muted = !player.muted;
+                setListening(!player.muted);
+                if (!player.muted) void player.play().catch(() => {});
+              }}
+            >
+              {listening ? "mute" : "listen"}
+              {listening ? (
+                <Volume2 size={16} aria-hidden="true" />
+              ) : (
+                <VolumeX size={16} aria-hidden="true" />
+              )}
+            </button>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -100,17 +147,19 @@ export default function Philosophy() {
     const sync = () => {
       frame = 0;
       const media = page.current?.querySelectorAll<HTMLElement>(
-        "[data-philosophy-dark], .house-footer"
+        "[data-philosophy-dark]"
       );
       const overImage = (x: number, y: number) =>
         Array.from(media ?? []).some(item => {
-          const rect = item.getBoundingClientRect();
-          return (
-            rect.left <= x &&
-            rect.right >= x &&
-            rect.top <= y &&
-            rect.bottom >= y
-          );
+          const r = item.getBoundingClientRect();
+          if (x < r.left || x > r.right || y < r.top || y > r.bottom)
+            return false;
+          if (item.hasAttribute("data-philosophy-oval")) {
+            const dx = (x - r.left - r.width / 2) / (r.width / 2);
+            const dy = (y - r.top - r.height / 2) / (r.height / 2);
+            return dx * dx + dy * dy <= 1;
+          }
+          return true;
         });
       setLightPaw(overImage(window.innerWidth < 768 ? 40 : 64, 72));
       setLightMonogram(overImage(window.innerWidth / 2, 48));
@@ -129,90 +178,142 @@ export default function Philosophy() {
   }, []);
 
   return (
-    <main ref={page} className="philosophy-page philosophy-editorial">
+    <main ref={page} className="philosophy-page philosophy-revival">
       <CheetahBar tone={lightPaw ? "light" : "dark"} />
       <HeaderWordmark dark={lightMonogram} />
 
-      <header className="philosophy-opening house-container">
-        <div className="philosophy-opening-copy">
-          <h1>
-            Diamonds
-            <br />
-            are made
-            <br />
-            in the <em>rough.</em>
-          </h1>
+      <header className="philosophy-cover" aria-labelledby="philosophy-title">
+        <img
+          className="philosophy-salon"
+          src="/philosophy/ivory-salon-v2.webp"
+          alt=""
+          aria-hidden="true"
+          width="1586"
+          height="992"
+          fetchPriority="high"
+          decoding="async"
+        />
+        <div className="philosophy-cover-type house-container">
+          <h1 id="philosophy-title">Philosophy</h1>
+          <h2 className="philosophy-credo">
+            <span>Diamonds are made</span>{" "}
+            <span>
+              in the <em>rough.</em>
+            </span>
+          </h2>
+          <a
+            className="philosophy-enter"
+            href="#eisa-saidi"
+            aria-label="Discover Eisa Saidi’s story"
+          >
+            <ArrowDown size={18} strokeWidth={1.25} aria-hidden="true" />
+          </a>
         </div>
-        <figure className="philosophy-founder">
-          <img
-            src="/philosophy/eisa-portrait.jpg"
-            alt="Eisa Saidi, founder of Cheeta Jewels, in a still from his identity film"
-            width="545"
-            height="506"
-            fetchPriority="high"
-            data-philosophy-dark
-          />
-          <figcaption>Eisa Saidi, ceo</figcaption>
-        </figure>
+        <PhilosophyDiamond />
       </header>
 
       <section
-        className="philosophy-origin house-container"
-        aria-labelledby="individuality-title"
+        id="eisa-saidi"
+        className="philosophy-person"
+        aria-labelledby="eisa-title"
       >
-        <ScrollReveal>
-          <h2 id="individuality-title">
-            What was mocked first
-            <br />
-            <em>was copied later.</em>
-          </h2>
-        </ScrollReveal>
-      </section>
-
-      <section
-        className="philosophy-conversation house-container"
-        aria-labelledby="conversation-title"
-      >
-        <ScrollReveal className="philosophy-film-heading">
-          <h2 id="conversation-title">In his own words.</h2>
-        </ScrollReveal>
-        <div className="philosophy-film" data-philosophy-dark>
-          <CampaignVideo
-            src="/philosophy/identity-passage.mp4"
-            poster="/philosophy/identity-film-poster.jpg"
-            className="philosophy-film-media"
-          />
+        <div className="philosophy-person-layout house-container">
+          <ScrollReveal className="philosophy-person-masthead">
+            <h2 id="eisa-title">
+              Eisa <em>Saidi.</em>
+            </h2>
+            <span>ceo</span>
+          </ScrollReveal>
+          <div className="philosophy-person-spread">
+            <figure className="philosophy-founder-portrait">
+              <img
+                src="/philosophy/eisa-evening-portrait-v3.webp"
+                alt="Eisa Saidi, founder and CEO of Cheeta Jewels"
+                width="1202"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+                data-philosophy-dark
+              />
+            </figure>
+            <ScrollReveal className="philosophy-person-story">
+              <h3>
+                What was mocked first
+                <br />
+                <em>was copied later.</em>
+              </h3>
+              <p>
+                Eisa wore braids to school, despite the ridicule. The same look
+                was later copied. That experience of standing apart is part of
+                Cheeta’s beginning.
+              </p>
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
-      <InstinctChapter />
+      <section
+        className="philosophy-voice house-container"
+        aria-labelledby="voice-title"
+      >
+        <div className="philosophy-voice-layout">
+          <ScrollReveal className="philosophy-voice-heading">
+            <h2 id="voice-title">
+              In his
+              <br />
+              <em>own words.</em>
+            </h2>
+          </ScrollReveal>
+          <FounderFilm />
+        </div>
+      </section>
 
       <section
-        className="philosophy-expression house-container"
-        aria-labelledby="expression-title"
+        className="philosophy-instinct-spread house-container"
+        aria-labelledby="instinct-title"
       >
-        <ScrollReveal className="philosophy-expression-copy">
-          <div>
-            <h2 id="expression-title">
-              Jewellery,
-              <br />
-              <em>in another form.</em>
-            </h2>
-          </div>
-          <div className="philosophy-expression-note">
-            <Link
-              href="/collection/barrel"
-              className="philosophy-campaign-link"
-            >
-              explore the collections{" "}
-              <ArrowUpRight size={18} aria-hidden="true" />
-            </Link>
-          </div>
+        <ScrollReveal className="philosophy-instinct-copy">
+          <h2 id="instinct-title">
+            A name earned
+            <br />
+            in the <em>ring.</em>
+          </h2>
+          <p>
+            Cheeta was Eisa’s boxing nickname. It became the name of the house.
+          </p>
         </ScrollReveal>
-        <figure className="philosophy-expression-image">
+        <figure className="philosophy-instinct-art">
+          <img
+            src="/philosophy/ivory-cheetah-v2.webp"
+            alt="An ivory campaign sculpture of a reclining cheetah, above carved acanthus leaves"
+            width="1895"
+            height="830"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </section>
+
+      <section
+        className="philosophy-inheritance house-container"
+        aria-labelledby="inheritance-title"
+      >
+        <ScrollReveal className="philosophy-inheritance-copy">
+          <h2 id="inheritance-title">
+            An eye for
+            <br />
+            <em>another era.</em>
+          </h2>
+          <p>
+            His father’s collection of antiques and paintings informs Cheeta’s
+            visual world. That collecting heritage finds another expression in
+            jewellery and eyewear.
+          </p>
+        </ScrollReveal>
+        <figure className="philosophy-inheritance-image">
           <img
             src="/stills/barrel-founder-wide.jpg"
-            alt="Eisa wearing the octagonal eyewear on horseback in the Gun collection film"
+            alt="Eisa wearing Maharajah on horseback in The Gun Collection film"
             width="832"
             height="464"
             loading="lazy"
@@ -222,7 +323,71 @@ export default function Philosophy() {
         </figure>
       </section>
 
+      <section
+        className="philosophy-colophon house-container"
+        aria-labelledby="expression-title"
+      >
+        <ScrollReveal>
+          <h2 id="expression-title">
+            Jewellery,
+            <br />
+            <em>in another form.</em>
+          </h2>
+          <div className="philosophy-collection-links">
+            <Link href="/collection/barrel">
+              The Gun Collection{" "}
+              <ArrowUpRight size={18} strokeWidth={1.25} aria-hidden="true" />
+            </Link>
+            <Link href="/collection/masquerade">
+              The Masquerade{" "}
+              <ArrowUpRight size={18} strokeWidth={1.25} aria-hidden="true" />
+            </Link>
+          </div>
+        </ScrollReveal>
+        <div className="philosophy-closing-carving" aria-hidden="true">
+          <svg
+            viewBox="0 540 1895 290"
+            preserveAspectRatio="xMidYMid meet"
+            focusable="false"
+          >
+            <image
+              href="/philosophy/ivory-cheetah-v2.webp"
+              width="1895"
+              height="830"
+            />
+          </svg>
+        </div>
+      </section>
       <HouseFooter />
+      <details className="philosophy-credits house-container">
+        <summary>artwork credits</summary>
+        <p>
+          <a
+            href="https://sketchfab.com/3d-models/diamond-9f060239b2604a50a2db83877c161b3e"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Diamond
+          </a>{" "}
+          by{" "}
+          <a
+            href="https://sketchfab.com/shooter24994"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Akshat
+          </a>
+          ,{" "}
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            CC BY 4.0
+          </a>
+          . Materials, lighting and presentation adapted for Cheeta Jewels.
+        </p>
+      </details>
     </main>
   );
 }
