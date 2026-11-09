@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-08",
+  "tool": "Built-in image_gen, no CLI or Flow generation",
+  "status": "Provisional generated campaign scenography, not manufacturer-approved product or actual showroom photography. Detail interpretation still requires product review.",
+  "base_references": [
+    "client/public/campaigns/gun/references/manani-cutout-v1.webp",
+    "client/public/campaigns/gun/folio/maharajah-front-v2.webp",
+    "client/public/campaigns/gun/maharajah-launch-study.jpg"
+  ],
+  "alternate_references": [
+    "client/public/campaigns/gun/references/cominazzo-mariani-cutout-v1.webp",
+    "client/public/campaigns/gun/references/florentine-cutout-v1.webp"
+  ],
+  "processing": "WebP quality 93, 1448 \u00d7 1086. Format conversion only, no grading, sharpening or compositing after generation.",
+  "assets": [
+    {
+      "name": "manani",
+      "runtime": "client/public/home/still-life/manani-v1.webp",
+      "source_png": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-d9d3bce5-4c46-4af1-bc01-766895b294d7.png",
+      "prompt": "Use case: compositing. Create ONE genuinely cohesive art-directed luxury jewellery campaign still-life photograph, LANDSCAPE 4:3 at high resolution. Images 1 and 2 are the exact subjects to integrate, image 3 is supporting eyewear identity reference. NOT a collage, not a web mockup, no typography. Preserve the complete antique Manani pistol from input 1: same dark wood, engraved silver, shape, length, trigger and flintlock, handle LEFT and barrel RIGHT. Preserve precisely ONE pair of the octagonal ruby-lens Maharajah eyewear from input 2, with thin engraved gold rims, arched bridge, and paired circular barrel ends at the outer hinges. No extra rim gems or invented engraving, use the reference identity. Composition: in one continuous warm ivory Mughal-inspired carved-stone cabinet niche, the antique pistol lies horizontally on a narrow pale stone shelf in the upper middle, complete silhouette visible, supported physically with real soft contact shadows. BELOW it, on a broad lower ivory marble ledge, sits the one pair of eyewear, front-facing with complete lenses and outer hinge barrels visible. The eyewear should span about 40 percent of canvas width; pistol about 66 percent, realistic relative scale. Between them: comfortable breathing room. Background architecture is restrained warm white plaster and ivory marble, one shallow scalloped niche integrated into the wall, very light small carved acanthus at the far outer edges, no busy decoration. Broad soft side daylight from upper left unifies all subjects and surfaces, beautiful real contact shadows and dimensional depth, exquisite believable materials, a warm sculptural cream-on-cream set. Full subject silhouettes and lower ledge fit inside image with 10 percent margins. Straight-on editorial camera, careful perspective, photographic realism like a costly jewellery campaign. No floating objects, no transparent cutouts, no separate frames or pasted overlay ornaments, no halo or external drop shadow, no roses, no plants, no text, no letters, no watermarks, no black backdrop, no people. This should read as one photographed physical scene, never three layers stuck together."
+    },
+    {
+      "name": "cominazzo-mariani",
+      "runtime": "client/public/home/still-life/cominazzo-mariani-v1.webp",
+      "source_png": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-99468a26-ca0e-4a68-928e-c719bbccdfd3.png",
+      "prompt": "Use case: precise-object-edit. Edit IMAGE 1, the complete cream marble cabinet still-life photograph. Change ONLY the antique pistol on the UPPER shelf, replacing it with the EXACT pistol shown in IMAGE 2 (Cominazzo-Mariani, gold-inlaid dark wood, ornamental horse-like flintlock). It must have the same full silhouette, material and engraved design as reference 2, grip left, barrel right. Keep the new pistol physically on the same upper shelf, same baseline and centred at the same size as the old one, under the same soft left-side daylight and contact shadows. Preserve EVERYTHING else in image 1 exactly: camera, 4:3 landscape canvas, carved scalloped arch, pale wall, shelves, marble, carved outer strips, lighting, crop, and especially the ONE octagonal ruby-and-gold pair of eyewear on the lower ledge. Do not modify the eyewear shape, gemstones, hinges, lens colour, reflections or scale. Do not add text, people, plants, ornaments or other objects. The result is a matched selection state of the same campaign scene, not a new composition. Photographic realism, perfectly cohesive physical setting. No floating cutouts or graphic overlays."
+    },
+    {
+      "name": "florentine",
+      "runtime": "client/public/home/still-life/florentine-v1.webp",
+      "source_png": "/Users/fazalhaque/.codex/generated_images/01a12ad8-09b2-7a80-89dc-f720d07a47c0/exec-eeba0ba3-80d3-491e-abfb-5009f59c0e0a.png",
+      "prompt": "Use case: precise-object-edit. Edit IMAGE 1, the complete cream marble cabinet still-life photograph. Change ONLY the antique pistol on the UPPER shelf, replacing it with the EXACT pistol shown in IMAGE 2 (Florentine, richly engraved silver fittings and carved reddish dark wood). It must have the same full silhouette, material and engraved design as reference 2, grip left, barrel right. Keep the new pistol physically on the same upper shelf, same baseline and centred at the same size as the old one, under the same soft left-side daylight and contact shadows. Preserve EVERYTHING else in image 1 exactly: camera, 4:3 landscape canvas, carved scalloped arch, pale wall, shelves, marble, carved outer strips, lighting, crop, and especially the ONE octagonal ruby-and-gold pair of eyewear on the lower ledge. Do not modify the eyewear shape, gemstones, hinges, lens colour, reflections or scale. Do not add text, people, plants, ornaments or other objects. The result is a matched selection state of the same campaign scene, not a new composition. Photographic realism, perfectly cohesive physical setting. No floating cutouts or graphic overlays."
+    }
+  ]
+}

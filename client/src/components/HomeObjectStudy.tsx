@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { ArrowUpRight } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { HOME_MAHARAJAH, homeObjectFrame } from "@/lib/homePresentation";
+import { homeObjectFrame } from "@/lib/homePresentation";
 import HomeMaharajahReferences from "@/components/HomeMaharajahReferences";
 
 export default function HomeObjectStudy() {
@@ -10,8 +10,7 @@ export default function HomeObjectStudy() {
   const motion = useMediaQuery(
     "(min-width: 768px) and (prefers-reduced-motion: no-preference)"
   );
-  const [failed, setFailed] = useState(false);
-  const staticStudy = !motion || failed;
+  const staticStudy = !motion;
 
   useEffect(() => {
     const root = section.current;
@@ -83,42 +82,16 @@ export default function HomeObjectStudy() {
     >
       <span id="pieces" className="home-hash-alias" aria-hidden="true" />
       <div className="home-object-stage">
+        <header className="home-gun-heading">
+          <h2 id="home-maharajah-title">
+            The Gun <em>Collection</em>
+          </h2>
+          <Link href="/collection/barrel" className="home-campaign-action">
+            enter the collection{" "}
+            <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
+          </Link>
+        </header>
         <HomeMaharajahReferences />
-        <Link
-          href="/collection/barrel"
-          className="home-object-link"
-          aria-label="Explore Maharajah in The Gun Collection"
-        >
-          <h2 id="home-maharajah-title">Maharajah</h2>
-          <div className="home-object-art">
-            {failed ? (
-              <span className="home-object-unavailable" role="status">
-                the frame study is unavailable
-              </span>
-            ) : (
-              <svg
-                viewBox={HOME_MAHARAJAH.viewBox}
-                role="img"
-                aria-label="Maharajah campaign study: octagonal ruby lenses in a gold frame"
-                className="home-object-frame"
-              >
-                <image
-                  href={HOME_MAHARAJAH.src}
-                  width={HOME_MAHARAJAH.width}
-                  height={HOME_MAHARAJAH.height}
-                  onError={() => setFailed(true)}
-                />
-              </svg>
-            )}
-          </div>
-          <div className="home-campaign-caption">
-            <span>The Gun Collection</span>
-            <span className="home-campaign-action">
-              view campaign{" "}
-              <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
-            </span>
-          </div>
-        </Link>
       </div>
     </section>
   );

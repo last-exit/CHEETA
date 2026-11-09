@@ -45,20 +45,18 @@ describe("Campaign-led homepage", () => {
     expect(markup).toContain('id="pieces"');
     expect(markup.match(/<h1\b/g)).toHaveLength(1);
   });
-  it("integrates all three gun references above the eyewear within Maharajah", () => {
+  it("provides three complete, selectable Maharajah still-life scenes", () => {
     const markup = render();
     for (const source of [
-      "manani-cutout-v1.webp",
-      "cominazzo-mariani-cutout-v1.webp",
-      "florentine-cutout-v1.webp",
+      "manani-v1.webp",
+      "cominazzo-mariani-v1.webp",
+      "florentine-v1.webp",
     ])
       expect(markup).toContain(source);
     expect(markup.indexOf('id="characters"')).toBeLessThan(
       markup.indexOf('id="home-reference-object"')
     );
-    expect(markup.indexOf('id="home-reference-object"')).toBeLessThan(
-      markup.indexOf('class="home-object-art"')
-    );
+    expect(markup).toContain('class="home-reference-caption"');
     expect(markup).toContain('aria-label="Gun references"');
     expect(markup.match(/aria-controls="home-reference-object"/g)).toHaveLength(
       3
@@ -83,9 +81,7 @@ describe("Campaign-led homepage", () => {
     try {
       const markup = render();
       expect(markup).toContain('class="home-object-study" data-static="true"');
-      expect(markup).toContain(
-        'aria-label="Explore Maharajah in The Gun Collection"'
-      );
+      expect(markup).toContain('href="/collection/barrel"');
       expect(markup).toContain('aria-label="Explore The Masquerade campaign"');
     } finally {
       media.desktop = true;

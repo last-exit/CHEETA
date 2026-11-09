@@ -4,21 +4,17 @@ import { Link } from "wouter";
 import { InformationLinks } from "@/components/HouseFooter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
-import CampaignVideo from "@/components/CampaignVideo";
+import HomeCinema from "@/components/HomeCinema";
 import HomeObjectStudy from "@/components/HomeObjectStudy";
-import { useCampaignFlow } from "@/hooks/useCampaignFlow";
-import { COLLECTIONS } from "@/data/collections";
-import { MASQUERADE_EXHIBITION } from "@/data/campaignExhibition";
+import HomeMasquerade from "@/components/HomeMasquerade";
 import "./Home.css";
 
 /** A campaign-led entrance to the house. Purchasing remains in Retail. */
 export default function Home() {
   const page = useRef<HTMLElement>(null);
-  const masquerade = useCampaignFlow<HTMLElement>();
+  const [heroLight, setHeroLight] = useState(true);
   const [lightPaw, setLightPaw] = useState(true);
   const [lightMonogram, setLightMonogram] = useState(true);
-  const [masqueradeFallback, setMasqueradeFallback] = useState(false);
-  const gun = COLLECTIONS.barrel;
 
   useEffect(() => {
     const root = page.current;
@@ -49,11 +45,11 @@ export default function Home() {
       window.removeEventListener("resize", schedule);
       root?.removeEventListener("load", schedule, true);
     };
-  }, []);
+  }, [heroLight]);
 
   useEffect(() => {
     const hash = window.location.hash;
-    if (!["#characters", "#pieces"].includes(hash)) return;
+    if (!["#characters", "#pieces", "#masquerade"].includes(hash)) return;
     const frame = requestAnimationFrame(() => {
       document
         .getElementById(hash.slice(1))
@@ -63,7 +59,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main ref={page} className="home-page home-editorial">
+    <main ref={page} className="home-page home-editorial home-art-direction">
       <CheetahBar tone={lightPaw ? "light" : "dark"} />
       <HeaderWordmark
         dark={lightMonogram}
@@ -71,94 +67,78 @@ export default function Home() {
       />
       <h1 className="sr-only">Cheeta Jewels</h1>
 
-      <section
-        className="home-opening"
-        aria-label="Cheeta Jewels campaign film"
-        data-home-dark="true"
-      >
-        <CampaignVideo
-          src={gun.video}
-          poster={gun.stills[0]}
-          className="home-opening-film"
-        />
-        <img
-          src="/brand/icon-livin-white.png"
-          alt="Icon livin’"
-          className="home-opening-signature"
-          fetchPriority="high"
-        />
-      </section>
+      <HomeCinema onTone={setHeroLight} />
 
       <HomeObjectStudy />
 
-      <section
-        ref={masquerade}
-        className="home-masquerade"
-        aria-labelledby="home-masquerade-title"
-      >
-        <Link
-          href="/collection/masquerade"
-          className="home-campaign-link"
-          aria-label="Explore The Masquerade campaign"
-        >
-          <figure
-            className="home-masquerade-world"
-            data-home-dark={masqueradeFallback ? "true" : undefined}
+      <HomeMasquerade />
+
+      <section className="home-retail" aria-labelledby="home-retail-title">
+        <div className="home-retail-stage house-container">
+          <div className="home-retail-type">
+            <h2 id="home-retail-title">
+              Jewellery
+              <br />
+              &amp; <em>eyewear.</em>
+            </h2>
+            <Link href="/retail" className="home-campaign-action">
+              explore retail{" "}
+              <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
+            </Link>
+          </div>
+          <Link
+            href="/retail"
+            className="home-retail-image"
+            aria-label="Explore Retail"
+            data-home-dark="true"
           >
             <img
-              src={
-                masqueradeFallback
-                  ? COLLECTIONS.masquerade.stills[3]
-                  : MASQUERADE_EXHIBITION.src
-              }
-              alt={
-                masqueradeFallback
-                  ? "The Masquerade frame in candlelight"
-                  : MASQUERADE_EXHIBITION.alt
-              }
-              width={MASQUERADE_EXHIBITION.width}
-              height={MASQUERADE_EXHIBITION.height}
+              src="/home/retail-jewellery.webp"
+              alt="Gold and emerald jewellery from the current retail catalogue"
+              width="1664"
+              height="2080"
               loading="lazy"
               decoding="async"
-              onError={() => setMasqueradeFallback(true)}
             />
-          </figure>
-          <div className="home-campaign-caption house-container">
-            <h2 id="home-masquerade-title">The Masquerade</h2>
-            <span className="home-campaign-action">
-              view campaign{" "}
-              <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
-            </span>
-          </div>
-        </Link>
+          </Link>
+          <nav
+            className="home-retail-categories"
+            aria-label="Retail categories"
+          >
+            <Link href="/retail?category=eyewear">
+              eyewear{" "}
+              <ArrowUpRight size={16} strokeWidth={1.2} aria-hidden="true" />
+            </Link>
+            <Link href="/retail?category=jewelry">
+              jewellery{" "}
+              <ArrowUpRight size={16} strokeWidth={1.2} aria-hidden="true" />
+            </Link>
+          </nav>
+        </div>
       </section>
 
-      <section
-        className="home-house house-container"
-        aria-labelledby="home-house-title"
-      >
-        <figure className="home-house-portrait">
+      <section className="home-house" aria-labelledby="home-house-title">
+        <div className="home-house-stage house-container">
+          <div className="home-house-type">
+            <h2 id="home-house-title">
+              Diamonds are made
+              <br />
+              <em>in the rough.</em>
+            </h2>
+            <Link href="/philosophy" className="home-campaign-action">
+              the philosophy{" "}
+              <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
+            </Link>
+          </div>
           <img
-            src="/philosophy/eisa-portrait.jpg"
-            alt="Eisa Saidi in a portrait from his identity film"
-            width="545"
-            height="506"
+            className="home-house-sculpture"
+            src="/philosophy/ivory-cheetah-v2.webp"
+            alt="An ivory cheetah sculpture on an acanthus-carved plinth"
+            width="1895"
+            height="830"
             loading="lazy"
             decoding="async"
-            data-home-dark="true"
           />
-          <figcaption>Eisa Saidi</figcaption>
-        </figure>
-        <div className="home-house-copy">
-          <h2 id="home-house-title">
-            Diamonds are made
-            <br />
-            in the <em>rough.</em>
-          </h2>
-          <Link href="/philosophy" className="home-house-link">
-            the philosophy{" "}
-            <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
-          </Link>
         </div>
       </section>
 
