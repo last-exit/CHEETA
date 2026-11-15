@@ -86,12 +86,15 @@ export default function HomeObjectStudy() {
           <h2 id="home-maharajah-title">
             The Gun <em>Collection</em>
           </h2>
-          <Link href="/collection/barrel" className="home-campaign-action">
-            enter the collection{" "}
-            <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
-          </Link>
         </header>
         <HomeMaharajahReferences />
+        <Link
+          href="/collection/barrel"
+          className="home-campaign-action home-gun-entry"
+        >
+          enter the collection{" "}
+          <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
+        </Link>
       </div>
     </section>
   );

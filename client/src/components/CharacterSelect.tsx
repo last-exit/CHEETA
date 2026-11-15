@@ -160,7 +160,9 @@ export default function CharacterSelect({
   const confirm = useBagConfirmation();
   const character = FITTING_CHARACTERS[state.character];
   const lens = FITTING_LENSES.find(item => item.id === state.lens);
-  const product = fittingProduct(state.lens);
+  const selectedProduct = fittingProduct(state.lens);
+  const product =
+    selectedProduct?.availability === "retail" ? selectedProduct : undefined;
   const ready = state.ready[state.character];
   const canAcquire = !!product && ready && !state.pending && !state.error;
 
@@ -218,15 +220,7 @@ export default function CharacterSelect({
   };
   const acquire = () => {
     if (!canAcquire || !product) return;
-    addToCart({
-      id: product.id,
-      name: product.name,
-      frame: product.frame,
-      lens: product.lens,
-      price: product.price,
-      priceDisplay: product.priceDisplay,
-      image: product.productImage,
-    });
+    if (!addToCart(product.id)) return;
     confirm(product.name, product.priceDisplay);
   };
 

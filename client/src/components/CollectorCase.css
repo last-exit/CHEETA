@@ -88,6 +88,9 @@
 .collector-case-inspect:disabled {
   cursor: progress !important;
 }
+.collector-case-inspect-icon {
+  display: none;
+}
 .collector-case-inspect:focus-visible {
   outline: 1px solid currentColor;
   outline-offset: 8px;
@@ -136,7 +139,7 @@
   display: flex;
   gap: 16px;
   align-items: center;
-  font-size: 13px;
+  font-size: 14px;
   z-index: 4;
 }
 .collector-case-error button {
@@ -178,6 +181,15 @@
   }
 }
 @media (max-width: 767px) {
+  .collector-case-stage {
+    --case-controls-inset: clamp(8px, 2.6vw, 20px);
+    aspect-ratio: 5 / 4;
+  }
+  .collector-case-world {
+    /* Match the stage height while keeping the chest's full width in view. */
+    width: calc(100% * 16 / 9 * 4 / 5);
+    top: 50%;
+  }
   .collector-case-heading {
     position: absolute;
     width: 1px;
@@ -188,20 +200,46 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
   }
+  .collector-case-inspect {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .collector-case-inspect-icon {
+    position: absolute;
+    bottom: var(--case-controls-inset);
+    left: calc(var(--house-gutter) - 10px);
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+  }
+  .collection-page .collector-case .collector-case-inspect:focus-visible {
+    outline: none;
+  }
+  .collector-case-inspect:focus-visible .collector-case-inspect-icon {
+    outline: 1px solid currentColor;
+    outline-offset: -5px;
+  }
   .collector-case-selection {
-    top: 18px;
-    bottom: auto;
-    right: 12px;
+    top: auto;
+    bottom: var(--case-controls-inset);
+    right: calc(var(--house-gutter) - 10px);
     gap: 0;
   }
   .collector-case-selection span {
-    width: 42px;
-    font-size: 12px;
+    width: 46px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .collector-case[data-inspecting="true"] .collector-case-inspect-icon,
+  .collector-case[data-inspecting="true"] .collector-case-selection {
+    color: var(--house-paper);
   }
   .collector-case-error {
     left: 24px;
-    bottom: 4px;
-    font-size: 12px;
+    top: 4px;
+    bottom: auto;
   }
 }
 @media (prefers-reduced-motion: reduce) {

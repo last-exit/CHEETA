@@ -91,7 +91,7 @@ export default function MacroJewelryLoupe({
         className="h-full w-full object-contain pointer-events-none "
       />
 
-      {/* Floating 4x Macro Inspection Loupe */}
+      {/* Floating inspection loupe */}
       <AnimatePresence>
         {isHovered && (
           <motion.div
@@ -124,15 +124,12 @@ export default function MacroJewelryLoupe({
 
             {/* Brass Outer Rim Bevel */}
             <div className="absolute inset-0 rounded-full border border-black/20 pointer-events-none" />
-            <div className="absolute bottom-1 right-2 font-sans text-[8px] lowercase tracking-widest text-[#6B1A2C] font-semibold">
-              {zoomLevel}×
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Subtle Bottom Instruction */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 font-sans text-[11px] lowercase tracking-normal text-[#2A241D]/35 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap font-sans text-[length:var(--house-label-size)] text-[#6A635D] pointer-events-none">
         hover to look closer
       </div>
     </div>

@@ -6,7 +6,7 @@ import {
   type CSSProperties,
   type KeyboardEvent,
 } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ZoomIn, ZoomOut } from "lucide-react";
 import {
   GUN_JOURNEY,
   GUN_LENSES,
@@ -42,6 +42,7 @@ export default function CollectorCase() {
   const open = stillView ? stillReady : endPainted && stillReady;
   const ready = stillView ? stillReady : painted;
   const selected = GUN_LENSES[lens];
+  const InspectIcon = inspecting ? ZoomOut : ZoomIn;
   const closing = `${GUN_JOURNEY.closing}${attempt ? `?attempt=${attempt}` : ""}`;
 
   useEffect(() => {
@@ -258,14 +259,20 @@ export default function CollectorCase() {
                 setImmediate(true);
             }}
             onClick={event => inspect(event.detail === 0)}
-          />
+          >
+            {open && (
+              <span className="collector-case-inspect-icon" aria-hidden="true">
+                <InspectIcon size={17} strokeWidth={1.25} />
+              </span>
+            )}
+          </button>
           <header className="collector-case-heading">
             <h2 id="collector-case-title">Maharajah</h2>
           </header>
           <div
             className="collector-case-selection"
             role="group"
-            aria-label="Change the lenses"
+            aria-label="Change the lens colour study"
             hidden={!open}
           >
             <button
@@ -279,7 +286,7 @@ export default function CollectorCase() {
               <ArrowLeft size={19} strokeWidth={1.1} aria-hidden="true" />
             </button>
             <span aria-live="polite" aria-atomic="true">
-              {selected.label}
+              {selected.label} study
             </span>
             <button
               type="button"
@@ -306,10 +313,10 @@ export default function CollectorCase() {
           )}
         </div>
         <p id="collector-case-instructions" className="sr-only">
-          Scroll to open the case, or activate it to open. One pair is shown at
-          a time. Use the arrows in the scene to change the lenses. Select the
-          frame for a closer view. Arrow keys, Home and End select lens colours;
-          Escape returns to the full case.
+          {!stillView && "Scroll to open the case, or activate it to open. "}
+          One pair is shown at a time. Use the arrows to explore the lens colour
+          studies. Select the frame for a closer view. Arrow keys, Home and End
+          select lens colours; Escape returns to the full case.
         </p>
       </section>
     </>

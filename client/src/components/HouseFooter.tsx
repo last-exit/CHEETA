@@ -10,22 +10,33 @@ export function InformationLinks() {
 }
 
 export function InformationFooter() {
-  return (
-    <footer className="information-footer house-container">
-      <InformationLinks />
-    </footer>
-  );
+  return <HouseFooter compact />;
 }
 
-export function HouseFooter() {
+export function HouseFooter({
+  inverse = false,
+  compact = false,
+}: {
+  inverse?: boolean;
+  compact?: boolean;
+}) {
   return (
-    <footer className="house-footer">
-      <div className="house-container">
-        <h2>
-          Icon
-          <br />
-          livin’.
-        </h2>
+    <footer className={compact ? "information-footer" : "house-footer"}>
+      <div className="house-container house-footer-inner">
+        <Link
+          href="/"
+          className="house-footer-signature"
+          aria-label="Cheeta Jewels home"
+        >
+          <img
+            src={inverse ? "/brand/icon-livin-white.png" : "/brand/icon-livin-black.png"}
+            width="1024"
+            height="258"
+            alt="Icon livin’."
+            loading="lazy"
+            decoding="async"
+          />
+        </Link>
         <InformationLinks />
       </div>
     </footer>

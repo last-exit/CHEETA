@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { Router } from "wouter";
 import * as THREE from "three";
 import { describe, expect, it, vi } from "vitest";
+import Founder from "../pages/Founder";
 import Philosophy from "../pages/Philosophy";
 import { diamondPlanes } from "../lib/diamondOptics";
 
@@ -12,29 +13,38 @@ vi.mock("../hooks/useMediaQuery", () => ({
   useMediaQuery: () => media.reduced,
 }));
 
-const render = () =>
+const render = (path: "/philosophy" | "/founder") =>
   renderToStaticMarkup(
-    createElement(Router, { ssrPath: "/philosophy" }, createElement(Philosophy))
+    createElement(
+      Router,
+      { ssrPath: path },
+      createElement(path === "/philosophy" ? Philosophy : Founder)
+    )
   );
 
-describe("Philosophy revival", () => {
-  it("retains the founder, supplied catchphrase and campaign routes without selling exclusive pieces", () => {
-    const html = render();
+describe("Philosophy and Founder", () => {
+  it("keeps the brand philosophy and collection links on a separate page from the founder’s story", () => {
+    const html = render("/philosophy");
     expect(html).toContain('id="philosophy-title"');
     const text = html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
     expect(text).toContain("Diamonds are made in the rough.");
-    expect(text).toContain("Eisa Saidi.");
     expect(html).toContain('href="/collection/barrel"');
     expect(html).toContain('href="/collection/masquerade"');
     expect(html).toContain('href="/contact"');
+    expect(html).toContain('href="/founder"');
+    expect(html).not.toContain("/philosophy/identity-passage.mp4");
+    expect(html).not.toContain("/philosophy/eisa-evening-portrait-v3.webp");
     expect(html).not.toMatch(/add to bag|acquire|checkout|AED|—/);
   });
   it("starts the real identity passage silent, loops it and exposes an explicit listen action", () => {
-    const html = render();
+    const html = render("/founder");
+    expect(html).toContain('id="founder-title"');
+    expect(html).toContain('href="/philosophy"');
+    expect(html).toContain("/philosophy/eisa-evening-portrait-v3.webp");
     expect(html.match(/<video\b/g)).toHaveLength(1);
     expect(html).toContain('src="/philosophy/identity-passage.mp4"');
     expect(html).toMatch(/<video[^>]*muted=""[^>]*loop=""[^>]*playsInline=""/);
-    expect(html).toContain("Listen to Eisa’s film");
+    expect(html).toContain('aria-label="Listen to the film"');
     expect(html.match(/<video\b[^>]*>/)?.[0]).not.toMatch(
       /\s(?:controls|autoplay)(?:=|\s)/i
     );
@@ -42,13 +52,18 @@ describe("Philosophy revival", () => {
   it("substitutes the identity still under reduced motion and keeps the sculpture poster and provenance", () => {
     media.reduced = true;
     try {
-      const html = render();
-      expect(html).not.toContain("<video");
-      expect(html).not.toContain("Listen to Eisa");
-      expect(html).toContain("/philosophy/identity-film-poster.jpg");
-      expect(html).toContain("/philosophy/sculpture/diamond-poster-v1.webp");
-      expect(html).toContain("CC BY 4.0");
-      expect(html).toContain("https://sketchfab.com/shooter24994");
+      const founder = render("/founder");
+      expect(founder).not.toContain("<video");
+      expect(founder).not.toContain('aria-label="Listen to the film"');
+      expect(founder).toContain("/philosophy/identity-film-poster.jpg");
+      expect(founder).toContain("Show film controls");
+
+      const philosophy = render("/philosophy");
+      expect(philosophy).toContain(
+        "/philosophy/sculpture/diamond-poster-v1.webp"
+      );
+      expect(philosophy).toContain("CC BY 4.0");
+      expect(philosophy).toContain("https://sketchfab.com/shooter24994");
     } finally {
       media.reduced = false;
     }

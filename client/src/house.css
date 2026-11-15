@@ -4,6 +4,12 @@
   --house-ink: #2a241d;
   --house-muted: #6a635d;
   --house-accent: #6b1a2c;
+  --house-surface: #f1ede6;
+  --house-inverse: #171017;
+  --house-on-inverse: #f7eee4;
+  --house-muted-inverse: #c4b8ad;
+  --house-page-top: clamp(112px, 10vw, 144px);
+  --house-label-size: 0.9375rem;
   --house-gutter: 80px;
   --house-section: 96px;
 }
@@ -23,7 +29,8 @@
   .house-page,
   .legal-page,
   .retail-page,
-  .hayrat-page
+  .hayrat-page,
+  .contact-page
 ) {
   color: var(--house-ink);
   background-color: var(--house-paper);
@@ -57,7 +64,7 @@
   flex-wrap: wrap;
   gap: 8px 32px;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: var(--house-label-size);
 }
 .information-links a {
   display: inline-flex;
@@ -69,25 +76,32 @@
 .information-links a:hover {
   opacity: 0.65;
 }
+.house-footer,
 .information-footer {
-  padding-block: 24px 48px;
+  padding-block: clamp(36px, 5vw, 64px);
+  background: var(--house-paper);
+  color: var(--house-ink);
+}
+.house-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 48px;
+}
+.house-footer-signature {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  width: clamp(174px, 20vw, 270px);
+}
+.house-footer-signature img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.house-footer .information-links,
+.information-footer .information-links {
   color: var(--house-muted);
-}
-.house-footer {
-  padding-block: var(--house-section);
-  background: #141211;
-  color: var(--house-paper);
-}
-.house-footer h2 {
-  margin: 0 0 48px;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: clamp(67px, 10vw, 168px);
-  line-height: 0.82;
-  letter-spacing: -0.04em;
-}
-.house-footer .information-links {
-  color: var(--house-paper);
 }
 .acquisition-action {
   text-transform: lowercase;
@@ -152,32 +166,16 @@
 .concept-description {
   max-width: 54ch;
   margin: 16px 0 24px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
   color: var(--house-muted);
   text-transform: none;
 }
-.product-shell,
 .cart-shell {
-  width: min(1280px, calc(100% - var(--house-gutter) * 2));
+  width: min(960px, calc(100% - var(--house-gutter) * 2));
   max-width: none;
-  padding: 144px 0 var(--house-section);
+  padding: var(--house-page-top) 0 var(--house-section);
   margin-inline: auto;
-}
-.cart-shell {
-  max-width: 960px;
-}
-.product-shell .product-breadcrumb {
-  margin-bottom: 48px;
-}
-.product-shell > .product-presentation {
-  margin-top: var(--house-section);
-}
-.product-layout .price {
-  font-size: 24px;
-}
-.product-inspection-caption {
-  background: var(--house-paper);
 }
 .cart-shell .bag-total {
   font-size: 24px;
@@ -187,17 +185,14 @@
 }
 .legal-page > article {
   width: min(768px, calc(100% - var(--house-gutter) * 2));
-  padding: 144px 0 var(--house-section);
+  padding: var(--house-page-top) 0 var(--house-section);
   margin-inline: auto;
 }
 .legal-page .legal-note {
-  font-size: 12px;
-  letter-spacing: normal;
-  text-transform: lowercase;
+  font-size: var(--house-label-size);
 }
 .legal-page section header > span {
-  font-size: 12px;
-  letter-spacing: normal;
+  font-size: var(--house-label-size);
 }
 .founder-page .founder-quote {
   max-width: 32ch;
@@ -207,7 +202,7 @@
   display: inline-flex;
   align-items: center;
   gap: 16px;
-  font-size: 13px;
+  font-size: var(--house-label-size);
 }
 .house-page > section {
   padding: calc(var(--house-section) / 2) var(--house-gutter);
@@ -251,20 +246,6 @@
   font-size: 15px;
   line-height: 1.7;
 }
-.retail-page .retail-shell {
-  width: min(1280px, calc(100% - var(--house-gutter) * 2));
-  padding-bottom: var(--house-section);
-}
-.retail-page .retail-list {
-  gap: var(--house-section);
-}
-.retail-page .retail-list[data-view="grid"] {
-  gap: 64px 48px;
-}
-.retail-page .retail-presentation {
-  margin-top: var(--house-section);
-}
-
 @media (min-width: 768px) and (max-width: 1023px) {
   :root {
     --house-gutter: 48px;
@@ -274,6 +255,7 @@
   :root {
     --house-gutter: 24px;
     --house-section: 56px;
+    --house-page-top: calc(env(safe-area-inset-top, 0px) + 96px);
   }
   .home-page #characters {
     padding: 56px 24px;
@@ -282,33 +264,22 @@
   .home-page .home-gateways {
     margin-top: 56px;
   }
-  .house-footer {
-    padding: 56px 0;
+  .house-footer,
+  .information-footer {
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
   }
-  .house-footer h2 {
-    margin-bottom: 32px;
-  }
-  .house-footer .house-container {
-    padding: 0;
+  .house-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .founder-page > section {
     padding-block: 28px;
   }
   .founder-page > section:first-of-type {
-    padding-top: 112px;
-  }
-  .product-shell,
-  .cart-shell {
-    padding: 112px 0 56px;
-  }
-  .product-shell > .product-presentation {
-    margin-top: 56px;
-  }
-  .legal-page > article {
-    padding: 112px 0 56px;
+    padding-top: var(--mobile-content-start, 96px);
   }
   .house-page > section:first-of-type {
-    padding-top: 112px;
+    padding-top: var(--mobile-content-start, 96px);
   }
   .house-page .founder-grid,
   .house-page .chapter-row {
@@ -321,9 +292,6 @@
   .retail-page .retail-list[data-view="grid"] {
     gap: 40px 16px;
   }
-  .information-footer {
-    padding-bottom: max(32px, env(safe-area-inset-bottom));
-  }
 }
 @media (prefers-reduced-motion: reduce) {
   .information-links a {
@@ -331,10 +299,6 @@
   }
 }
 
-.home-page > .house-footer,
-.philosophy-page > .house-footer {
-  padding: var(--house-section) 0;
-}
 .contact-address {
   color: var(--house-accent);
   overflow-wrap: anywhere;

@@ -1,249 +1,96 @@
 .gun-exhibition {
-  --gun-gold: #86682f;
-  background: var(--house-paper);
+  background: transparent;
 }
 .gun-introduction {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 32px 80px;
-  padding-block: 48px 64px;
-}
-.gun-royal-ornament {
-  grid-column: 1 / -1;
-  width: 110px;
-  height: 47px;
-  color: var(--gun-gold);
-  margin: 0 auto 8px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px 64px;
+  padding-block: 56px;
 }
 .gun-introduction h1 {
-  font: 400 clamp(32px, 3vw, 44px) / 1.1 var(--font-serif);
+  font: 400 clamp(32px, 3vw, 44px) / 1.12 var(--font-serif);
   letter-spacing: -0.035em;
 }
 .gun-introduction p {
-  max-width: 41ch;
-  justify-self: end;
-  font-size: 15px;
-  line-height: 1.7;
-  color: var(--house-muted);
-}
-.gun-form-chapter {
-  padding-block: 96px 48px;
-}
-.gun-form-chapter > header {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: end;
-  gap: 80px;
-}
-.gun-form-chapter h2 {
-  font: 400 clamp(56px, 6.1vw, 88px) / 1.03 var(--font-serif);
-  letter-spacing: -0.04em;
-}
-.gun-form-chapter h2 em {
-  font-weight: 400;
-  color: var(--gun-gold);
-}
-.gun-form-chapter > header p {
-  max-width: 38ch;
-  margin-bottom: 6px;
-  justify-self: end;
-  color: var(--house-muted);
+  max-width: 30ch;
   font-size: 16px;
-  line-height: 1.75;
+  line-height: 1.65;
+  color: var(--house-muted);
 }
-.gun-form-study {
-  position: relative;
+.gun-frame-study {
   display: grid;
-  place-items: center;
-  aspect-ratio: 2.1;
-  margin-top: 32px;
-  isolation: isolate;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: 12px;
+  padding-top: clamp(56px, 8vw, 120px);
 }
-.gun-form-study > img {
-  display: block;
-  width: min(100%, 1100px);
-  height: auto;
-  position: relative;
-  z-index: 1;
+.gun-frame-study header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px 36px;
+  margin-bottom: 18px;
 }
-.gun-detail-chapter {
-  padding-block: 48px 80px;
+.gun-frame-study h2 {
+  font: 400 clamp(34px, 5vw, 68px) / 1 var(--font-serif);
+  letter-spacing: -0.05em;
 }
-.gun-detail-chapter > header {
-  text-align: center;
-  margin-bottom: 64px;
+.gun-frame-study p {
+  font-size: 16px;
+  line-height: 1.5;
 }
-.gun-detail-chapter h2 {
-  font: 400 clamp(44px, 4.6vw, 64px) / 1.1 var(--font-serif);
-  letter-spacing: -0.035em;
-}
-.gun-detail-chapter h2 em {
-  font-weight: 400;
-}
-.gun-detail-composition {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  align-items: center;
-  gap: clamp(48px, 8vw, 128px);
-  max-width: 1100px;
-  margin-inline: auto;
-}
-.gun-detail-loupe {
-  position: relative;
-  width: min(100%, 480px);
-  aspect-ratio: 1;
-  border-radius: 50%;
+.gun-frame-study figure {
   overflow: hidden;
-  background: #100e0b;
-  isolation: isolate;
+  background: #b3b5ad;
 }
-.gun-detail-loupe > svg {
+.gun-frame-study img {
   display: block;
-  position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
-.gun-detail-choices {
-  display: flex;
-  gap: 24px;
-  margin-bottom: 40px;
+.gun-frame-worn {
+  aspect-ratio: 5 / 4;
 }
-.gun-detail-choices button {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 10px;
-  min-width: 64px;
-  min-height: 64px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--house-muted);
-  font: 400 13px / 1.2 var(--font-sans);
-  cursor: pointer;
+.gun-frame-angles {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
-.gun-detail-choices button > span {
-  font: 400 20px / 1 var(--font-serif);
-}
-.gun-detail-choices button[aria-selected="true"] {
-  color: var(--gun-gold);
-  font-weight: 500;
-}
-.gun-detail-passages {
-  min-height: 220px;
-}
-.gun-detail-passages h3 {
-  max-width: 15ch;
-  font: 400 clamp(32px, 3.5vw, 44px) / 1.12 var(--font-serif);
-  letter-spacing: -0.03em;
-  margin-bottom: 24px;
-}
-.gun-detail-passages p {
-  max-width: 36ch;
-  font-size: 16px;
-  line-height: 1.75;
-  color: var(--house-muted);
-}
-.collection-barrel .collection-showroom {
-  padding-top: 64px;
-}
-@media (max-width: 1023px) {
-  .gun-introduction {
-    gap: 24px 40px;
-  }
-  .gun-form-chapter > header {
-    gap: 48px;
-  }
-  .gun-detail-composition {
-    gap: 48px;
-  }
-  .gun-detail-choices {
-    gap: 16px;
-    margin-bottom: 28px;
-  }
-  .gun-detail-passages {
-    min-height: 260px;
-  }
+.gun-frame-angles img {
+  object-position: center 25%;
+  transform: scale(1.65);
+  transform-origin: 42% 23%;
 }
 @media (max-width: 767px) {
   .gun-introduction {
-    grid-template-columns: 1fr;
-    gap: 20px;
-    padding-block: 32px 40px;
-    text-align: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-block: 32px 34px;
   }
-  .gun-royal-ornament {
-    width: 88px;
-    height: 38px;
-    margin-bottom: 0;
+  .gun-introduction h1 {
+    font-size: clamp(34px, 6.8vw, 44px);
+    line-height: 1.05;
   }
   .gun-introduction p {
-    justify-self: center;
-    font-size: 14px;
-    max-width: 33ch;
+    max-width: 36ch;
   }
-  .gun-form-chapter {
-    padding-block: 56px 32px;
+  .gun-frame-study {
+    grid-template-columns: minmax(0, 1fr);
   }
-  .gun-form-chapter > header {
-    grid-template-columns: 1fr;
-    gap: 24px;
+  .gun-frame-study header {
+    align-items: start;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 6px;
   }
-  .gun-form-chapter h2 {
-    font-size: clamp(46px, 12vw, 64px);
+  .gun-frame-angles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
   }
-  .gun-form-chapter > header p {
-    justify-self: start;
-    font-size: 15px;
-  }
-  .gun-form-study {
-    aspect-ratio: 1.65;
-    margin-top: 24px;
-    margin-inline: -8px;
-  }
-  .gun-form-study > img {
-    width: 108%;
-    max-width: none;
-  }
-  .gun-detail-chapter {
-    padding-block: 24px 32px;
-  }
-  .gun-detail-chapter > header {
-    margin-bottom: 32px;
-  }
-  .gun-detail-chapter h2 {
-    font-size: 40px;
-  }
-  .gun-detail-composition {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .gun-detail-loupe {
-    width: min(100%, 400px);
-    margin-inline: auto;
-  }
-  .gun-detail-choices {
-    justify-content: space-between;
-    margin-bottom: 24px;
-  }
-  .gun-detail-choices button {
-    min-height: 54px;
-  }
-  .gun-detail-passages {
-    min-height: 250px;
-  }
-  .gun-detail-passages h3 {
-    font-size: 36px;
-    max-width: 18ch;
-    margin-bottom: 16px;
-  }
-  .gun-detail-passages p {
-    font-size: 15px;
-  }
-  .collection-barrel .collection-showroom {
-    padding-top: 40px;
+  .gun-frame-angles figure {
+    aspect-ratio: 4 / 3;
   }
 }

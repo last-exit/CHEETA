@@ -109,9 +109,9 @@ describe("Masquerade campaign sequencing", () => {
         expect(markup.indexOf('class="masquerade-sculpture"')).toBeGreaterThan(
           markup.indexOf("</canvas>")
         );
-        expect(markup.indexOf('class="masquerade-coda"')).toBeGreaterThan(
-          markup.indexOf('class="masquerade-sculpture"')
-        );
+        expect(
+          markup.indexOf('data-campaign-chapter="after-dark"')
+        ).toBeGreaterThan(markup.indexOf('class="masquerade-sculpture"'));
         expect(markup).toContain("/videos/masquerade.mp4");
         expect(markup).toContain("available exclusively at our showroom");
         expect(markup).not.toContain("masquerade-sculpture-controls");

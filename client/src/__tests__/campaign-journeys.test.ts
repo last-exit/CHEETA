@@ -4,6 +4,7 @@ import { Router } from "wouter";
 import { describe, expect, it, vi } from "vitest";
 import CollectionDetail from "../pages/CollectionDetail";
 import { COLLECTIONS } from "../data/collections";
+import { GUN_JOURNEY } from "../lib/gunJourney";
 import { MASQUERADE_CINEMA } from "../lib/masqueradeCinema";
 import MasqueradeCoda from "../components/MasqueradeCoda";
 
@@ -37,23 +38,21 @@ describe("Long-form collection campaigns", () => {
         .map(match => match[1].replace(/<[^>]*>/g, " "))
         .join(" ");
       if (cinema) {
-        expect(paragraphs).toContain("Candlelight traces the openwork");
+        expect(markup).toContain('id="masquerade-coda-title"');
         expect(markup).not.toContain("campaign photographs");
         expect(markup).toContain(
           'aria-label="Interactive Masquerade sculpture"'
         );
         expect(markup).not.toContain('aria-roledescription="carousel"');
         expect(markup).not.toContain("masquerade-portrait-composition");
-      } else {
-        expect(paragraphs).toContain("paired barrel temples");
-        expect(paragraphs).toContain("floral pattern");
-        expect(
-          markup.match(/data-campaign-chapter=/g)!.length
-        ).toBeGreaterThanOrEqual(5);
+      } else if (id === "barrel") {
+        expect(paragraphs).toContain("vintage double-barrel sporting guns");
         expect(markup).not.toContain("Eisa Saidi");
         expect(markup).not.toContain("gun-founder-contact-sheet");
-        expect(markup).toContain("maharajah-front-v2.webp");
-        expect(markup).toContain('aria-label="Maharajah details"');
+        expect(markup).toContain(GUN_JOURNEY.opening);
+        expect(markup).toContain('class="collector-case-screen"');
+        expect(markup).toContain("See Maharajah in person");
+        expect(markup).not.toContain("maharajah-front-v2.webp");
       }
       expect(markup.match(/<video\b/g)).toHaveLength(2);
       expect(
@@ -85,7 +84,7 @@ describe("Long-form collection campaigns", () => {
           expect(markup).not.toContain('aria-roledescription="carousel"');
         } else {
           if (id === "barrel") {
-            expect(markup).toContain("maharajah-front-v2.webp");
+            expect(markup).toContain(GUN_JOURNEY.closing);
             expect(markup).not.toContain("gun-founder");
           } else
             for (const still of COLLECTIONS[id].stills)
@@ -112,9 +111,9 @@ describe("Masquerade showroom campaign", () => {
     expect(markup).not.toContain("after-dark-loop-v1.mp4");
     expect(video).not.toMatch(/controls=|autoplay=/);
   });
-  it("ends with a photographic detail and a showroom visit, without an online purchase path", () => {
+  it("leads from the sculpture and full film to the showroom without an online purchase path", () => {
     const markup = render("masquerade");
-    const chapters = ["after-dark", "the-openwork", "the-showroom"];
+    const chapters = ["openwork-study", "after-dark", "the-showroom"];
     for (let index = 1; index < chapters.length; index++) {
       expect(
         markup.indexOf(`data-campaign-chapter="${chapters[index]}"`)
@@ -123,10 +122,8 @@ describe("Masquerade showroom campaign", () => {
       );
     }
     expect(markup).toContain("available exclusively at our showroom");
-    expect(markup).toMatch(
-      /href="\/contact"[^>]*>[\s\S]*?arrange a showroom visit/
-    );
-    expect(markup).toContain("/stills/masquerade-still-4.jpg");
+    expect(markup).toMatch(/href="\/contact\?collection=masquerade"[^>]*>[\s\S]*?arrange a visit/);
+    expect(markup).not.toContain('data-campaign-chapter="the-openwork"');
     expect(markup).not.toMatch(/add to bag|acquire|checkout|AED|15,000/);
     expect(markup.indexOf('data-campaign-chapter="the-showroom"')).toBeLessThan(
       markup.indexOf('aria-label="Next collection"')

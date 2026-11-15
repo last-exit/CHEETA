@@ -6,7 +6,6 @@ import LegalPage, { Section, List } from "@/components/LegalPage";
 export default function Privacy() {
   return (
     <LegalPage
-      eyebrow="Legal · 01"
       title="Privacy"
       intro="We collect the minimum we need to serve you, and we do not sell or share it. The full policy is below; a plain-English summary opens it."
     >

@@ -6,7 +6,6 @@ import LegalPage, { Section } from "@/components/LegalPage";
 export default function Accessibility() {
   return (
     <LegalPage
-      eyebrow="Legal · 03"
       title="Accessibility"
       intro="The house is for everyone who values the work. We design and build to WCAG 2.1 AA and test with assistive tech on every release."
     >

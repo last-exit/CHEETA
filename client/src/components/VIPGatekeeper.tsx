@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface VIPGatekeeperProps {
   children: ReactNode;
@@ -97,11 +97,11 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
         </div>
 
         {/* Headline & Editorial Context */}
-        <h1 className="font-serif text-2xl sm:text-3xl tracking-[0.16em] font-normal text-[#1A1410] capitalize mb-3">
-          Archival Access
+        <h1 className="font-serif text-3xl sm:text-4xl font-normal text-[#1A1410] mb-3">
+          Private viewing
         </h1>
-        <p className="font-sans text-xs sm:text-sm text-[#7A7368] font-light max-w-xs leading-relaxed mb-8">
-          This digital salon is confidential and reserved for private client & stakeholder review. Please enter your house passcode to proceed.
+        <p className="font-sans text-base text-[#6A635D] max-w-xs leading-relaxed mb-8">
+          Enter your passcode to view the site.
         </p>
 
         {/* Passcode Entry Form */}
@@ -114,40 +114,37 @@ export default function VIPGatekeeper({ children }: VIPGatekeeperProps) {
                 setPasscode(e.target.value);
                 if (error) setError(false);
               }}
-              placeholder="ENTER HOUSE PASSCODE"
+              placeholder="Passcode"
+              aria-label="Passcode"
               autoFocus
               className={`w-full bg-[#FAF9F5] border ${
                 error
                   ? "border-[#B22222] text-[#B22222]"
                   : "border-[#DCD6CA] text-[#1A1410] focus:border-[#1A1410]"
-              } py-3.5 px-4 text-center font-sans text-xs sm:text-sm tracking-[0.3em] uppercase placeholder:text-[#9C9487] placeholder:text-[10px] placeholder:tracking-[0.25em] outline-none transition-all duration-300 rounded-none shadow-sm`}
+              } py-3.5 px-4 text-center font-sans text-base placeholder:text-[#6A635D] outline-none transition-all duration-300 rounded-none shadow-sm`}
             />
           </div>
 
           {error && (
-            <p className="text-[11px] font-sans tracking-[0.2em] uppercase text-[#B22222] animate-pulse">
-              Invalid Passcode · Access Denied
+            <p role="alert" className="text-[length:var(--house-label-size)] font-sans text-[#B22222]">
+              Incorrect passcode. Try again.
             </p>
           )}
 
           <button
             type="submit"
-            className="w-full bg-[#1A1410] hover:bg-[#000000] text-[#FFFFFF] font-sans text-[11px] tracking-[0.3em] uppercase py-3.5 px-6 flex items-center justify-center gap-2 transition-all duration-300 group cursor-pointer shadow-sm hover:shadow-md"
+            className="w-full bg-[#1A1410] hover:bg-[#000000] text-[#FFFFFF] font-sans text-base py-3.5 px-6 flex items-center justify-center gap-2 transition-all duration-300 group cursor-pointer shadow-sm hover:shadow-md"
           >
-            <span>Enter Salon</span>
+            <span>Continue</span>
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1 text-[#FFFFFF]" />
           </button>
         </form>
 
-        <div className="mt-8 flex items-center gap-2 text-[10px] font-sans text-[#8C8476] tracking-[0.25em] uppercase">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#B8860B]" />
-          <span>Encrypted Session · No Search Indexing</span>
-        </div>
       </main>
 
       {/* Pure Minimalist Bottom-Left Copyright */}
-      <footer className="w-full flex justify-start text-[10px] font-sans tracking-[0.25em] uppercase text-[#8C8476] relative z-10">
-        <span>© 2026 Cheeta Jewels · All Rights Reserved</span>
+      <footer className="w-full flex justify-start text-[length:var(--house-label-size)] font-sans text-[#6A635D] relative z-10">
+        <span>© 2026 Cheeta Jewels</span>
       </footer>
     </div>
   );

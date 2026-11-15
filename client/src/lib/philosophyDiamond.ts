@@ -3,6 +3,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { createDiamondMaterial } from "./diamondOptics";
 
 export const DIAMOND_POSE = { x: 0.25, y: -0.48 };
+const MAX_RENDER_PIXELS = 1_400_000;
 
 /** User-supplied geometry; the original author is credited on the page. */
 export async function createDiamondStudio(
@@ -57,7 +58,6 @@ export async function createDiamondStudio(
     geometry.dispose();
     throw error;
   }
-  renderer.setPixelRatio(Math.min(Math.max(1, devicePixelRatio || 1), 1.5));
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -71,7 +71,8 @@ export async function createDiamondStudio(
   camera.lookAt(0, 0, 0);
 
   const room = new THREE.Scene();
-  room.background = new THREE.Color("#b8b1a6");
+  const ambient = new THREE.Color("#c1bdb6");
+  room.background = ambient;
   const panels: THREE.Mesh[] = [];
   const panel = (
     x: number,
@@ -83,20 +84,43 @@ export async function createDiamondStudio(
   ) => {
     const mesh = new THREE.Mesh(
       new THREE.PlaneGeometry(w, h),
-      new THREE.MeshBasicMaterial({ color: colour, side: THREE.DoubleSide })
+      new THREE.ShaderMaterial({
+        uniforms: { ambient: { value: ambient }, panel: { value: colour } },
+        side: THREE.DoubleSide,
+        toneMapped: false,
+        vertexShader: `
+          varying vec2 vUv;
+          void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+          }
+        `,
+        fragmentShader: `
+          uniform vec3 ambient;
+          uniform vec3 panel;
+          varying vec2 vUv;
+          void main() {
+            vec2 edge = min(vUv, 1.0 - vUv);
+            float weight = smoothstep(0.0, 0.24, edge.x) * smoothstep(0.0, 0.24, edge.y);
+            gl_FragColor = vec4(mix(ambient, panel, weight), 1.0);
+          }
+        `,
+      })
     );
     mesh.position.set(x, y, z);
     mesh.lookAt(0, 0, 0);
     room.add(mesh);
     panels.push(mesh);
   };
-  panel(-4, 3, 3, 3, 8, new THREE.Color().setRGB(4, 3.8, 3.5));
-  panel(4, 1, 2, 1, 7, new THREE.Color().setRGB(3, 3.2, 3.4));
-  panel(0, 6, -1, 7, 3, new THREE.Color().setRGB(3.3, 3.1, 2.8));
-  panel(-1, 0, -5, 5, 7, new THREE.Color("#242321"));
-  panel(4, -2, -2, 4, 4, new THREE.Color("#383532"));
-  const environment = new THREE.WebGLCubeRenderTarget(128, {
+  panel(-4, 3, 3, 3, 8, new THREE.Color().setRGB(3.5, 3.3, 3.05));
+  panel(4, 1, 2, 1.5, 7, new THREE.Color().setRGB(2.5, 2.65, 2.8));
+  panel(0, 6, -1, 7, 3, new THREE.Color().setRGB(2.9, 2.8, 2.65));
+  panel(-1, 0, -5, 5, 7, new THREE.Color("#55514d"));
+  panel(4, -2, -2, 4, 4, new THREE.Color("#716c66"));
+  const environment = new THREE.WebGLCubeRenderTarget(256, {
     type: THREE.HalfFloatType,
+    generateMipmaps: true,
+    minFilter: THREE.LinearMipmapLinearFilter,
   });
   const cubeCamera = new THREE.CubeCamera(0.1, 30, environment);
   cubeCamera.update(renderer, room);
@@ -166,7 +190,12 @@ export async function createDiamondStudio(
       3.25 / (2 * Math.tan(THREE.MathUtils.degToRad(15.5)) * camera.aspect)
     );
     camera.updateProjectionMatrix();
-    renderer.setSize(width, height, false);
+    const pixelRatio = Math.min(
+      Math.max(1, window.devicePixelRatio || 1),
+      2,
+      Math.sqrt(MAX_RENDER_PIXELS / (width * height))
+    );
+    renderer.setDrawingBufferSize(width, height, pixelRatio);
     request();
   };
   const resizeObserver = new ResizeObserver(resize);

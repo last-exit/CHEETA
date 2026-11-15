@@ -98,7 +98,10 @@ export default function MasqueradeSculpture() {
       aria-labelledby="masquerade-sculpture-title"
       data-campaign-chapter="openwork-study"
     >
-      <header className="masquerade-sculpture-heading house-container">
+      <header
+        className="masquerade-sculpture-heading house-container"
+        data-editorial-reveal
+      >
         <h2 id="masquerade-sculpture-title">
           Anatomy of <em>a disguise.</em>
         </h2>

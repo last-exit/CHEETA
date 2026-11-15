@@ -20,7 +20,7 @@ export const MASQUERADE_CINEMA: CinemaAsset = {
   opening: `${base}/opening-film-v1.webp`,
   closing: `${base}/closing-film-v1.webp`,
   fps: 24,
-  scrollVh: 440,
+  scrollVh: 310,
   width: 1280,
   height: 720,
 };

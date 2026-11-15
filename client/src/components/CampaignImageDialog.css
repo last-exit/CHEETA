@@ -55,7 +55,7 @@
   border-radius: 0;
 }
 .campaign-image-dialog header button {
-  font-size: 12px;
+  font-size: var(--house-label-size);
   flex-shrink: 0;
 }
 .campaign-dialog-image {
@@ -79,7 +79,7 @@
   opacity: 1;
 }
 .campaign-gallery-loading {
-  font-size: 13px;
+  font-size: var(--house-label-size);
   color: var(--house-muted);
 }
 .campaign-image-dialog footer {
@@ -89,7 +89,7 @@
   justify-content: center;
   gap: 32px;
   min-height: 44px;
-  font-size: 12px;
+  font-size: var(--house-label-size);
 }
 .campaign-gallery-caption {
   display: grid;
@@ -99,11 +99,11 @@
 }
 .campaign-gallery-caption p {
   color: var(--house-muted);
-  font-size: 12px;
+  font-size: var(--house-label-size);
   text-transform: none;
 }
 .campaign-gallery-caption button {
-  font-size: 12px;
+  font-size: var(--house-label-size);
 }
 @media (max-width: 767px) {
   .campaign-image-dialog {

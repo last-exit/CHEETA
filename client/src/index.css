@@ -222,10 +222,15 @@
   gap: 4px;
 }
 
+.toaster[data-sonner-toaster] [data-sonner-toast] [data-title] {
+  font-size: var(--house-label-size);
+  line-height: 1.4;
+}
+
 .toaster[data-sonner-toaster] [data-sonner-toast] [data-description] {
   color: #625a51;
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
@@ -242,6 +247,7 @@
   background: #2a241d;
   color: #f9f6f0;
   font-family: var(--font-sans);
+  font-size: var(--house-label-size);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -274,7 +280,7 @@
     flex-wrap: wrap;
     gap: 8px 28px;
     font-family: var(--font-sans);
-    font-size: 12px;
+    font-size: var(--house-label-size);
   }
 
   .collection-lenses button,
@@ -315,9 +321,8 @@
     background: transparent;
     color: inherit;
     font-family: var(--font-sans);
-    font-size: 13px;
+    font-size: var(--house-label-size);
     font-weight: 500;
-    letter-spacing: 0.025em;
     line-height: 1.5;
     cursor: pointer;
     transition:

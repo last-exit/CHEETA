@@ -1,16 +1,10 @@
 .hayrat-page {
-  --hayrat-paper: #fafaf7;
-  --hayrat-ink: #2a241d;
-  --hayrat-muted: #6a635d;
   min-height: 100vh;
-  background: var(--hayrat-paper);
-  color: var(--hayrat-ink);
 }
 
 .hayrat-viewing {
-  width: min(920px, calc(100% - 160px));
-  margin-inline: auto;
-  padding-block: 144px 64px;
+  max-width: 920px;
+  padding-block: var(--house-page-top) calc(var(--house-section) / 2);
 }
 
 .hayrat-introduction {
@@ -56,6 +50,7 @@
   aspect-ratio: 4 / 5;
   margin: 0;
   overflow: hidden;
+  background: var(--house-surface);
 }
 
 /* Crop the phone UI and letterboxing; retain the original museum photographs. */
@@ -70,22 +65,23 @@
 }
 
 .hayrat-note {
-  margin: 0;
+  margin: 14px 0 0;
+  text-align: center;
 }
 
 .hayrat-note p {
   max-width: 44ch;
-  margin: 0;
-  color: var(--hayrat-muted);
+  margin-inline: auto;
+  color: var(--house-muted);
   font-family: var(--font-sans);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.8;
   text-wrap: pretty;
   text-transform: none;
 }
 
 .hayrat-continuation {
-  padding: 24px 24px 64px;
+  padding-block: 24px calc(var(--house-section) / 2);
   text-align: center;
 }
 
@@ -94,7 +90,7 @@
   align-items: center;
   gap: 16px;
   min-height: 44px;
-  color: var(--hayrat-ink);
+  color: var(--house-ink);
   font-family: var(--font-serif);
   font-size: 24px;
   text-decoration: none;
@@ -102,7 +98,7 @@
 }
 
 .hayrat-next:hover {
-  color: #6b1a2c;
+  color: var(--house-accent);
 }
 
 .hayrat-next:focus-visible {
@@ -112,9 +108,7 @@
 
 @media (min-width: 768px) and (max-height: 800px) {
   .hayrat-viewing {
-    width: min(680px, calc(100% - 112px));
-    padding-top: 120px;
-    padding-bottom: 48px;
+    max-width: 680px;
   }
 
   .hayrat-introduction {
@@ -122,17 +116,9 @@
     margin-bottom: 40px;
   }
 
-  .hayrat-note p {
-    font-size: 13px;
-  }
 }
 
 @media (max-width: 767px) {
-  .hayrat-viewing {
-    width: calc(100% - 48px);
-    padding-block: 136px 48px;
-  }
-
   .hayrat-introduction {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -148,17 +134,12 @@
   .hayrat-note p {
     max-width: 36ch;
     margin-inline: auto;
-    font-size: 13px;
   }
 
   .hayrat-gallery {
     grid-template-columns: 1fr;
     width: min(100%, 400px);
     margin-inline: auto;
-  }
-
-  .hayrat-continuation {
-    padding-bottom: 48px;
   }
 }
 

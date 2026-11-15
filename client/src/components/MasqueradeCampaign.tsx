@@ -74,6 +74,7 @@ export default function MasqueradeCampaign({
       <section
         className="masquerade-openwork-essay house-container"
         data-campaign-chapter="conceal-and-reveal"
+        data-editorial-reveal
         aria-labelledby="masquerade-openwork-title"
       >
         <h2 id="masquerade-openwork-title">
@@ -119,6 +120,7 @@ export default function MasqueradeCampaign({
           <div
             className="masquerade-night-copy"
             data-campaign-chapter="candlelight"
+            data-editorial-reveal
           >
             <h2 id="masquerade-night-title">
               After <em>dark.</em>

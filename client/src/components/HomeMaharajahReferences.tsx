@@ -125,10 +125,7 @@ export default function HomeMaharajahReferences() {
         )}
       </div>
       <div className="home-reference-caption">
-        <div className="home-reference-meta">
-          <h3>Maharajah</h3>
-          <p>three antique references. one octagonal silhouette.</p>
-        </div>
+        <h3>Maharajah</h3>
         <div
           className="home-reference-choices"
           role="group"

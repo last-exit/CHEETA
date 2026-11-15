@@ -1,13 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
-import { InformationLinks } from "@/components/HouseFooter";
+import { HouseFooter } from "@/components/HouseFooter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
 import HomeCinema from "@/components/HomeCinema";
 import HomeObjectStudy from "@/components/HomeObjectStudy";
 import HomeMasquerade from "@/components/HomeMasquerade";
+import { useEditorialMotion } from "@/hooks/useEditorialMotion";
+import { readBrandAnchors } from "@/lib/brandChrome";
+import { RETAIL_PREVIEW_PRODUCTS, RETAIL_PRODUCTS } from "@/data/retailCatalog";
 import "./Home.css";
+
+const featuredRetailPiece = RETAIL_PRODUCTS[0] ?? RETAIL_PREVIEW_PRODUCTS[0];
 
 /** A campaign-led entrance to the house. Purchasing remains in Retail. */
 export default function Home() {
@@ -15,6 +20,7 @@ export default function Home() {
   const [heroLight, setHeroLight] = useState(true);
   const [lightPaw, setLightPaw] = useState(true);
   const [lightMonogram, setLightMonogram] = useState(true);
+  useEditorialMotion(page);
 
   useEffect(() => {
     const root = page.current;
@@ -29,8 +35,9 @@ export default function Home() {
           const r = item.getBoundingClientRect();
           return r.left <= x && r.right >= x && r.top <= y && r.bottom >= y;
         });
-      setLightPaw(dark(innerWidth < 768 ? 40 : 64, 72));
-      setLightMonogram(dark(innerWidth / 2, 48));
+      const { paw, monogram } = readBrandAnchors();
+      setLightPaw(dark(paw.x, paw.y));
+      setLightMonogram(dark(monogram.x, monogram.y));
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(sync);
@@ -47,24 +54,10 @@ export default function Home() {
     };
   }, [heroLight]);
 
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (!["#characters", "#pieces", "#masquerade"].includes(hash)) return;
-    const frame = requestAnimationFrame(() => {
-      document
-        .getElementById(hash.slice(1))
-        ?.scrollIntoView({ behavior: "instant", block: "start" });
-    });
-    return () => cancelAnimationFrame(frame);
-  }, []);
-
   return (
     <main ref={page} className="home-page home-editorial home-art-direction">
       <CheetahBar tone={lightPaw ? "light" : "dark"} />
-      <HeaderWordmark
-        dark={lightMonogram}
-        color={lightMonogram ? "#fafaf7" : "#6b1a2c"}
-      />
+      <HeaderWordmark dark={lightMonogram} />
       <h1 className="sr-only">Cheeta Jewels</h1>
 
       <HomeCinema onTone={setHeroLight} />
@@ -74,47 +67,24 @@ export default function Home() {
       <HomeMasquerade />
 
       <section className="home-retail" aria-labelledby="home-retail-title">
-        <div className="home-retail-stage house-container">
+        <Link href="/retail" className="home-retail-stage house-container">
           <div className="home-retail-type">
-            <h2 id="home-retail-title">
-              Jewellery
-              <br />
-              &amp; <em>eyewear.</em>
-            </h2>
-            <Link href="/retail" className="home-campaign-action">
-              explore retail{" "}
+            <h2 id="home-retail-title">Retail</h2>
+            <span className="home-campaign-action">
+              explore retail
               <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
-            </Link>
+            </span>
           </div>
-          <Link
-            href="/retail"
-            className="home-retail-image"
-            aria-label="Explore Retail"
-            data-home-dark="true"
-          >
+          {featuredRetailPiece && (
             <img
-              src="/home/retail-jewellery.webp"
-              alt="Gold and emerald jewellery from the current retail catalogue"
-              width="1664"
-              height="2080"
+              className="home-retail-image"
+              src={featuredRetailPiece.productImage}
+              alt=""
               loading="lazy"
               decoding="async"
             />
-          </Link>
-          <nav
-            className="home-retail-categories"
-            aria-label="Retail categories"
-          >
-            <Link href="/retail?category=eyewear">
-              eyewear{" "}
-              <ArrowUpRight size={16} strokeWidth={1.2} aria-hidden="true" />
-            </Link>
-            <Link href="/retail?category=jewelry">
-              jewellery{" "}
-              <ArrowUpRight size={16} strokeWidth={1.2} aria-hidden="true" />
-            </Link>
-          </nav>
-        </div>
+          )}
+        </Link>
       </section>
 
       <section className="home-house" aria-labelledby="home-house-title">
@@ -130,37 +100,21 @@ export default function Home() {
               <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
             </Link>
           </div>
-          <img
-            className="home-house-sculpture"
-            src="/philosophy/ivory-cheetah-v2.webp"
-            alt="An ivory cheetah sculpture on an acanthus-carved plinth"
-            width="1895"
-            height="830"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-      </section>
-
-      <footer className="house-footer home-footer">
-        <div className="house-container">
-          <Link
-            href="/"
-            aria-label="Return to Cheeta Jewels"
-            className="home-footer-signature"
-          >
+          <div data-editorial-reveal>
             <img
-              src="/brand/icon-livin-black.png"
-              alt="Icon livin’."
-              width="1024"
-              height="258"
+              className="home-house-sculpture"
+              src="/philosophy/ivory-cheetah-v2.webp"
+              alt="An ivory cheetah sculpture on an acanthus-carved plinth"
+              width="1895"
+              height="830"
               loading="lazy"
               decoding="async"
             />
-          </Link>
-          <InformationLinks />
+          </div>
         </div>
-      </footer>
+      </section>
+
+      <HouseFooter />
     </main>
   );
 }

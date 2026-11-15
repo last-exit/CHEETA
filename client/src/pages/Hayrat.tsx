@@ -1,22 +1,25 @@
-import { useEffect } from "react";
+import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
-import { InformationLinks } from "@/components/HouseFooter";
+import { InformationFooter } from "@/components/HouseFooter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
+import { useEditorialMotion } from "@/hooks/useEditorialMotion";
 import "./Hayrat.css";
 
 export default function Hayrat() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const page = useRef<HTMLElement>(null);
+  useEditorialMotion(page);
 
   return (
-    <main className="hayrat-page">
-      <CheetahBar dark={false} />
-      <HeaderWordmark dark={false} />
+    <main ref={page} className="hayrat-page">
+      <CheetahBar />
+      <HeaderWordmark />
 
-      <section className="hayrat-viewing" aria-labelledby="hayrat-title">
+      <section
+        className="hayrat-viewing house-container"
+        aria-labelledby="hayrat-title"
+      >
         <div className="hayrat-introduction">
           <header>
             <h1 id="hayrat-title" className="sr-only">
@@ -31,13 +34,18 @@ export default function Hayrat() {
                 height="1020"
               />
             </div>
+            <div className="hayrat-note">
+              <p>
+                From sculpted masks to the openwork eyewear of The Masquerade.
+              </p>
+            </div>
           </header>
         </div>
 
         <div
           className="hayrat-gallery"
           role="group"
-          aria-label="Masks from Hayrat"
+          aria-label="Mask photographs"
         >
           <figure className="hayrat-artwork">
             <img
@@ -47,6 +55,7 @@ export default function Hayrat() {
               height="1280"
               fetchPriority="high"
               decoding="async"
+              data-editorial-camera
             />
           </figure>
           <figure className="hayrat-artwork">
@@ -56,20 +65,19 @@ export default function Hayrat() {
               width="589"
               height="1280"
               decoding="async"
+              data-editorial-camera
             />
           </figure>
         </div>
       </section>
 
-      <footer className="hayrat-continuation">
+      <div className="hayrat-continuation house-container">
         <Link href="/collection/masquerade" className="hayrat-next">
-          <span>The masquerade</span>
+          <span>The Masquerade</span>
           <ArrowUpRight aria-hidden="true" size={16} strokeWidth={1.25} />
         </Link>
-        <div className="mt-8 flex justify-center">
-          <InformationLinks />
-        </div>
-      </footer>
+      </div>
+      <InformationFooter />
     </main>
   );
 }

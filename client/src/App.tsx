@@ -2,7 +2,7 @@
  * CHEETA JEWELS / ICON LIVIN: App Router & Root Providers
  * Radical luxury minimalism with dedicated art-directed collection destinations.
  */
-import { useEffect, Suspense, lazy } from "react";
+import { useLayoutEffect, useRef, Suspense, lazy } from "react";
 import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -32,45 +32,83 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Accessibility = lazy(() => import("./pages/Accessibility"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-function ScrollToTop() {
+function RouteScroll() {
   const [location] = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  const positions = useRef(new Map<string, number>());
+  const nextEntry = useRef(0);
+
+  useLayoutEffect(() => {
+    const previous = history.scrollRestoration;
+    history.scrollRestoration = "manual";
+    return () => {
+      history.scrollRestoration = previous;
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const url = window.location;
+    const currentPath = url.pathname;
+    const entry =
+      history.state?.cheetaEntry ?? `${Date.now()}-${nextEntry.current++}`;
+    if (history.state?.cheetaEntry !== entry)
+      history.replaceState({ ...history.state, cheetaEntry: entry }, "");
+
+    const saved =
+      positions.current.get(entry) ??
+      (currentPath === "/retail" || currentPath === "/eyewear"
+        ? history.state?.cheetaRetailScroll
+        : undefined);
+    const hash = url.hash.slice(1);
+    const anchorId = hash === "maharajah-study" ? "maharajah-details" : hash;
+    const anchor = anchorId ? document.getElementById(anchorId) : null;
+
+    if (typeof saved === "number") {
+      window.scrollTo({ top: saved, behavior: "instant" });
+    } else if (anchor) {
+      anchor.scrollIntoView({ behavior: "instant", block: "start" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+
+    const remember = () => {
+      if (url.pathname === currentPath && history.state?.cheetaEntry === entry)
+        positions.current.set(entry, window.scrollY);
+    };
+    window.addEventListener("scroll", remember, { passive: true });
+    return () => window.removeEventListener("scroll", remember);
   }, [location]);
   return null;
 }
 
 function Router() {
   return (
-    <>
-      <ScrollToTop />
-      <Suspense fallback={<div className="min-h-screen bg-[#F4F1E8]" />}>
-        <Switch>
-          <Route path="/" component={Home} />
-          <Route path="/collection/:id" component={CollectionDetail} />
-          <Route path="/collection" component={CollectionDetail} />
-          <Route path="/retail" component={Retail} />
-          <Route path="/eyewear" component={Retail} />
-          <Route path="/product/:slug" component={ProductDetail} />
-          <Route path="/philosophy" component={Philosophy} />
-          <Route path="/story" component={Philosophy} />
-          <Route path="/founder" component={Founder} />
-          <Route path="/hayrat" component={Hayrat} />
-          <Route path="/cart" component={Cart} />
-          <Route path="/film" component={Film} />
-          <Route path="/house" component={House} />
-          <Route path="/shipping" component={Shipping} />
-          <Route path="/returns" component={Returns} />
-          <Route path="/care" component={Care} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/privacy" component={Privacy} />
-          <Route path="/terms" component={Terms} />
-          <Route path="/accessibility" component={Accessibility} />
-          {/* Fallback route */}
-          <Route component={NotFound} />
-        </Switch>
-      </Suspense>
-    </>
+    <Suspense fallback={<div className="min-h-screen bg-[#F4F1E8]" />}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/collection/:id" component={CollectionDetail} />
+        <Route path="/collection" component={CollectionDetail} />
+        <Route path="/retail" component={Retail} />
+        <Route path="/eyewear" component={Retail} />
+        <Route path="/product/:slug" component={ProductDetail} />
+        <Route path="/philosophy" component={Philosophy} />
+        <Route path="/story" component={Philosophy} />
+        <Route path="/founder" component={Founder} />
+        <Route path="/hayrat" component={Hayrat} />
+        <Route path="/cart" component={Cart} />
+        <Route path="/film" component={Film} />
+        <Route path="/house" component={House} />
+        <Route path="/shipping" component={Shipping} />
+        <Route path="/returns" component={Returns} />
+        <Route path="/care" component={Care} />
+        <Route path="/contact" component={Contact} />
+        <Route path="/privacy" component={Privacy} />
+        <Route path="/terms" component={Terms} />
+        <Route path="/accessibility" component={Accessibility} />
+        {/* Fallback route */}
+        <Route component={NotFound} />
+      </Switch>
+      <RouteScroll />
+    </Suspense>
   );
 }
 

@@ -24,7 +24,7 @@
   background: none;
   border: 0;
   color: var(--house-muted);
-  font-size: 13px;
+  font-size: var(--house-label-size);
   cursor: pointer;
 }
 .masquerade-study-choices button[aria-pressed="true"] {

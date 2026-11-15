@@ -86,32 +86,14 @@ export default function MasqueradeCinema({
           </figure>
         )}
       </section>
-      <section
-        className="masquerade-cinema-ending house-container"
-        data-campaign-chapter="seen-and-unseen"
-        aria-labelledby="masquerade-cinema-ending"
-      >
-        <h2 id="masquerade-cinema-ending">
-          A mask, <em>left open.</em>
-        </h2>
-        <div>
-          <p>
-            Dark lenses hold the gaze in shadow. Candlelight traces the
-            openwork, revealing a second silhouette around the face.
-          </p>
-          {film.failed && (
-            <div className="masquerade-cinema-retry" role="status">
-              <span>the film couldn’t load</span>
-              <button
-                type="button"
-                onClick={() => setAttempt(value => value + 1)}
-              >
-                retry film
-              </button>
-            </div>
-          )}
+      {film.failed && (
+        <div className="masquerade-cinema-retry house-container" role="status">
+          <span>the film couldn’t load</span>
+          <button type="button" onClick={() => setAttempt(value => value + 1)}>
+            retry film
+          </button>
         </div>
-      </section>
+      )}
     </article>
   );
 }

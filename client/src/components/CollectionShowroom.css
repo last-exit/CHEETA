@@ -6,8 +6,8 @@
   padding-block: clamp(88px, 9vw, 144px) 48px;
 }
 .collection-showroom h2 {
-  max-width: 13ch;
-  font: 400 clamp(60px, 7vw, 104px) / 1.04 var(--font-serif);
+  max-width: 19ch;
+  font: 400 clamp(40px, 4.5vw, 64px) / 1.08 var(--font-serif);
   letter-spacing: -0.045em;
 }
 .collection-showroom em {
@@ -27,7 +27,7 @@
   gap: 20px;
   min-height: 44px;
   margin-top: 24px;
-  font-size: 14px;
+  font-size: 16px;
 }
 .collection-showroom-link svg {
   transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -42,10 +42,10 @@
     padding-block: 64px 24px;
   }
   .collection-showroom h2 {
-    font-size: clamp(52px, 14vw, 72px);
+    font-size: clamp(38px, 10vw, 48px);
   }
   .collection-showroom p {
-    font-size: 15px;
+    font-size: 16px;
     margin-top: 24px;
   }
 }

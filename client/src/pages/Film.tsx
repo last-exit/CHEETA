@@ -5,6 +5,7 @@
  */
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useEditorialMotion } from "@/hooks/useEditorialMotion";
 import {
   Play,
   Pause,
@@ -33,14 +34,14 @@ interface Plate {
 const PLATES: Plate[] = [
   {
     src: "/manus-storage/cheeta-leopard-vault-box.jpg",
-    alt: "The leopard-print velvet case, photographed in the Dubai atelier",
+    alt: "Campaign study of a leopard-print presentation case",
     caption: "The case",
     no: "I",
   },
   {
     src: "/manus-storage/cheeta-dubai-atelier_0dde518b.png",
-    alt: "Eisa Saidi at the workbench in the Dubai atelier",
-    caption: "The atelier",
+    alt: "Campaign interior with eyewear and a feline sculpture on a stone table",
+    caption: "The setting",
     no: "II",
   },
   {
@@ -74,6 +75,8 @@ const PLATES: Plate[] = [
 /* ------------------------------------------------------------------ */
 
 export default function Film() {
+  const page = useRef<HTMLElement>(null);
+  useEditorialMotion(page);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -142,7 +145,10 @@ export default function Film() {
   };
 
   return (
-    <main className="film-page relative w-full min-h-screen bg-[#2A241D] text-[#FAFAF7] overflow-hidden">
+    <main
+      ref={page}
+      className="film-page relative w-full min-h-screen bg-[#2A241D] text-[#FAFAF7] overflow-hidden"
+    >
       {/* Floating Transparent Cheetah Bar */}
       <CheetahBar dark />
 
@@ -213,7 +219,7 @@ export default function Film() {
                     strokeWidth={1.4}
                   />
                 </span>
-                <span className="font-sans text-[10px] lowercase tracking-[0.42em] text-white/85">
+                <span className="font-sans text-base text-white">
                   Play the film
                 </span>
               </span>
@@ -247,7 +253,7 @@ export default function Film() {
             />
           </div>
 
-          <span className="font-sans text-[10px] tabular-nums tracking-[0.2em] text-white/65">
+          <span className="font-sans text-[length:var(--house-label-size)] tabular-nums text-white/85">
             {fmt(progress * duration)} / {fmt(duration)}
           </span>
 
@@ -271,7 +277,7 @@ export default function Film() {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12 md:mb-16 pl-6 md:pl-0">
           <div>
             <h2 className="mt-3 font-serif text-4xl md:text-5xl text-[#FAFAF7] tracking-tight leading-[1.05] max-w-2xl">
-              Stills from the inaugural shoot.
+              Campaign archive
             </h2>
           </div>
         </div>
@@ -290,11 +296,13 @@ export default function Film() {
                 className={`group relative ${span} ${aspect} bg-[#2A241D] overflow-hidden cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#B8985F]`}
                 aria-label={`Open plate ${p.no} in lightbox`}
               >
-                <img
-                  src={p.src}
-                  alt={p.alt}
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.04]"
-                />
+                <span className="absolute inset-0" data-editorial-camera>
+                  <img
+                    src={p.src}
+                    alt={p.alt}
+                    className="h-full w-full object-cover transition-transform duration-[1100ms] ease-out group-hover:scale-[1.04]"
+                  />
+                </span>
 
                 {/* Plate number, top-left */}
                 <div className="absolute top-4 left-4 z-10 flex flex-col gap-0.5">
@@ -315,31 +323,8 @@ export default function Film() {
       {/* ============================================================== */}
       <section className="relative w-full bg-[#0A0807] py-20 md:py-28">
         <div className="max-w-5xl mx-auto px-6 md:px-12">
-          <span className="block font-sans text-[10px] lowercase tracking-[0.4em] text-[#B8985F]/85 mb-8">
-            Credits
-          </span>
-          <dl className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-6">
-            {[
-              ["Directed by", "the house"],
-              ["Cinematography", "Dubai · Atelier"],
-              ["Wardrobe", "Cheeta Jewels : The 100"],
-
-              ["Music", "Original score, in-house"],
-              ["Run time", fmt(duration)],
-            ].map(([k, v]) => (
-              <div key={k} className="pt-4">
-                <dt className="font-sans text-[9px] lowercase tracking-[0.42em] text-[#FAFAF7]/40">
-                  {k}
-                </dt>
-                <dd className="mt-1 font-serif text-base text-[#FAFAF7]/90">
-                  {v}
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          <div className="mt-16 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-sans text-[10px] lowercase tracking-[0.32em] text-[#FAFAF7]/45">
-            <span>© 2026 · Cheeta Jewels, Dubai</span>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-sans text-[length:var(--house-label-size)] text-[#FAFAF7]/75">
+            <span>© 2026 Cheeta Jewels, Dubai</span>
             <InformationLinks />
           </div>
         </div>
@@ -408,7 +393,7 @@ export default function Film() {
                 className="max-h-[80vh] w-auto max-w-full object-contain"
               />
               <div className="text-center">
-                <span className="font-sans text-[9px] lowercase tracking-[0.42em] text-white/55">
+                <span className="font-sans text-[length:var(--house-label-size)] text-white/85">
                   Plate {PLATES[lightboxIdx].no} of{" "}
                   {PLATES.length.toString().padStart(2, "0")}
                 </span>

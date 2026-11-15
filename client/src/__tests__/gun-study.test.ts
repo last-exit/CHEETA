@@ -1,4 +1,3 @@
-import { MAHARAJAH_DETAILS } from "../components/GunCampaign";
 import { GUN_JOURNEY } from "../lib/gunJourney";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -27,23 +26,26 @@ const campaign = () =>
   );
 
 describe("Gun campaign", () => {
-  it("opens with the founder film, continues through one palace scene, and continues into the frame and ornament", () => {
+  it("ends the film and collector’s case with a showroom visit", () => {
     const markup = campaign();
     expect(markup.match(/<video\b/g)).toHaveLength(2);
     expect(markup.match(/class="collection-film"/g)).toHaveLength(1);
     expect(markup).not.toContain('class="campaign-motion-chapter"');
     const film = markup.indexOf('class="collection-film"');
     const study = markup.indexOf('id="collectors-case"');
-    const closing = markup.indexOf('data-campaign-chapter="the-outline"');
+    const closing = markup.indexOf('data-campaign-chapter="the-showroom"');
     expect(film).toBeLessThan(study);
     expect(study).toBeLessThan(closing);
     expect(markup).toContain("Maharajah");
     expect(markup).not.toContain("Eisa Saidi");
     expect(markup).not.toContain("gun-founder");
-    expect(markup).toContain("The jeweller’s");
-    expect(markup).toContain('role="tablist"');
-    expect(markup).toContain("Eight sides.");
-    expect(markup).toContain("Two barrels.");
+    expect(closing).toBeLessThan(markup.indexOf('id="collection-next"'));
+    expect(markup).toContain("See Maharajah in person");
+    expect(markup).toMatch(/href="\/contact\?collection=barrel"[^>]*>arrange a visit/);
+    expect(markup).not.toContain("maharajah-front-v2.webp");
+    expect(markup).not.toContain(GUN_STUDY.src);
+    expect(markup).not.toContain('class="gun-detail-loupe"');
+    expect(markup).not.toContain("gun-royal-ornament");
     expect(markup).not.toContain('class="gun-study"');
     expect(markup).not.toContain("/products/");
     expect(markup).not.toContain("acquire");
@@ -51,16 +53,15 @@ describe("Gun campaign", () => {
     expect(markup).toContain("/collection/masquerade");
   });
 
-  it("keeps every view available without pinning or autoplay for reduced motion", () => {
+  it("keeps the open case and showroom invitation available with reduced motion", () => {
     media.reduced = true;
     try {
       const markup = campaign();
       expect(markup).toContain('data-static="true"');
       expect(markup).not.toContain("<video");
       expect(markup).toContain(GUN_JOURNEY.closing);
-      expect(markup).toContain("Eight sides.");
-      expect(markup).toContain("Two barrels.");
-      expect(markup).toContain('class="gun-detail-loupe"');
+      expect(markup).toContain('aria-label="Change the lens colour study"');
+      expect(markup).toContain("See Maharajah in person");
     } finally {
       media.reduced = false;
     }
@@ -69,10 +70,7 @@ describe("Gun campaign", () => {
 
 describe("Maharajah source framing and scroll sequence", () => {
   it("keeps every crop inside the supplied launch image", () => {
-    for (const view of [
-      ...Object.values(GUN_STUDY.views),
-      ...MAHARAJAH_DETAILS.map(detail => detail.view),
-    ]) {
+    for (const view of Object.values(GUN_STUDY.views)) {
       expect(view.x).toBeGreaterThanOrEqual(0);
       expect(view.y).toBeGreaterThanOrEqual(0);
       expect(view.x + view.width).toBeLessThanOrEqual(GUN_STUDY.width);

@@ -1,87 +1,59 @@
-import { describe, it, expect } from "vitest";
-import { PRODUCTS, type ProductItem } from "../pages/Retail";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, it } from "vitest";
+import { Router } from "wouter";
+import { CartProvider, readRetailCart } from "../contexts/CartContext";
+import {
+  PRODUCTS,
+  RETAIL_PRODUCTS,
+  productForSlug,
+} from "../data/retailCatalog";
+import Retail from "../pages/Retail";
 
-describe("Cheetah Jewelz Radical Minimal Retail Catalog", () => {
-  it("should contain all 5 required pieces (3 Eyewear + 2 High Jewelry)", () => {
-    expect(PRODUCTS).toHaveLength(5);
-    
-    const eyewear = PRODUCTS.filter((p) => p.category === "Eyewear");
-    const jewelry = PRODUCTS.filter((p) => p.category === "High Jewelry");
-    
-    expect(eyewear).toHaveLength(3);
-    expect(jewelry).toHaveLength(2);
+describe("Retail availability", () => {
+  it("keeps showroom and unlisted products out of the online range", () => {
+    expect(RETAIL_PRODUCTS).toEqual(
+      PRODUCTS.filter(product => product.availability === "retail")
+    );
+    expect(productForSlug("double-barrel-01")?.availability).toBe("showroom");
+    expect(productForSlug("gun-collection-02")?.availability).toBe("showroom");
+    expect(productForSlug("emerald-signet-ring")?.availability).toBe(
+      "unlisted"
+    );
   });
 
-  it("should have valid product images on bone white", () => {
-    PRODUCTS.forEach((product) => {
-      expect(product.productImage.startsWith("/manus-storage/")).toBe(true);
-      expect(product.productImage).toBeTruthy();
-    });
+  it("leaves unknown product URLs unresolved", () => {
+    expect(productForSlug("unknown-piece")).toBeUndefined();
+    expect(productForSlug(undefined)).toBeUndefined();
   });
 
-  it("should contain zero em dashes anywhere", () => {
-    const emDashRegex = /—/;
-    PRODUCTS.forEach((product) => {
-      expect(product.name).not.toMatch(emDashRegex);
-      expect(product.frame).not.toMatch(emDashRegex);
-      expect(product.lens).not.toMatch(emDashRegex);
-    });
+  it("shows a labelled catalogue preview while there are no approved online items", () => {
+    const html = renderToStaticMarkup(
+      createElement(
+        Router,
+        { ssrPath: "/retail" },
+        createElement(CartProvider, { children: createElement(Retail) })
+      )
+    );
+    expect(html).toContain('href="/contact?interest=retail"');
+    expect(html).toContain('href="/product/preview-amber-round"');
+    expect(html).toContain('aria-label="Green signet ring"');
+    expect(html).toContain("Pieces and prices are illustrative.");
+    expect(html).not.toMatch(/add to bag|href="\/cart"/i);
+    expect(html).not.toMatch(/double-barrel-01|emerald-signet-ring|15,000/);
   });
 
-  it("should feature the complete The Gun Collection eyewear series", () => {
-    const goldBarrel = PRODUCTS.find((p) => p.id === "barrel-01");
-    const gunmetalBarrel = PRODUCTS.find((p) => p.id === "barrel-02");
-    const bronzeBarrel = PRODUCTS.find((p) => p.id === "barrel-03");
-
-    expect(goldBarrel).toBeDefined();
-    expect(goldBarrel?.frame).toContain("18K Brushed Gold");
-    expect(goldBarrel?.price).toBe(15000);
-    expect(goldBarrel?.priceDisplay).toBe("AED 15,000");
-
-    expect(gunmetalBarrel).toBeDefined();
-    expect(gunmetalBarrel?.frame).toContain("Gunmetal Obsidian");
-    expect(gunmetalBarrel?.price).toBe(15000);
-
-    expect(bronzeBarrel).toBeDefined();
-    expect(bronzeBarrel?.frame).toContain("Antique Bronze");
-    expect(bronzeBarrel?.price).toBe(15000);
-  });
-
-  it("should feature the fine jewelry archive (Emerald Signet & Atrium Necklace)", () => {
-    const emeraldSignet = PRODUCTS.find((p) => p.id === "emerald-signet");
-    const atriumNecklace = PRODUCTS.find((p) => p.id === "atrium-necklace");
-
-    expect(emeraldSignet).toBeDefined();
-    expect(emeraldSignet?.name).toBe("The Emerald Signet Ring");
-    expect(emeraldSignet?.price).toBe(42000);
-    expect(emeraldSignet?.priceDisplay).toBe("AED 42,000");
-
-    expect(atriumNecklace).toBeDefined();
-    expect(atriumNecklace?.name).toBe("The Atrium Gold Necklace");
-    expect(atriumNecklace?.price).toBe(68000);
-    expect(atriumNecklace?.priceDisplay).toBe("AED 68,000");
-  });
-
-  it("should filter by category accurately", () => {
-    const eyewearOnly = PRODUCTS.filter((p) => p.category === "Eyewear");
-    const jewelryOnly = PRODUCTS.filter((p) => p.category === "High Jewelry");
-
-    expect(eyewearOnly).toHaveLength(3);
-    expect(jewelryOnly).toHaveLength(2);
-  });
-
-  it("should calculate cart prices accurately in AED", () => {
-    const items = [
-      { product: PRODUCTS[0], qty: 2 }, // 2 * 15,000 = 30,000
-      { product: PRODUCTS[3], qty: 1 }, // 1 * 42,000 = 42,000
-      { product: PRODUCTS[4], qty: 1 }, // 1 * 68,000 = 68,000
-    ];
-
-    const totalQty = items.reduce((sum, i) => sum + i.qty, 0);
-    const totalPrice = items.reduce((sum, i) => sum + i.product.price * i.qty, 0);
-
-    expect(totalQty).toBe(4);
-    expect(totalPrice).toBe(140000);
-    expect(`AED ${totalPrice.toLocaleString()}`).toBe("AED 140,000");
+  it("excludes old showroom products and unknown items from restored bags", () => {
+    expect(
+      readRetailCart(
+        JSON.stringify([
+          { id: "barrel-01", quantity: 1, price: 15000 },
+          { id: "emerald-signet", quantity: 1, price: 42000 },
+          { id: "missing-piece", quantity: 2 },
+          { id: "preview-amber-round", quantity: 1, price: 5000 },
+        ])
+      )
+    ).toEqual([]);
+    expect(readRetailCart("{")).toEqual([]);
   });
 });

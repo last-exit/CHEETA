@@ -1,13 +1,13 @@
 # Current client-confirmed brand facts
 
-Updated 7 November 2026 from the client’s direct clarification. These facts take precedence over older generated campaign metadata and historical design proposals.
+These confirmed decisions take precedence over older campaign metadata and historical design proposals.
 
 ## Collections and purchasing
 
 - There are two active exclusive eyewear collections: The Gun Collection and The Masquerade.
 - Maharajah is the octagonal frame in the supplied real-life photographs. It belongs to The Gun Collection and is not a separate collection. Savanah is not active.
 - The Masquerade and The Gun Collection are purchased exclusively in person at the showroom. Their collection pages are campaigns for the eyewear, with a contact route for arranging a visit. They should not offer online checkout, cart actions or product prices.
-- Retail is a separate, more accessible range. The client describes its intended price range as roughly AED 1,000 to AED 2,000. This is positioning, not an approved price list for individual SKUs. Existing catalog IDs and stored prices have not been changed from this general guidance.
+- Retail is the online shop for a separate range of pieces priced around AED 5,000 to AED 6,000. Confirm the individual products, exact prices and availability before listing them for sale.
 - No showroom street address, opening hours or appointment availability has been confirmed. Use the supplied contact page to arrange a visit. Do not invent location details, services, materials or manufacturing claims.
 - Confirmed public contacts: mohammadfazalhaque@gmail.com and +971 52 803 8612.
 

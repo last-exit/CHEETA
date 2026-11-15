@@ -6,7 +6,6 @@ import LegalPage, { Section, List } from "@/components/LegalPage";
 export default function Terms() {
   return (
     <LegalPage
-      eyebrow="Legal · 02"
       title="Terms of Sale"
       intro="Plain terms, written in plain English. The law is the law of the United Arab Emirates, Dubai; everything else here is just courtesy."
     >

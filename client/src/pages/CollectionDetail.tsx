@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { Link, useParams } from "wouter";
+import { Link, Redirect, useParams } from "wouter";
 import CampaignImageDialog from "@/components/CampaignImageDialog";
 import MasqueradeCampaign from "@/components/MasqueradeCampaign";
 import MasqueradeCinema from "@/components/MasqueradeCinema";
 import MasqueradeSculpture from "@/components/MasqueradeSculpture";
 import MasqueradeCoda from "@/components/MasqueradeCoda";
-import MasqueradeCloseup from "@/components/MasqueradeCloseup";
 import CollectionShowroom from "@/components/CollectionShowroom";
 import { MASQUERADE_CINEMA, cinemaPreview } from "@/lib/masqueradeCinema";
 import GunCampaign from "@/components/GunCampaign";
@@ -16,17 +15,32 @@ import { HouseFooter } from "@/components/HouseFooter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
 import { collectionTitle } from "@/lib/collectionPresentation";
+import { readBrandAnchors } from "@/lib/brandChrome";
+import { useEditorialMotion } from "@/hooks/useEditorialMotion";
 import { COLLECTIONS } from "@/data/collections";
+import NotFound from "./NotFound";
 import "./CollectionDetail.css";
 
 export default function CollectionDetail() {
   const params = useParams<{ id: string }>();
   const rawId = (params.id || "barrel").toLowerCase();
-  const collection =
-    COLLECTIONS[rawId === "masquerade" ? "masquerade" : "barrel"];
+  if (["maharaja", "maharajah", "gun"].includes(rawId))
+    return (
+      <Redirect
+        to={`/collection/barrel${typeof window === "undefined" ? "" : window.location.hash}`}
+        replace
+      />
+    );
+  if (rawId !== "barrel" && rawId !== "masquerade") return <NotFound />;
+  return <ActiveCollection key={rawId} id={rawId} />;
+}
+
+function ActiveCollection({ id }: { id: "barrel" | "masquerade" }) {
+  const collection = COLLECTIONS[id];
   const next = COLLECTIONS[collection.nextId];
   const opening = useRef<HTMLDivElement>(null);
   const page = useRef<HTMLElement>(null);
+  useEditorialMotion(page, collection.id === "masquerade" && collection.id);
   const [activePhotograph, setActivePhotograph] = useState<number | null>(null);
   const [lightPaw, setLightPaw] = useState(true);
   const [lightMonogram, setLightMonogram] = useState(true);
@@ -39,8 +53,6 @@ export default function CollectionDetail() {
       ));
 
   useEffect(() => {
-    setActivePhotograph(null);
-    window.scrollTo(0, 0);
     let frame = 0;
     const syncNavigation = () => {
       frame = 0;
@@ -85,35 +97,22 @@ export default function CollectionDetail() {
             rect.bottom >= y
           );
         });
+      const { paw, monogram } = readBrandAnchors();
       setLightPaw(
-        cinemaAt(window.innerWidth < 768 ? 40 : 64, 72)
+        cinemaAt(paw.x, paw.y)
           ? window.innerWidth < 768 && lightCinema
-          : filmBottom > 72 ||
-              onDarkImage(window.innerWidth < 768 ? 40 : 64, 72)
+          : filmBottom > paw.y || onDarkImage(paw.x, paw.y)
       );
       setLightMonogram(
-        cinemaAt(window.innerWidth / 2, 48)
+        cinemaAt(monogram.x, monogram.y)
           ? lightCinema
-          : filmBottom > 48 || onDarkImage(window.innerWidth / 2, 48)
+          : filmBottom > monogram.y || onDarkImage(monogram.x, monogram.y)
       );
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(syncNavigation);
     };
     syncNavigation();
-    const anchorId = window.location.hash.slice(1);
-    const anchorFrame = [
-      "collectors-case",
-      "maharajah-study",
-      "maharajah-details",
-      "collection-next",
-    ].includes(anchorId)
-      ? requestAnimationFrame(() => {
-          document
-            .getElementById(anchorId)
-            ?.scrollIntoView({ behavior: "instant", block: "start" });
-        })
-      : 0;
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     page.current?.addEventListener("load", schedule, true);
@@ -128,7 +127,6 @@ export default function CollectionDetail() {
     return () => {
       toneObserver.disconnect();
       cancelAnimationFrame(frame);
-      cancelAnimationFrame(anchorFrame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       root?.removeEventListener("load", schedule, true);
@@ -136,13 +134,14 @@ export default function CollectionDetail() {
   }, [collection.id, cinematic]);
 
   return (
-    <main ref={page} className={`collection-page collection-${collection.id}`}>
+    <main
+      ref={page}
+      className={`collection-page collection-${collection.id}`}
+      data-compact-ending={collection.id === "barrel"}
+    >
       {collection.id === "barrel" && <GunArchitecture />}
       <CheetahBar tone={cinematic || lightPaw ? "light" : "dark"} />
-      <HeaderWordmark
-        dark={cinematic || lightMonogram}
-        color={cinematic ? "#ede4da" : undefined}
-      />
+      <HeaderWordmark dark={cinematic || lightMonogram} />
       {!cinematic && (
         <div ref={opening}>
           <CollectionCampaign key={collection.id} collection={collection} />
@@ -164,9 +163,8 @@ export default function CollectionDetail() {
       {cinematic && (
         <>
           <MasqueradeSculpture />
-          <MasqueradeCoda paused={activePhotograph !== null} />
-          <MasqueradeCloseup inspect={() => setActivePhotograph(3)} />
-          <CollectionShowroom collection="The Masquerade" />
+          <MasqueradeCoda />
+          <CollectionShowroom collection="masquerade" />
         </>
       )}
 
@@ -182,7 +180,7 @@ export default function CollectionDetail() {
           </div>
         </Link>
       </nav>
-      <HouseFooter />
+      <HouseFooter inverse={cinematic} />
       {activePhotograph !== null && (
         <CampaignImageDialog
           key={`${collection.id}-photographs`}

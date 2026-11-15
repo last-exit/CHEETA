@@ -4,15 +4,13 @@
  * accessibility, and contact.
  */
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import { Link } from "wouter";
-import { InformationLinks } from "@/components/HouseFooter";
+import { InformationFooter } from "@/components/HouseFooter";
 import { collectionHeading } from "@/lib/collectionPresentation";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
 
 export interface LegalPageProps {
-  eyebrow: string;
   title: string;
   intro?: string;
   children: React.ReactNode;
@@ -20,17 +18,11 @@ export interface LegalPageProps {
 }
 
 export default function LegalPage({
-  eyebrow,
   title,
   intro,
   children,
   lastUpdated = "September 2026",
 }: LegalPageProps) {
-  // Reset scroll on mount so a deep link lands at the top.
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-  }, []);
-
   return (
     <main className="legal-page relative w-full min-h-screen bg-[#FAFAF7] text-[#2A241D] selection:bg-[#2A241D] selection:text-[#FAFAF7] pt-20 md:pt-24 overflow-hidden">
       {/* Floating Transparent Cheetah Bar */}
@@ -40,16 +32,6 @@ export default function LegalPage({
       <HeaderWordmark dark={false} />
 
       <article className="relative z-10 max-w-3xl mx-auto px-6 md:px-10 py-16 md:py-24">
-        {/* Eyebrow */}
-        <motion.span
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="block font-sans lowercase text-[11px] tracking-wider text-[#6B1A2C] mb-6"
-        >
-          {eyebrow}
-        </motion.span>
-
         {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
@@ -87,16 +69,14 @@ export default function LegalPage({
         </motion.div>
 
         {/* Footer note */}
-        <div className="legal-note mt-20 md:mt-24 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-[#2A241D]/50 font-sans text-[10px] lowercase tracking-[0.32em]">
-          <span>Last updated · {lastUpdated}</span>
+        <div className="legal-note mt-20 md:mt-24 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-[#6A635D] font-sans">
+          <span>Last updated {lastUpdated}</span>
           <Link href="/" className="hover:text-[#6B1A2C] transition-colors">
             Return to the house →
           </Link>
         </div>
-        <div className="mt-8">
-          <InformationLinks />
-        </div>
       </article>
+      <InformationFooter />
     </main>
   );
 }
@@ -117,14 +97,14 @@ export function Section({
   return (
     <section className="space-y-4">
       <header className="flex items-baseline gap-4">
-        <span className="font-sans text-[10px] lowercase tracking-[0.4em] text-[#6B1A2C] shrink-0">
+        <span className="font-sans text-[#6B1A2C] shrink-0">
           {no}
         </span>
         <h2 className="font-serif text-2xl md:text-3xl text-[#2A241D] tracking-tight leading-tight">
           {collectionHeading(title)}
         </h2>
       </header>
-      <div className="space-y-3 font-sans text-[15px] leading-[1.7] text-[#2A241D]/80">
+      <div className="space-y-3 font-sans text-base leading-[1.7] text-[#2A241D]/80">
         {children}
       </div>
     </section>

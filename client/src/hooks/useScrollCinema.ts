@@ -53,6 +53,7 @@ export function useScrollCinema(
       video = player.current,
       canvas = screen.current;
     if (!element || !video || !canvas || reduced || !asset.available) return;
+    const stage = element.querySelector<HTMLElement>("[data-cinema-stage]");
     const context = canvas.getContext("2d", { alpha: false });
     if (!context) {
       setFailed(true);
@@ -173,9 +174,10 @@ export function useScrollCinema(
     const render = () => {
       raf = 0;
       const rect = element.getBoundingClientRect();
+      const stageHeight = stage?.offsetHeight ?? innerHeight;
       progress = Math.max(
         0,
-        Math.min(1, -rect.top / Math.max(1, rect.height - innerHeight))
+        Math.min(1, -rect.top / Math.max(1, rect.height - stageHeight))
       );
       const frame = cinemaFrame(progress, asset.playback);
       element.style.setProperty("--cinema-title", String(frame.title));

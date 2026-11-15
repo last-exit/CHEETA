@@ -1,0 +1,116 @@
+.contact-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background: var(--house-paper);
+  color: var(--house-ink);
+}
+
+.contact-content {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  align-content: center;
+  align-items: end;
+  column-gap: clamp(32px, 8vw, 128px);
+  row-gap: 36px;
+  padding-block: var(--house-page-top) var(--house-section);
+}
+
+.contact-content h1 {
+  margin: 0;
+  font: 400 clamp(52px, 7.5vw, 118px) / 0.96 var(--font-serif);
+  letter-spacing: -0.06em;
+}
+
+.contact-content p {
+  max-width: 36ch;
+  margin-top: 24px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--house-muted);
+}
+
+.contact-actions,
+.contact-showroom-links {
+  display: grid;
+  justify-items: start;
+}
+
+.contact-actions a,
+.contact-showroom-links a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.65em;
+  font-size: clamp(16px, 1.5vw, 20px);
+  overflow-wrap: anywhere;
+}
+
+.contact-email {
+  color: var(--house-accent);
+}
+
+.contact-email svg {
+  flex: none;
+}
+
+.contact-email-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  width: 100%;
+}
+
+.contact-email-row .contact-email {
+  min-width: 0;
+}
+
+.contact-copy {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--house-muted);
+  font: inherit;
+  font-size: var(--house-label-size);
+  cursor: pointer;
+}
+
+.contact-copy-status:not(:empty) {
+  font-size: var(--house-label-size);
+  color: var(--house-muted);
+}
+
+.contact-showroom-links {
+  grid-column: 2;
+}
+
+.contact-showroom-links h2 {
+  margin: 0 0 4px;
+  font: 400 29px / 1.15 var(--font-serif);
+  letter-spacing: -0.03em;
+}
+
+.contact-content :is(a, button):hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+
+.contact-content :is(a, button):focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+@media (max-width: 767px) {
+  .contact-content {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: 24px;
+  }
+
+  .contact-showroom-links {
+    grid-column: auto;
+  }
+}

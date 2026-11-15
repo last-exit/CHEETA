@@ -71,12 +71,8 @@ export function createDiamondMaterial(
       }
       vec3 light(vec3 direction) {
         vec3 world = normalize(uRotation * direction);
-        // A restrained wavelength offset, not a sparkle or screen-space flare.
-        return vec3(
-          textureCube(uEnvironment, normalize(world + vec3(.003, 0.0, 0.0))).r,
-          textureCube(uEnvironment, world).g,
-          textureCube(uEnvironment, normalize(world - vec3(.003, 0.0, 0.0))).b
-        );
+        // Explicit mip sampling keeps reflected edges stable through the ray branches.
+        return textureCubeLodEXT(uEnvironment, world, 1.25).rgb;
       }
       void main() {
         vec3 normal = normalize(vNormal);
@@ -111,7 +107,7 @@ export function createDiamondMaterial(
           origin = point + direction * .002;
           if (energy < .005) break;
         }
-        colour += light(direction) * energy * .22;
+        colour += light(direction) * energy * .36;
         gl_FragColor = vec4(colour * vec3(1.0, .994, .978), 1.0);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>

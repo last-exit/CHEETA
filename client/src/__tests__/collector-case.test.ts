@@ -68,7 +68,7 @@ describe("The single-case Gun journey", () => {
     expect(markup).toContain("One pair is shown at a time");
     expect(markup).toContain('aria-label="Next lens colour"');
     expect(markup.indexOf('id="collectors-case"')).toBeLessThan(
-      markup.indexOf('data-campaign-chapter="the-outline"')
+      markup.indexOf('data-campaign-chapter="the-showroom"')
     );
     expect(markup).toContain("available exclusively at our showroom");
     expect(markup).not.toMatch(

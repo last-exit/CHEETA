@@ -195,7 +195,7 @@ describe("Masquerade cinematic sequence", () => {
       expect(html).toContain('data-static="true"');
       expect(html).toContain(MASQUERADE_CINEMA.closing);
       expect(html).not.toContain("campaign photographs");
-      expect(html).toContain("Candlelight traces the openwork");
+      expect(html).toContain("The same woman revealed in full");
     } finally {
       media.reduced = false;
     }

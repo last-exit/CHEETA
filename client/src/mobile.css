@@ -5,7 +5,7 @@
   outline: 1px solid currentColor;
   outline-offset: 4px;
 }
-.house-navigation a[aria-current="page"] {
+.house-navigation a:is([aria-current="page"], [aria-current="location"]) {
   font-weight: 600;
 }
 .product-inspection {
@@ -27,7 +27,7 @@
 .product-inspection-image {
   display: block;
   width: 100%;
-  height: calc(100% - 32px);
+  height: calc(100% - 36px);
   overflow: hidden;
   flex: 1;
   min-height: 0;
@@ -43,72 +43,157 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 32px;
+  height: 36px;
   flex-shrink: 0;
   background: #f4f3ee;
   text-align: center;
-  font-size: 11px;
+  font-size: var(--house-label-size);
   pointer-events: none;
 }
 
 @media (max-width: 767px) {
+  :root {
+    --mobile-chrome-top: calc(env(safe-area-inset-top, 0px) + 12px);
+    --mobile-content-start: calc(env(safe-area-inset-top, 0px) + 96px);
+  }
   .house-navigation {
-    top: max(16px, env(safe-area-inset-top));
-    left: 24px;
+    top: var(--mobile-chrome-top);
+    left: 12px;
   }
   .house-navigation-trigger {
     position: relative;
     z-index: 2;
     min-width: 44px;
     min-height: 44px;
+    padding: 0;
+    margin-left: 0;
+  }
+  .house-paw-artwork {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+  .house-paw-artwork > img {
+    inset: 8px;
+    width: 28px;
+    height: 28px;
   }
   .house-navigation-close {
     font-family: var(--font-sans);
-    font-size: 11px;
+    font-size: var(--house-label-size);
     margin-left: 12px;
     color: #2a241d;
   }
   .house-navigation-backdrop {
     position: fixed;
     inset: 0;
-    background: #fafaf7;
+    background: var(--background);
+  }
+  .house-navigation-home {
+    position: fixed;
+    z-index: 2;
+    top: var(--mobile-chrome-top);
+    left: calc(50% - 22px);
+    width: 44px;
+    height: 44px;
+  }
+  .house-navigation-home::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--house-accent);
+    mask: url("/brand/cheeta-cj-transparent.png") center / contain no-repeat;
   }
   .house-navigation-panel {
     position: fixed;
-    inset: 88px 0 0;
+    inset: calc(var(--mobile-chrome-top) + 64px) 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
     width: auto;
-    padding: 20px 24px max(32px, env(safe-area-inset-bottom));
+    padding: 12px 24px max(24px, env(safe-area-inset-bottom));
     overflow-y: auto;
     overscroll-behavior: contain;
   }
-  .house-navigation-panel nav {
-    gap: 8px;
+  .house-navigation-destinations {
+    gap: 6px;
+    margin-block: auto;
   }
-  .house-navigation-panel nav > div {
+  .house-navigation-destinations > div {
     margin: 0;
   }
-  .house-navigation-panel nav > div > :is(a, button) {
-    min-height: 52px;
-    display: inline-flex;
+  .house-navigation-destinations > div > :is(a, button) {
+    width: 100%;
+    min-height: clamp(54px, 8svh, 70px);
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 12px;
   }
-  .house-navigation-panel nav > div > :is(a, button) > span {
-    font-size: 36px;
-    font-weight: 400;
+  .house-navigation-destinations .house-navigation-label {
+    font: 400 clamp(39px, 11vw, 60px) / 1 var(--font-serif);
+    letter-spacing: -0.04em;
+  }
+  .house-navigation-chevron {
+    flex: 0 0 auto;
+    color: var(--house-ink);
+    transition: transform 200ms ease;
+  }
+  .house-navigation-destinations
+    [aria-expanded="true"]
+    .house-navigation-chevron {
+    transform: rotate(180deg);
   }
   .house-collections {
-    padding-left: 0;
-    padding-block: 8px 16px;
+    padding: 2px 0 12px;
     gap: 0;
   }
   .house-collections a {
     min-height: 44px;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    margin: 0;
+    font: 400 23px / 1.2 var(--font-serif);
+    letter-spacing: -0.025em;
+  }
+  .house-navigation-footer {
+    color: var(--house-ink);
+  }
+  .house-navigation-footer img {
+    display: block;
+    width: 120px;
+    height: auto;
+    margin-bottom: 8px;
+  }
+  .house-navigation-information {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 24px;
+    font: 400 var(--house-label-size) / 1.4 var(--font-sans);
+    color: #6a635d;
+  }
+  .house-navigation-information a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
   .house-wordmark {
-    padding-top: max(12px, env(safe-area-inset-top));
+    top: var(--mobile-chrome-top);
+    height: 44px;
+    padding: 0;
+  }
+  .house-wordmark-link {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+  .house-wordmark-symbol {
+    width: 44px;
+    height: 44px;
+  }
+  .house-wordmark[data-visible="false"] .house-wordmark-link {
+    pointer-events: none;
   }
 
   .home-campaign {
@@ -177,48 +262,6 @@
     display: flex;
     align-items: center;
   }
-  :is(.home-page, .philosophy-page) > footer {
-    padding: 64px 24px max(40px, env(safe-area-inset-bottom));
-  }
-
-  .product-shell,
-  .cart-shell {
-    padding: 112px 24px 64px;
-  }
-  .product-breadcrumb {
-    margin-bottom: 28px;
-  }
-  .product-breadcrumb a,
-  .cart-shell > div:first-child a {
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-  }
-  .product-layout {
-    gap: 32px;
-  }
-  .product-stage {
-    padding: 0;
-  }
-  .product-layout h1 {
-    font-size: 36px;
-    line-height: 1.08;
-  }
-  .product-layout > div:last-child {
-    gap: 24px;
-  }
-  .product-layout > div:last-child > div {
-    margin: 0;
-  }
-  .product-layout > div:last-child > div:first-child > div {
-    font-size: 24px;
-    margin-top: 24px;
-  }
-  .product-shell > div:last-child {
-    margin-top: 64px;
-    box-shadow: none;
-  }
-
   .cart-shell > div:first-child {
     margin-bottom: 24px;
   }
@@ -274,9 +317,6 @@
     min-height: 44px;
   }
 
-  .hayrat-page .hayrat-viewing {
-    padding-top: 112px;
-  }
   .collection-page > section {
     scroll-margin-top: 88px;
   }
@@ -284,11 +324,7 @@
     min-width: 44px;
     min-height: 44px;
   }
-  .legal-page {
-    padding-top: 80px;
-  }
   .legal-page > article {
-    padding: 40px 24px 56px;
     overflow-wrap: anywhere;
   }
   .legal-page a[href^="mailto:"],
@@ -301,6 +337,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .house-navigation-chevron {
+    transition: none;
+  }
   .product-inspection-image img {
     transition: none;
   }

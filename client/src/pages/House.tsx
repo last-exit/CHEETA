@@ -2,11 +2,13 @@
  * Origin dossier: Dubai-born, editorially restrained, and centered on Eisa Saidi's living-icon conviction.
  */
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
 import { InformationFooter } from "@/components/HouseFooter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
+import { useEditorialMotion } from "@/hooks/useEditorialMotion";
 
 const mark = "/brand/cheeta-cj-transparent.png";
 const atelierImage = "/manus-storage/cheeta-dubai-atelier_0dde518b.png";
@@ -27,8 +29,13 @@ const chapters = [
 ];
 
 export default function House() {
+  const page = useRef<HTMLElement>(null);
+  useEditorialMotion(page);
   return (
-    <main className="house-page relative overflow-hidden bg-[#FAFAF7] text-[#2A241D]">
+    <main
+      ref={page}
+      className="house-page relative overflow-hidden bg-[#FAFAF7] text-[#2A241D]"
+    >
       {/* Floating Transparent Cheetah Bar */}
       <CheetahBar dark={false} />
 
@@ -77,8 +84,9 @@ export default function House() {
             </div>
             <figure className="founder-portrait-frame relative overflow-hidden bg-[#252a25]">
               <img
+                data-editorial-camera
                 src={atelierImage}
-                alt="Architectural Cheeta Jewels atelier in Dubai"
+                alt="Campaign interior with eyewear and a feline sculpture on a stone table"
                 className="h-full w-full object-cover opacity-60"
               />
               <div className="founder-portrait-overlay">
@@ -112,7 +120,7 @@ export default function House() {
                 transition={{ duration: 0.55 }}
                 className="chapter-row"
               >
-                <span className="font-sans text-[11px] text-[#6B1A2C]">
+                <span className="font-sans text-[length:var(--house-label-size)] text-[#6B1A2C]">
                   {number} / 03
                 </span>
                 <h3 className="font-serif text-[clamp(2.8rem,5.5vw,7rem)] leading-[0.82] tracking-[-0.06em]">
@@ -152,9 +160,9 @@ export default function House() {
       </section>
 
       <footer className="bg-[#FAFAF7] px-5 py-7 sm:px-8 lg:px-11">
-        <div className="mx-auto flex max-w-[1680px] items-center justify-between pt-5 font-sans text-[10px] lowercase tracking-[0.16em] text-[#2A241D]/55">
+        <div className="mx-auto flex max-w-[1680px] items-center justify-between pt-5 font-sans text-[length:var(--house-label-size)] text-[#6A635D]">
           <Link
-            href="/retail"
+            href="/collection/barrel"
             className="magnetic-link flex items-center gap-2"
           >
             View the Gun Collection <ArrowUpRight size={13} />

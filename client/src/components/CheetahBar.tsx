@@ -6,20 +6,21 @@
  * - 100% TRANSPARENT (no background, no translucent box, no border)
  * - No top header clutter inside the menu
  * - No bottom lines or dubai atelier footer
- * - Strictly the 4 items with first letter capitalized:
+ * - Main destinations with first letter capitalized:
  *     1. Collections (hover reveals sub-collections)
  *     2. Retail
  *     3. Hayrat
  *     4. Philosophy
+ *     5. The Founder
  * - Upright GT Sectra Display
  * - Zero em dashes anywhere
  */
 
 import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { playMetallicClick } from "@/lib/soundEffects";
 
 interface CheetahBarProps {
   dark?: boolean;
@@ -96,6 +97,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
         setIsOpen(false);
+        setCollectionsExpanded(false);
         triggerRef.current?.focus();
       }
     };
@@ -165,10 +167,10 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
   const g = Math.round(255 - progress * (255 - 36));
   const b = Math.round(255 - progress * (255 - 29));
   const dynamicTextColor =
-    mobile && isOpen ? "#2a241d" : `rgb(${r}, ${g}, ${b})`;
+    mobile && isOpen ? "var(--foreground)" : `rgb(${r}, ${g}, ${b})`;
   const dynamicSubTextColor =
     mobile && isOpen
-      ? "#6a635d"
+      ? "var(--muted-foreground)"
       : `rgba(${r}, ${g}, ${b}, ${0.72 - progress * 0.05})`;
 
   // Hover triggers for paw and dropdown menu
@@ -194,9 +196,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
   };
 
   const toggleMenu = () => {
-    try {
-      playMetallicClick();
-    } catch {}
+    if (isOpen) setCollectionsExpanded(false);
     setIsOpen(prev => !prev);
   };
 
@@ -217,9 +217,6 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
   };
 
   const handleLinkClick = () => {
-    try {
-      playMetallicClick();
-    } catch {}
     setIsOpen(false);
     setCollectionsExpanded(false);
   };
@@ -243,9 +240,18 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
       {/* 1. CHEETAH PAW LOGO (Hover Dropdown Trigger & Scroll Crossfade)     */}
       {/* =================================================================== */}
       {mobile && isOpen && (
-        <div className="house-navigation-backdrop" aria-hidden="true" />
+        <>
+          <div className="house-navigation-backdrop" aria-hidden="true" />
+          <Link
+            href="/"
+            onClick={handleLinkClick}
+            className="house-navigation-home"
+            aria-label="Cheeta Jewels home"
+          />
+        </>
       )}
       <button
+        type="button"
         ref={triggerRef}
         onClick={event => {
           if (canHover && event.detail > 0) setIsOpen(true);
@@ -257,11 +263,12 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
         aria-controls="house-navigation-panel"
         className="house-navigation-trigger group relative flex items-center justify-center p-2.5 -ml-2.5 bg-transparent cursor-pointer focus:outline-none transition-transform duration-300 active:scale-95"
       >
-        <div className="relative h-8.5 w-8.5 sm:h-9.5 sm:w-9.5 flex items-center justify-center">
+        <div className="house-paw-artwork relative h-8.5 w-8.5 sm:h-9.5 sm:w-9.5 flex items-center justify-center">
           {/* White Paw (for dark hero cinema) */}
           <motion.img
             src="/brand/cheetah-paw-white.png"
-            alt="Cheetah Jewels"
+            alt=""
+            aria-hidden="true"
             style={{ opacity: mobile && isOpen ? 0 : 1 - progress }}
             animate={{ scale: reducedMotion || mobile ? 1 : [1, 1.08, 1] }}
             transition={{
@@ -273,7 +280,8 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
           {/* Dark Paw (fades in as user scrolls down into character select region) */}
           <motion.img
             src="/brand/cheetah-paw.png"
-            alt="Cheetah Jewels"
+            alt=""
+            aria-hidden="true"
             style={{ opacity: mobile && isOpen ? 1 : progress }}
             animate={{ scale: reducedMotion || mobile ? 1 : [1, 1.08, 1] }}
             transition={{
@@ -293,17 +301,20 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
+            initial={{ opacity: 0, y: reducedMotion ? 0 : -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.22, ease: TRANSITION_EASE }}
+            exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }}
+            transition={{
+              duration: reducedMotion ? 0 : 0.22,
+              ease: TRANSITION_EASE,
+            }}
             onMouseEnter={handleMouseEnter}
             className="house-navigation-panel pt-3 sm:pt-4 bg-transparent p-0 text-left w-max relative"
           >
             <nav
               id="house-navigation-panel"
               aria-label="Main navigation"
-              className="relative z-10 flex flex-col space-y-3 sm:space-y-4"
+              className="house-navigation-destinations relative z-10 flex flex-col space-y-3 sm:space-y-4"
             >
               {/* 1. Collections (Hover dropdown for sub-collections) */}
               <div
@@ -315,30 +326,44 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                   type="button"
                   aria-expanded={collectionsExpanded}
                   aria-controls="house-collections"
-                  onClick={() => {
-                    try {
-                      playMetallicClick();
-                    } catch {}
-                    setCollectionsExpanded(prev => !prev);
-                  }}
+                  onClick={() => setCollectionsExpanded(prev => !prev)}
                   className="flex items-center justify-between group cursor-pointer focus:outline-none w-max"
                 >
                   <span
                     style={{ color: dynamicTextColor }}
-                    className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 group-hover:translate-x-1"
+                    className="house-navigation-label font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 group-hover:translate-x-1"
                   >
                     Collections
                   </span>
+                  {mobile && (
+                    <ChevronDown
+                      className="house-navigation-chevron"
+                      size={20}
+                      strokeWidth={1.25}
+                      aria-hidden="true"
+                    />
+                  )}
                 </button>
 
                 {/* Sub-collections dropdown */}
                 <AnimatePresence>
                   {collectionsExpanded && (
                     <motion.div
-                      initial={{ opacity: 0, height: 0, y: -4 }}
+                      initial={{
+                        opacity: 0,
+                        height: 0,
+                        y: reducedMotion ? 0 : -4,
+                      }}
                       animate={{ opacity: 1, height: "auto", y: 0 }}
-                      exit={{ opacity: 0, height: 0, y: -4 }}
-                      transition={{ duration: 0.2, ease: TRANSITION_EASE }}
+                      exit={{
+                        opacity: 0,
+                        height: 0,
+                        y: reducedMotion ? 0 : -4,
+                      }}
+                      transition={{
+                        duration: reducedMotion ? 0 : 0.2,
+                        ease: TRANSITION_EASE,
+                      }}
                       id="house-collections"
                       className="house-collections pl-4 py-2 flex flex-col space-y-2 overflow-hidden"
                     >
@@ -355,7 +380,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                                 ? dynamicTextColor
                                 : dynamicSubTextColor,
                             }}
-                            className="font-sans text-xs sm:text-sm tracking-wide transition-all duration-150 hover:translate-x-1 hover:opacity-100"
+                            className="font-sans text-[length:var(--house-label-size)] transition-all duration-150 hover:translate-x-1 hover:opacity-100"
                           >
                             <span>{col.name}</span>
                           </Link>
@@ -370,12 +395,18 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
               <div>
                 <Link
                   href="/retail"
-                  aria-current={isCurrentRoute("/retail") ? "page" : undefined}
+                  aria-current={
+                    isCurrentRoute("/retail")
+                      ? "page"
+                      : location.startsWith("/product/")
+                        ? "location"
+                        : undefined
+                  }
                   onClick={handleLinkClick}
                   style={{ color: dynamicTextColor }}
                   className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 hover:translate-x-1"
                 >
-                  <span>Retail</span>
+                  <span className="house-navigation-label">Retail</span>
                 </Link>
               </div>
 
@@ -388,7 +419,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                   style={{ color: dynamicTextColor }}
                   className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 hover:translate-x-1"
                 >
-                  <span>Hayrat</span>
+                  <span className="house-navigation-label">Hayrat</span>
                 </Link>
               </div>
 
@@ -403,10 +434,41 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                   style={{ color: dynamicTextColor }}
                   className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 hover:translate-x-1"
                 >
-                  <span>Philosophy</span>
+                  <span className="house-navigation-label">Philosophy</span>
+                </Link>
+              </div>
+
+              {/* 5. The Founder */}
+              <div>
+                <Link
+                  href="/founder"
+                  aria-current={isCurrentRoute("/founder") ? "page" : undefined}
+                  onClick={handleLinkClick}
+                  style={{ color: dynamicTextColor }}
+                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 hover:translate-x-1"
+                >
+                  <span className="house-navigation-label">The Founder</span>
                 </Link>
               </div>
             </nav>
+            {mobile && (
+              <div className="house-navigation-footer">
+                <img
+                  src="/brand/icon-livin-black.png"
+                  alt="Icon livin’"
+                  width="1024"
+                  height="258"
+                />
+                <div className="house-navigation-information">
+                  <Link href="/contact" onClick={handleLinkClick}>
+                    contact
+                  </Link>
+                  <Link href="/privacy" onClick={handleLinkClick}>
+                    privacy policy
+                  </Link>
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
