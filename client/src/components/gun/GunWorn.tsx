@@ -42,9 +42,6 @@ export default function GunWorn() {
               <span>Maharaja, worn</span>
             </span>
           </h3>
-          <p className="rise hidden pb-3 text-[0.95rem] tracking-normal opacity-80 md:block" style={{ ["--d" as string]: "0.6s" }}>
-            stills from the original horseback film.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-[clamp(0.5rem,0.8vw,0.8rem)] md:grid-cols-[1.6fr_1fr]">

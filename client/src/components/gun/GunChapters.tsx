@@ -40,9 +40,6 @@ export function ChapterOne({ piece }: { piece: Piece }) {
           <div className="wipe relative aspect-[3/2] overflow-hidden">
             <Parallax src={piece.img} alt={`${piece.name}: a steel and walnut flintlock pistol above rose-lensed octagonal eyewear`} speed={0.07} />
           </div>
-          <span className="display rise absolute -left-[5vw] top-0 hidden text-[clamp(1.2rem,1.6vw,1.8rem)] italic tracking-normal md:block" style={{ ["--d" as string]: "0.9s" }}>
-            {piece.numeral}.
-          </span>
         </div>
 
         <div className="relative z-10 -mt-[0.27em] flex items-end justify-between gap-8 px-[4vw] text-[clamp(5.6rem,23vw,30rem)] leading-[0.8]">
@@ -108,7 +105,6 @@ export function ChapterTwo({ piece }: { piece: Piece }) {
         </div>
 
         <div className="rise mx-auto mt-14 flex w-[min(86vw,150svh)] flex-col items-start justify-between gap-8 border-t border-gold/30 pt-8 md:flex-row md:items-center" style={{ ["--d" as string]: "1s" }}>
-          <span className="display text-[clamp(1.2rem,1.6vw,1.8rem)] italic tracking-normal text-brass">{piece.numeral}.</span>
           <Deva piece={piece} />
           <p className="display text-[1.15rem] italic leading-snug tracking-normal opacity-80">{piece.line}</p>
           <Enquire piece={piece} />
@@ -132,10 +128,6 @@ export function ChapterThree({ piece }: { piece: Piece }) {
             style={{ background: "linear-gradient(to top, #1a0f0b 0%, rgba(26,15,11,0.7) 40%, rgba(26,15,11,0) 100%)" }}
           />
         </div>
-
-        <span className="display rise absolute left-[4vw] top-[14vh] hidden text-[clamp(1.2rem,1.6vw,1.8rem)] italic tracking-normal text-ink md:block" style={{ ["--d" as string]: "1s" }}>
-          {piece.numeral}.
-        </span>
 
         <div className="relative z-10 -mt-[0.26em] flex items-end justify-between gap-8 px-[4vw] pb-[10svh] text-[clamp(6rem,25vw,34rem)] leading-[0.78]">
           <h2 className="display">
