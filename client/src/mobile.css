@@ -54,7 +54,7 @@
 @media (max-width: 767px) {
   :root {
     --mobile-chrome-top: calc(env(safe-area-inset-top, 0px) + 12px);
-    --mobile-content-start: calc(env(safe-area-inset-top, 0px) + 96px);
+    --mobile-content-start: var(--house-page-top);
   }
   .house-navigation {
     top: var(--mobile-chrome-top);
@@ -110,7 +110,7 @@
     inset: calc(var(--mobile-chrome-top) + 64px) 0 0;
     display: flex;
     flex-direction: column;
-    gap: 36px;
+    gap: 24px;
     width: auto;
     padding: 12px 24px max(24px, env(safe-area-inset-bottom));
     overflow-y: auto;
@@ -125,14 +125,14 @@
   }
   .house-navigation-destinations > div > :is(a, button) {
     width: 100%;
-    min-height: clamp(54px, 8svh, 70px);
+    min-height: clamp(48px, 7svh, 58px);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
   }
   .house-navigation-destinations .house-navigation-label {
-    font: 400 clamp(39px, 11vw, 60px) / 1 var(--font-serif);
+    font: 400 clamp(30px, 8.7vw, 44px) / 1.05 var(--font-serif);
     letter-spacing: -0.04em;
   }
   .house-navigation-chevron {
@@ -154,7 +154,7 @@
     display: flex;
     align-items: center;
     margin: 0;
-    font: 400 23px / 1.2 var(--font-serif);
+    font: 400 21px / 1.2 var(--font-serif);
     letter-spacing: -0.025em;
   }
   .house-navigation-footer {

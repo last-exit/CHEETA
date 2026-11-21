@@ -1,0 +1,166 @@
+/*
+ * A palace album page on cotton paper. Nothing is drawn in ink: the margin is
+ * blind-embossed, the frames are gold foil, the corners are struck gilt, and the
+ * sheet rests on the white page with a real shadow.
+ */
+.palace-folio {
+  --folio-paper: #f5efe3;
+  --folio-panel: #fbf8f2;
+  --folio-gold: #b48c4e;
+  --folio-carmine: #7d2430;
+  --folio-margin: clamp(20px, 4.8vw, 68px);
+  --foil: linear-gradient(
+    115deg,
+    #7d5b26 0%,
+    #c9a159 14%,
+    #f6e3a6 24%,
+    #b88f47 38%,
+    #8f6a2f 50%,
+    #e9cf8c 62%,
+    #fff1c4 68%,
+    #b48a43 80%,
+    #7d5b26 100%
+  );
+  position: relative;
+  isolation: isolate;
+  padding: var(--folio-margin);
+  background-color: var(--folio-paper);
+  background-image:
+    url("/brand/folio/paper.svg"),
+    url("/brand/folio/trellis.svg"),
+    radial-gradient(120% 90% at 50% 0%, #fbf6ec 0%, transparent 70%);
+  background-size:
+    240px 240px,
+    48px 72px,
+    100% 100%;
+  box-shadow:
+    0 1px 2px rgb(74 52 26 / 0.12),
+    0 18px 36px -18px rgb(74 52 26 / 0.28),
+    0 48px 90px -40px rgb(74 52 26 / 0.22);
+}
+.palace-folio-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* The painting's panel: smooth paper inside two foil frames. */
+.palace-folio-panel {
+  position: relative;
+  background-color: var(--folio-panel);
+  background-image: url("/brand/folio/paper.svg");
+  background-size: 240px 240px;
+  box-shadow: inset 0 1px 3px rgb(74 52 26 / 0.12);
+}
+.palace-folio-panel::before,
+.palace-folio-panel::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background: var(--foil);
+  background-size: 260% 260%;
+  background-position: 100% 100%;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  transition: background-position 2600ms var(--ease-editorial, cubic-bezier(0.22, 1, 0.36, 1));
+  filter: drop-shadow(0 0.5px 0 rgb(255 255 255 / 0.7)) drop-shadow(0 0.5px 0.6px rgb(74 52 26 / 0.35));
+}
+/* Outer foil band. */
+.palace-folio-panel::before {
+  inset: -13px;
+  padding: 3px;
+}
+/* Inner foil hairline. */
+.palace-folio-panel::after {
+  inset: -6px;
+  padding: 1px;
+  transition-delay: 160ms;
+}
+.palace-folio[data-lit="true"] .palace-folio-panel::before,
+.palace-folio[data-lit="true"] .palace-folio-panel::after {
+  background-position: 0% 0%;
+}
+
+/* Struck gilt corners: raised by a highlight above and a shadow below. */
+.palace-folio-corner {
+  position: absolute;
+  z-index: 2;
+  width: clamp(34px, 4vw, 54px);
+  height: auto;
+  pointer-events: none;
+  overflow: visible;
+  filter: drop-shadow(0 -0.6px 0 rgb(255 255 255 / 0.85))
+    drop-shadow(0 0.8px 0.8px rgb(74 52 26 / 0.45));
+}
+.palace-folio-corner-tl {
+  top: 4px;
+  left: 4px;
+}
+.palace-folio-corner-tr {
+  top: 4px;
+  right: 4px;
+  transform: scaleX(-1);
+}
+.palace-folio-corner-br {
+  bottom: 4px;
+  right: 4px;
+  transform: scale(-1);
+}
+.palace-folio-corner-bl {
+  bottom: 4px;
+  left: 4px;
+  transform: scaleY(-1);
+}
+
+/* Letterpress: the type is pressed into the sheet, not printed on it. */
+.palace-folio-number,
+.palace-folio-inscription {
+  position: absolute;
+  z-index: 1;
+  color: color-mix(in srgb, var(--folio-carmine) 88%, transparent);
+  text-shadow:
+    0 1px 0 rgb(255 255 255 / 0.75),
+    0 -0.5px 0 rgb(60 20 24 / 0.18);
+}
+.palace-folio-number {
+  top: calc(var(--folio-margin) / 2);
+  right: calc(var(--folio-margin) + 4px);
+  transform: translateY(-50%);
+  font: 400 15px / 1 var(--font-serif);
+  letter-spacing: 0.06em;
+  font-variant-numeric: oldstyle-nums;
+}
+.palace-folio-inscription {
+  left: calc(var(--folio-margin) / 2);
+  bottom: calc(var(--folio-margin) + 150px);
+  transform: translateX(-50%) rotate(-90deg);
+  transform-origin: center;
+  font: italic 400 14px / 1 var(--font-serif);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .palace-folio-panel::before {
+    inset: -10px;
+    padding: 2px;
+  }
+  .palace-folio-panel::after {
+    inset: -5px;
+  }
+  .palace-folio-number,
+  .palace-folio-inscription {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .palace-folio-panel::before,
+  .palace-folio-panel::after {
+    transition: none;
+  }
+}

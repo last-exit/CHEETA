@@ -63,7 +63,7 @@ export default function HeaderWordmark({
       >
         {/* Dynamic-Colored Enlarged CJ Logo Monogram - Subtle & Free-Floating */}
         <div
-          className="house-wordmark-symbol h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 transition-all duration-500 shrink-0"
+          className="house-wordmark-symbol h-9 w-9 md:h-10 md:w-10 transition-all duration-500 shrink-0"
           style={{
             backgroundColor: finalColor,
             maskImage: `url(/brand/cheeta-cj-transparent.png)`,

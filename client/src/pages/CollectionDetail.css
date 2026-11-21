@@ -1,11 +1,17 @@
 .collection-page {
   --campaign-accent: #2a241d;
+  --campaign-heading: clamp(30px, 3.65vw, 54px);
   background: var(--house-paper, #fafaf7);
   color: var(--house-ink, #2a241d);
   overflow: clip;
 }
 .collection-masquerade {
   --campaign-accent: #6b1a2c;
+}
+/* Light collection pages share the gold-flecked album paper. */
+.collection-page:not(:has(.masquerade-cinema)) {
+  background-image: url("/mughal/zar-afshan.svg"), url("/brand/folio/paper.svg");
+  background-size: 360px 360px, 240px 240px;
 }
 .collection-film {
   position: relative;
@@ -33,7 +39,7 @@
   text-align: left;
 }
 .collection-next {
-  padding-block: 112px 80px;
+  padding-block: var(--house-section) clamp(28px, 4vw, 56px);
 }
 .collection-next > a {
   display: block;
@@ -45,7 +51,7 @@
   gap: 32px;
 }
 .collection-next h2 {
-  font: 400 clamp(40px, 5vw, 72px) / 1.05 var(--font-serif);
+  font: 400 var(--campaign-heading) / 1.05 var(--font-serif);
   letter-spacing: -0.035em;
 }
 .collection-next svg {
@@ -71,13 +77,10 @@
     object-fit: contain;
   }
   .collection-next {
-    padding-block: 64px 32px;
+    padding-block: var(--house-section) 24px;
   }
   .collection-next > a > div {
     gap: 16px;
-  }
-  .collection-next h2 {
-    font-size: 36px;
   }
   .collection-next svg {
     width: 24px;
@@ -85,10 +88,10 @@
 }
 .collection-masquerade:has(.masquerade-coda) {
   .collection-showroom {
-    padding-block: clamp(48px, 7vw, 96px) 24px;
+    padding-block: 0 20px;
   }
   .collection-showroom h2 {
-    font-size: clamp(34px, 4vw, 56px);
+    font-size: var(--campaign-heading);
   }
   .collection-showroom p {
     margin-top: 16px;
@@ -99,7 +102,7 @@
   }
 }
 .collection-page:has(.collection-showroom) .collection-next {
-  padding-block: 0 clamp(20px, 4vw, 44px);
+  padding-block: 0 clamp(16px, 3vw, 34px);
 }
 .collection-page:has(.collection-showroom) .collection-next > a {
   display: inline-flex;
@@ -111,7 +114,7 @@
   gap: 16px;
 }
 .collection-page:has(.collection-showroom) .collection-next h2 {
-  font-size: clamp(22px, 2.2vw, 32px);
+  font-size: clamp(20px, 2vw, 28px);
   letter-spacing: -0.025em;
 }
 .collection-page:has(.collection-showroom) .collection-next svg {
@@ -121,13 +124,13 @@
   display: grid;
   grid-template-columns: minmax(0, max-content) auto;
   justify-content: start;
-  column-gap: clamp(32px, 5vw, 72px);
+  column-gap: clamp(24px, 4vw, 56px);
   row-gap: 14px;
-  padding-block: clamp(48px, 6vw, 88px) 36px;
+  padding-block: var(--house-section) 24px;
   text-align: left;
 }
 .collection-page[data-compact-ending="true"] .collection-showroom h2 {
-  font-size: clamp(36px, 4.25vw, 64px);
+  font-size: var(--campaign-heading);
   max-width: none;
 }
 .collection-page[data-compact-ending="true"] .collection-showroom p {
@@ -144,7 +147,7 @@
   .collection-page[data-compact-ending="true"] .collection-showroom {
     grid-template-columns: minmax(0, 1fr);
     row-gap: 12px;
-    padding-block: 44px 20px;
+    padding-block: 40px 20px;
   }
   .collection-page[data-compact-ending="true"] .collection-showroom-link {
     grid-area: auto;

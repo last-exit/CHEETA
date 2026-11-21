@@ -24,7 +24,7 @@ export default function LegalPage({
   lastUpdated = "September 2026",
 }: LegalPageProps) {
   return (
-    <main className="legal-page relative w-full min-h-screen bg-[#FAFAF7] text-[#2A241D] selection:bg-[#2A241D] selection:text-[#FAFAF7] pt-20 md:pt-24 overflow-hidden">
+    <main className="legal-page relative w-full min-h-screen bg-[var(--house-paper)] text-[#2A241D] selection:bg-[#2A241D] selection:text-[#FAFAF7] pt-20 md:pt-24 overflow-hidden">
       {/* Floating Transparent Cheetah Bar */}
       <CheetahBar dark={false} />
 
@@ -32,6 +32,7 @@ export default function LegalPage({
       <HeaderWordmark dark={false} />
 
       <article className="relative z-10 max-w-3xl mx-auto px-6 md:px-10 py-16 md:py-24">
+        <p className="house-kicker mb-6">The house</p>
         {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
@@ -52,11 +53,13 @@ export default function LegalPage({
               ease: [0.22, 1, 0.36, 1],
               delay: 0.15,
             }}
-            className="mt-6 md:mt-8 font-serif text-lg md:text-xl text-[#2A241D]/75 leading-relaxed max-w-2xl"
+            className="mt-6 md:mt-8 font-serif italic text-lg md:text-xl text-[#2A241D]/75 leading-relaxed max-w-2xl"
           >
             {intro}
           </motion.p>
         )}
+
+        <hr className="house-rule mt-10 md:mt-12" />
 
         {/* Body */}
         <motion.div
@@ -72,7 +75,7 @@ export default function LegalPage({
         <div className="legal-note mt-20 md:mt-24 pt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-[#6A635D] font-sans">
           <span>Last updated {lastUpdated}</span>
           <Link href="/" className="hover:text-[#6B1A2C] transition-colors">
-            Return to the house →
+            Return to the house
           </Link>
         </div>
       </article>
@@ -97,7 +100,7 @@ export function Section({
   return (
     <section className="space-y-4">
       <header className="flex items-baseline gap-4">
-        <span className="font-sans text-[#6B1A2C] shrink-0">
+        <span className="font-serif italic text-[#6B1A2C] shrink-0">
           {no}
         </span>
         <h2 className="font-serif text-2xl md:text-3xl text-[#2A241D] tracking-tight leading-tight">

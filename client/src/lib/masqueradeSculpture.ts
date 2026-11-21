@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 
 type Point = readonly [number, number];
+type Lens = { mesh: THREE.Mesh; seat: THREE.Vector3; side: number };
 
 /** An original campaign sculpture, not a manufacturing model of the frame. */
 const wing: Point[] = [
@@ -69,8 +70,71 @@ function lensShape() {
   return shape;
 }
 
+function lensGeometry(side: number) {
+  const outline = lensShape().getSpacedPoints(96).slice(0, -1);
+  if (THREE.ShapeUtils.isClockWise(outline)) outline.reverse();
+  const center = new THREE.Vector2(1.05, 0.05);
+  const positions: number[] = [];
+  const indices: number[] = [];
+  const steps = 9;
+  const point = new THREE.Vector2();
+
+  const vertex = (x: number, y: number, z: number) => {
+    const index = positions.length / 3;
+    const p = surface(side * x, y, z);
+    positions.push(p.x, p.y, p.z);
+    return index;
+  };
+  const triangle = (a: number, b: number, c: number, reverse: boolean) => {
+    if (reverse) indices.push(a, c, b);
+    else indices.push(a, b, c);
+  };
+  const cap = (front: boolean) => {
+    const depth = front ? 0.034 : -0.024;
+    const reverse = front ? side < 0 : side > 0;
+    const pole = vertex(center.x, center.y, depth + 0.07);
+    for (let ring = 1; ring <= steps; ring++) {
+      const t = ring / steps;
+      for (const edge of outline) {
+        point.lerpVectors(center, edge, t);
+        vertex(point.x, point.y, depth + 0.07 * (1 - t * t));
+      }
+      const start = pole + 1 + (ring - 1) * outline.length;
+      for (let i = 0; i < outline.length; i++) {
+        const a = start + i;
+        const b = start + ((i + 1) % outline.length);
+        if (ring === 1) triangle(pole, a, b, reverse);
+        else {
+          triangle(a - outline.length, a, b, reverse);
+          triangle(a - outline.length, b, b - outline.length, reverse);
+        }
+      }
+    }
+  };
+  cap(true);
+  cap(false);
+  // Keep the polished cut edge separate from the curved optical surfaces.
+  const edgeStart = positions.length / 3;
+  for (const p of outline) {
+    vertex(p.x, p.y, 0.034);
+    vertex(p.x, p.y, -0.024);
+  }
+  for (let i = 0; i < outline.length; i++) {
+    const a = edgeStart + i * 2;
+    const b = edgeStart + ((i + 1) % outline.length) * 2;
+    triangle(a, a + 1, b + 1, side < 0);
+    triangle(a, b + 1, b, side < 0);
+  }
+  const lens = new THREE.BufferGeometry();
+  lens.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  lens.setIndex(indices);
+  lens.computeVertexNormals();
+  return lens;
+}
+
 export function createMasqueradeSculpture() {
-  const sculpture = new THREE.Group();
+  const lenses: Lens[] = [];
+  const sculpture = Object.assign(new THREE.Group(), { lenses });
   sculpture.name = "Masquerade openwork concept";
   const metal = new THREE.MeshPhysicalMaterial({
     color: 0x242023,
@@ -82,14 +146,14 @@ export function createMasqueradeSculpture() {
   });
   const glass = new THREE.MeshPhysicalMaterial({
     color: 0x0a080b,
-    metalness: 0.16,
-    roughness: 0.08,
-    clearcoat: 1,
-    clearcoatRoughness: 0.025,
-    envMapIntensity: 1.1,
+    metalness: 0.1,
+    roughness: 0.18,
+    clearcoat: 0.28,
+    clearcoatRoughness: 0.17,
+    envMapIntensity: 0.52,
+    specularIntensity: 0.46,
   });
   const metalParts: THREE.BufferGeometry[] = [];
-  const lensParts: THREE.BufferGeometry[] = [];
   let seed = 717;
   const random = () => {
     seed = (seed * 1664525 + 1013904223) >>> 0;
@@ -149,40 +213,16 @@ export function createMasqueradeSculpture() {
       )
     );
 
-    const lens = new THREE.ExtrudeGeometry(lensShape(), {
-      depth: 0.025,
-      bevelEnabled: true,
-      bevelSize: 0.022,
-      bevelThickness: 0.016,
-      bevelSegments: 3,
-      curveSegments: 32,
-      steps: 1,
-    });
-    const positions = lens.getAttribute("position");
-    for (let i = 0; i < positions.count; i++) {
-      const x = positions.getX(i),
-        y = positions.getY(i);
-      const p = onSurface([x, y], positions.getZ(i) - 0.02);
-      // Slight convexity catches the moving studio reflection.
-      p.z += 0.065 * Math.max(0, 1 - ((x - 1.08) / 0.95) ** 2 - (y / 0.7) ** 2);
-      positions.setXYZ(i, p.x, p.y, p.z);
-    }
-    // Mirroring positions reverses winding, so flip triangles on the left.
-    if (side < 0) {
-      for (const attribute of Object.values(lens.attributes)) {
-        const array = attribute.array;
-        for (let i = 0; i < attribute.count; i += 3)
-          for (let j = 0; j < attribute.itemSize; j++) {
-            const a = (i + 1) * attribute.itemSize + j;
-            const b = (i + 2) * attribute.itemSize + j;
-            const value = array[a];
-            array[a] = array[b];
-            array[b] = value;
-          }
-      }
-    }
-    lens.computeVertexNormals();
-    lensParts.push(lens);
+    const lens = lensGeometry(side);
+    // Put the local origin inside the lens so it can lift and turn on its own.
+    lens.computeBoundingBox();
+    const center = lens.boundingBox!.getCenter(new THREE.Vector3());
+    lens.translate(-center.x, -center.y, -center.z);
+    const mesh = new THREE.Mesh(lens, glass);
+    mesh.name = side < 0 ? "Left lens" : "Right lens";
+    mesh.position.copy(center).add(new THREE.Vector3(0, -0.35, 0.9));
+    lenses.push({ mesh, seat: mesh.position.clone(), side });
+    sculpture.add(mesh);
 
     metalParts.push(
       tube(
@@ -221,28 +261,48 @@ export function createMasqueradeSculpture() {
     )
   );
 
-  for (const [parts, material, name] of [
-    [metalParts, metal, "Openwork and temples"],
-    [lensParts, glass, "Dark lenses"],
-  ] as const) {
-    const geometry = mergeGeometries([...parts]);
-    geometry.translate(0, -0.35, 0.9);
-    parts.forEach(part => part.dispose());
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = name;
-    sculpture.add(mesh);
-  }
+  const geometry = mergeGeometries(metalParts);
+  geometry.translate(0, -0.35, 0.9);
+  metalParts.forEach(part => part.dispose());
+  const mesh = new THREE.Mesh(geometry, metal);
+  mesh.name = "Openwork and temples";
+  sculpture.add(mesh);
   return sculpture;
 }
 
+export function separateSculptureLenses(
+  sculpture: ReturnType<typeof createMasqueradeSculpture>,
+  progress: number
+) {
+  for (const { mesh, seat, side } of sculpture.lenses) {
+    // Release the lenses from their seats before they arc outwards.
+    const release = THREE.MathUtils.smoothstep(
+      progress,
+      side < 0 ? 0 : 0.09,
+      side < 0 ? 0.91 : 1
+    );
+    mesh.position.set(
+      seat.x + side * 0.42 * release ** 1.4,
+      seat.y + (side < 0 ? 1.06 : 1.28) * release ** 1.4,
+      seat.z + 0.96 * release
+    );
+    mesh.rotation.set(
+      -0.27 * release,
+      -side * 0.32 * release,
+      side * 0.11 * release
+    );
+  }
+}
+
 export function disposeSculpture(sculpture: THREE.Group) {
+  const materials = new Set<THREE.Material>();
   sculpture.traverse(object => {
-    if (object instanceof THREE.Mesh) {
-      object.geometry.dispose();
-      const materials = Array.isArray(object.material)
-        ? object.material
-        : [object.material];
-      materials.forEach(material => material.dispose());
-    }
+    if (!(object instanceof THREE.Mesh)) return;
+    object.geometry.dispose();
+    const meshMaterials = Array.isArray(object.material)
+      ? object.material
+      : [object.material];
+    meshMaterials.forEach(material => materials.add(material));
   });
+  materials.forEach(material => material.dispose());
 }

@@ -26,23 +26,39 @@ const campaign = () =>
   );
 
 describe("Gun campaign", () => {
-  it("ends the film and collector’s case with a showroom visit", () => {
+  it("offers optional design references after the collector’s case and before the showroom", () => {
     const markup = campaign();
     expect(markup.match(/<video\b/g)).toHaveLength(2);
     expect(markup.match(/class="collection-film"/g)).toHaveLength(1);
     expect(markup).not.toContain('class="campaign-motion-chapter"');
     const film = markup.indexOf('class="collection-film"');
     const study = markup.indexOf('id="collectors-case"');
+    const detail = markup.indexOf('data-campaign-chapter="frame-detail"');
+    const references = markup.indexOf(
+      'data-campaign-chapter="design-references"'
+    );
     const closing = markup.indexOf('data-campaign-chapter="the-showroom"');
     expect(film).toBeLessThan(study);
-    expect(study).toBeLessThan(closing);
+    expect(study).toBeLessThan(detail);
+    expect(detail).toBeLessThan(references);
+    expect(references).toBeLessThan(closing);
+    expect(markup).toMatch(
+      /<details\b[^>]*data-campaign-chapter="design-references"[^>]*>/
+    );
+    expect(markup).not.toMatch(/<details\b[^>]*\sopen(?=[\s=>])/);
+    expect(markup).toMatch(/<summary\b[^>]*>Design references/);
     expect(markup).toContain("Maharajah");
     expect(markup).not.toContain("Eisa Saidi");
     expect(markup).not.toContain("gun-founder");
     expect(closing).toBeLessThan(markup.indexOf('id="collection-next"'));
     expect(markup).toContain("See Maharajah in person");
-    expect(markup).toMatch(/href="\/contact\?collection=barrel"[^>]*>arrange a visit/);
+    expect(markup).toMatch(
+      /href="\/contact\?collection=barrel"[^>]*>Arrange a showroom visit/
+    );
     expect(markup).not.toContain("maharajah-front-v2.webp");
+    expect(markup).toContain("/stills/barrel-founder-portrait-2.jpg");
+    expect(markup).not.toContain("/stills/barrel-founder-portrait-1.jpg");
+    expect(markup.match(/<canvas\b/g)).toHaveLength(1);
     expect(markup).not.toContain(GUN_STUDY.src);
     expect(markup).not.toContain('class="gun-detail-loupe"');
     expect(markup).not.toContain("gun-royal-ornament");

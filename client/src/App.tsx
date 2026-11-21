@@ -59,7 +59,10 @@ function RouteScroll() {
         ? history.state?.cheetaRetailScroll
         : undefined);
     const hash = url.hash.slice(1);
-    const anchorId = hash === "maharajah-study" ? "maharajah-details" : hash;
+    const formerGunStudy =
+      currentPath === "/collection/barrel" &&
+      (hash === "maharajah-study" || hash === "maharajah-details");
+    const anchorId = formerGunStudy ? "collectors-case" : hash;
     const anchor = anchorId ? document.getElementById(anchorId) : null;
 
     if (typeof saved === "number") {

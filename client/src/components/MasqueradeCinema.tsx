@@ -70,7 +70,7 @@ export default function MasqueradeCinema({
             </div>
           )}
           {!asset.available && (
-            <p className="masquerade-cinema-preview-label">film keyframes</p>
+            <p className="masquerade-cinema-preview-label">Film keyframes</p>
           )}
         </div>
         {still && (
@@ -88,9 +88,9 @@ export default function MasqueradeCinema({
       </section>
       {film.failed && (
         <div className="masquerade-cinema-retry house-container" role="status">
-          <span>the film couldn’t load</span>
+          <span>The film couldn’t load.</span>
           <button type="button" onClick={() => setAttempt(value => value + 1)}>
-            retry film
+            Retry the film
           </button>
         </div>
       )}

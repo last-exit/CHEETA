@@ -9,9 +9,11 @@ import "./CollectionShowroom.css";
 export default function CollectionShowroom({
   collection,
   title = "Visit the showroom",
+  linkLabel = "Arrange a visit",
 }: {
   collection: ShowroomCollection;
   title?: string;
+  linkLabel?: string;
 }) {
   return (
     <section
@@ -29,7 +31,7 @@ export default function CollectionShowroom({
         href={`/contact?collection=${collection}`}
         className="collection-showroom-link"
       >
-        arrange a visit
+        {linkLabel}
         <ArrowUpRight size={20} strokeWidth={1} aria-hidden="true" />
       </Link>
     </section>

@@ -140,16 +140,37 @@ function FounderFilm() {
 
 export default function Founder() {
   const page = useRef<HTMLElement>(null);
+  const opening = useRef<HTMLDivElement>(null);
+  const masthead = useRef<HTMLElement>(null);
   const [lightPaw, setLightPaw] = useState(false);
   const [lightMonogram, setLightMonogram] = useState(false);
 
   useEffect(() => {
+    const stage = opening.current;
+    const header = masthead.current;
     let frame = 0;
+    let lastProgress = -1;
     const media = Array.from(
       page.current?.querySelectorAll<HTMLElement>("[data-founder-media]") ?? []
     );
     const sync = () => {
       frame = 0;
+      if (stage && header) {
+        const scrollDistance = stage.offsetHeight - header.offsetHeight;
+        const progress =
+          scrollDistance > 0
+            ? Math.min(
+                1,
+                Math.max(0, -stage.getBoundingClientRect().top / scrollDistance)
+              )
+            : 0;
+
+        if (progress !== lastProgress) {
+          stage.style.setProperty("--founder-progress", progress.toFixed(4));
+          lastProgress = progress;
+        }
+      }
+
       const rectangles = media.map(item => item.getBoundingClientRect());
       const isOverMedia = ({ x, y }: { x: number; y: number }) =>
         rectangles.some(
@@ -183,26 +204,28 @@ export default function Founder() {
       <HeaderWordmark dark={lightMonogram} />
 
       <article aria-labelledby="founder-title">
-        <header className="founder-masthead">
-          <h1 id="founder-title">
-            <span className="founder-name-line">
-              <span>Eisa</span>
-            </span>{" "}
-            <span className="founder-name-line founder-name-surname">
-              <span>Saidi</span>
-            </span>
-          </h1>
-          <figure className="founder-portrait" data-founder-media>
-            <img
-              src="/philosophy/eisa-evening-portrait-v3.webp"
-              alt="Eisa Saidi, founder of Cheeta Jewels"
-              width="1202"
-              height="1600"
-              fetchPriority="high"
-              decoding="async"
-            />
-          </figure>
-        </header>
+        <div className="founder-opening" ref={opening}>
+          <header className="founder-masthead" ref={masthead}>
+            <h1 id="founder-title">
+              <span className="founder-name-line">
+                <span>Eisa</span>
+              </span>{" "}
+              <span className="founder-name-line founder-name-surname">
+                <span>Saidi</span>
+              </span>
+            </h1>
+            <figure className="founder-portrait" data-founder-media>
+              <img
+                src="/philosophy/eisa-evening-portrait-v3.webp"
+                alt="Eisa Saidi, founder of Cheeta Jewels"
+                width="1202"
+                height="1600"
+                fetchPriority="high"
+                decoding="async"
+              />
+            </figure>
+          </header>
+        </div>
 
         <section
           className="founder-story house-container"

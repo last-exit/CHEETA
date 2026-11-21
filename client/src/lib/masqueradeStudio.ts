@@ -2,6 +2,7 @@ import * as THREE from "three";
 import {
   createMasqueradeSculpture,
   disposeSculpture,
+  separateSculptureLenses,
 } from "./masqueradeSculpture";
 
 export type SculpturePose = {
@@ -99,7 +100,9 @@ export function createMasqueradeStudio(
   const key = new THREE.DirectionalLight(0xffdfbd, 5);
   const rim = new THREE.DirectionalLight(0xc3ccdf, 3);
   rim.position.set(2, 3, -4);
-  scene.add(key, rim);
+  const fill = new THREE.PointLight(0xffb193, 0, 10, 2);
+  fill.position.set(-1.6, -2, 1.5);
+  scene.add(key, rim, fill);
   const sculpture = createMasqueradeSculpture();
   scene.add(sculpture);
   let target = { ...INITIAL_POSE },
@@ -110,12 +113,25 @@ export function createMasqueradeStudio(
     frame = 0,
     lastTime = 0;
   let renders = 0,
-    lightPhase = 0;
+    lightPhase = 0,
+    separation = 0,
+    targetSeparation = 0;
 
   const paint = (now: number) => {
     frame = 0;
     if (disposed || !visible || document.hidden) return;
-    const dt = Math.min((now - lastTime) / 1000 || 1 / 60, 0.05);
+    const still =
+      Math.abs(targetSeparation - separation) < 0.001 &&
+      Math.abs(Math.sin((target.y - current.y) / 2)) < 0.0005 &&
+      (["x", "zoom", "light"] as const).every(
+        property => Math.abs(target[property] - current[property]) < 0.001
+      );
+    // The slow lighting circuit does not need the update rate of a drag.
+    if (!motionReduced && still && now - lastTime < 30) {
+      request();
+      return;
+    }
+    const dt = lastTime ? Math.min((now - lastTime) / 1000, 0.05) : 1 / 60;
     lastTime = now;
     const ease = motionReduced ? 1 : 1 - Math.exp(-16 * dt);
     for (const property of ["x", "y", "zoom", "light"] as const) {
@@ -125,17 +141,31 @@ export function createMasqueradeStudio(
       current[property] += delta * ease;
       if (motionReduced) current[property] = target[property];
     }
-    sculpture.rotation.set(current.x, current.y, 0);
+    separation = motionReduced
+      ? targetSeparation
+      : THREE.MathUtils.damp(separation, targetSeparation, 5, dt);
+    const reveal = THREE.MathUtils.smoothstep(separation, 0, 1);
+    separateSculptureLenses(sculpture, reveal);
+    sculpture.rotation.set(
+      current.x + 0.12 * reveal,
+      current.y - 0.18 * reveal,
+      0
+    );
     // Fit the complete sculpture at narrow widths, with the same perspective.
     const widthFit =
       1 +
       4.9 /
         (0.82 * 2 * Math.tan(THREE.MathUtils.degToRad(15.5)) * camera.aspect);
-    camera.position.z = Math.max(6.6, widthFit) / current.zoom;
+    camera.position.z =
+      (Math.max(6.6, widthFit) + 0.96 * reveal) / current.zoom;
+    camera.position.y = 0.23 * reveal;
+    camera.lookAt(0, camera.position.y, 0);
     lightPhase += sculptureLightStep(dt, motionReduced);
     const angle = (current.light / 100 - 0.5) * Math.PI * 1.5 + lightPhase;
     key.position.set(Math.sin(angle) * 6, 3, Math.cos(angle) * 6);
     scene.environmentRotation.set(0, angle * 0.65, 0);
+    fill.intensity = 24 * reveal;
+    rim.intensity = 3 + 1.6 * reveal;
     try {
       renderer.render(scene, camera);
     } catch {
@@ -147,6 +177,7 @@ export function createMasqueradeStudio(
       .join(",");
     canvas.dataset.renders = String(++renders);
     canvas.dataset.light = angle.toFixed(5);
+    canvas.dataset.separation = separation.toFixed(3);
     if (renders === 1) onPaint();
     if (!motionReduced) request();
   };
@@ -164,11 +195,9 @@ export function createMasqueradeStudio(
   };
   const observer = new ResizeObserver(resize);
   observer.observe(mount);
-  const syncVisibility = () => {
-    const rect = mount.getBoundingClientRect();
+  const syncVisibility = ([entry]: IntersectionObserverEntry[]) => {
     const wasVisible = visible;
-    visible =
-      rect.bottom > 0 && rect.top < window.innerHeight && rect.width > 0;
+    visible = entry.isIntersecting;
     canvas.dataset.active = String(visible && !document.hidden);
     if (visible && !wasVisible) {
       lastTime = 0;
@@ -180,7 +209,6 @@ export function createMasqueradeStudio(
   };
   const visibility = new IntersectionObserver(syncVisibility);
   visibility.observe(mount);
-  window.addEventListener("scroll", syncVisibility, { passive: true });
   const documentVisibility = () => {
     canvas.dataset.active = String(visible && !document.hidden);
     if (document.hidden) {
@@ -198,12 +226,16 @@ export function createMasqueradeStudio(
   canvas.addEventListener("webglcontextlost", lost);
   document.addEventListener("visibilitychange", documentVisibility);
   resize();
-  syncVisibility();
 
   return {
     pose(next: SculpturePose, immediate = false) {
       target = constrainPose(next);
       if (immediate || motionReduced) current = { ...target };
+      request();
+    },
+    separate(value: boolean, immediate = false) {
+      targetSeparation = value ? 1 : 0;
+      if (immediate || motionReduced) separation = targetSeparation;
       request();
     },
     reduced(value: boolean) {
@@ -215,7 +247,6 @@ export function createMasqueradeStudio(
       cancelAnimationFrame(frame);
       observer.disconnect();
       visibility.disconnect();
-      window.removeEventListener("scroll", syncVisibility);
       document.removeEventListener("visibilitychange", documentVisibility);
       canvas.removeEventListener("webglcontextlost", lost);
       disposeSculpture(sculpture);

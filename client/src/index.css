@@ -258,8 +258,7 @@
     overflow-wrap: anywhere;
   }
 
-  .collection-page .acquisition-action,
-  .collection-page p {
+  .collection-page .acquisition-action {
     text-transform: lowercase;
   }
 

@@ -6,6 +6,7 @@ import {
   INITIAL_CINEMA,
   nextHomeFilm,
 } from "@/lib/homeCinema";
+import { playMetallicClick } from "@/lib/soundEffects";
 
 type Film = (typeof HOME_FILMS)[number];
 
@@ -173,6 +174,7 @@ export default function HomeCinema({
   }, [selection.target, selection.request]);
   const select = (direction: number, immediate = false) => {
     latest.current = nextHomeFilm(latest.current, direction);
+    playMetallicClick();
     dispatch({
       type: "request",
       index: latest.current,
@@ -184,6 +186,7 @@ export default function HomeCinema({
     selection.current,
     selection.target,
   ].filter((value): value is number => value !== null);
+
   return (
     <section
       ref={hero}

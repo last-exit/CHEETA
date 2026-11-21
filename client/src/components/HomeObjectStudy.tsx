@@ -2,8 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { ArrowUpRight } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { homeObjectFrame } from "@/lib/homePresentation";
-import HomeMaharajahReferences from "@/components/HomeMaharajahReferences";
+import MaharajahReferences from "@/components/MaharajahReferences";
 
 export default function HomeObjectStudy() {
   const section = useRef<HTMLElement>(null);
@@ -16,14 +15,7 @@ export default function HomeObjectStudy() {
     const root = section.current;
     if (!root) return;
     if (staticStudy) {
-      for (const property of [
-        "--object-scale",
-        "--object-rotate",
-        "--object-y",
-        "--object-title-y",
-      ])
-        root.style.removeProperty(property);
-      root.dataset.progress = "0";
+      root.style.removeProperty("--object-scale");
       return;
     }
     let frame = 0;
@@ -31,14 +23,10 @@ export default function HomeObjectStudy() {
     const render = () => {
       frame = 0;
       const rect = root.getBoundingClientRect();
-      const state = homeObjectFrame(
-        (innerHeight - rect.top) / Math.max(1, rect.height + innerHeight)
-      );
-      root.style.setProperty("--object-scale", String(state.scale));
-      root.style.setProperty("--object-rotate", `${state.rotate}deg`);
-      root.style.setProperty("--object-y", `${state.y}px`);
-      root.style.setProperty("--object-title-y", `${state.titleY}px`);
-      root.dataset.progress = state.progress.toFixed(3);
+      const progress =
+        (innerHeight - rect.top) / Math.max(1, rect.height + innerHeight);
+      const scale = Math.max(0, Math.min(1, progress)) * 0.012;
+      root.style.setProperty("--object-scale", String(1 + scale));
     };
     const schedule = () => {
       if (visible && !document.hidden && !frame)
@@ -81,18 +69,19 @@ export default function HomeObjectStudy() {
       aria-labelledby="home-maharajah-title"
     >
       <span id="pieces" className="home-hash-alias" aria-hidden="true" />
+      <span id="collections" className="home-hash-alias" aria-hidden="true" />
       <div className="home-object-stage">
-        <header className="home-gun-heading">
+        <header className="home-gun-heading" data-editorial-reveal>
           <h2 id="home-maharajah-title">
             The Gun <em>Collection</em>
           </h2>
         </header>
-        <HomeMaharajahReferences />
+        <MaharajahReferences caption="Maharajah" />
         <Link
           href="/collection/barrel"
           className="home-campaign-action home-gun-entry"
         >
-          enter the collection{" "}
+          Explore The Gun Collection
           <ArrowUpRight size={18} strokeWidth={1.2} aria-hidden="true" />
         </Link>
       </div>

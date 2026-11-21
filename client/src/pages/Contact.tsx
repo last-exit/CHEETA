@@ -4,6 +4,7 @@ import { Link, useSearchParams } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
 import { InformationFooter } from "@/components/HouseFooter";
+import { productForSlug } from "@/data/retailCatalog";
 import {
   CHEETA_EMAIL,
   CHEETA_PHONE_DISPLAY,
@@ -24,16 +25,30 @@ export default function Contact() {
     collection === "barrel" || collection === "masquerade"
       ? SHOWROOM_COLLECTIONS[collection]
       : undefined;
-  const topic = contactTopic(search.get("interest"));
-  const title = showroom?.piece ?? topic?.title ?? "Contact";
+  const interest = search.get("interest");
+  const topic = contactTopic(interest);
+  const product =
+    interest === "retail"
+      ? productForSlug(search.get("piece") ?? undefined)
+      : undefined;
+  const piece =
+    product?.availability === "preview" || product?.availability === "retail"
+      ? product
+      : undefined;
+  const title = showroom?.piece ?? piece?.name ?? topic?.title ?? "Contact";
   const email = showroom
     ? cheetaEmailLink(
         `Showroom visit for ${showroom.piece}`,
         `Hello Cheeta Jewels,\n\nI’d like to arrange a showroom visit for ${showroom.name}.\n\nPreferred dates or times:\nName:`
       )
-    : topic
-      ? cheetaEmailLink(topic.subject, `Hello Cheeta Jewels,\n\n${topic.message}`)
-      : `mailto:${CHEETA_EMAIL}`;
+    : piece
+      ? cheetaEmailLink(
+          `Retail enquiry about ${piece.name}`,
+          `Hello Cheeta Jewels,\n\nI’d like to know more about the ${piece.name}.\n\n`
+        )
+      : topic
+        ? cheetaEmailLink(topic.subject, `Hello Cheeta Jewels,\n\n${topic.message}`)
+        : `mailto:${CHEETA_EMAIL}`;
 
   async function copyEmail() {
     try {
@@ -50,6 +65,7 @@ export default function Contact() {
       <HeaderWordmark />
       <div className="contact-content house-container">
         <header>
+          <p className="house-kicker">The house</p>
           <h1>{title}</h1>
           {showroom && (
             <p>

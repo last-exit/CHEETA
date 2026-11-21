@@ -18,7 +18,7 @@ export default function Privacy() {
             },
             {
               lead: "Concierge correspondence:",
-              rest: "Anything you share with us when arranging a private viewing, commission, or atelier visit.",
+              rest: "Anything you share with us when arranging a showroom visit or asking about a piece.",
             },
             {
               lead: "Access requests:",

@@ -3,7 +3,7 @@
 }
 
 .hayrat-viewing {
-  max-width: 920px;
+  max-width: 760px;
   padding-block: var(--house-page-top) calc(var(--house-section) / 2);
 }
 
@@ -12,12 +12,12 @@
   justify-content: center;
   align-items: center;
   gap: 24px;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 
 .hayrat-signature {
   position: relative;
-  width: 220px;
+  width: 184px;
   max-width: 100%;
   aspect-ratio: 2.8;
   overflow: hidden;
@@ -41,7 +41,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: start;
-  gap: 24px;
+  gap: 20px;
 }
 
 .hayrat-artwork {
@@ -75,13 +75,13 @@
   color: var(--house-muted);
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.8;
+  line-height: 1.65;
   text-wrap: pretty;
   text-transform: none;
 }
 
 .hayrat-continuation {
-  padding-block: 24px calc(var(--house-section) / 2);
+  padding-block: 18px calc(var(--house-section) / 2);
   text-align: center;
 }
 
@@ -92,7 +92,7 @@
   min-height: 44px;
   color: var(--house-ink);
   font-family: var(--font-serif);
-  font-size: 24px;
+  font-size: 22px;
   text-decoration: none;
   transition: color 180ms ease;
 }
@@ -108,26 +108,23 @@
 
 @media (min-width: 768px) and (max-height: 800px) {
   .hayrat-viewing {
-    max-width: 680px;
+    max-width: 640px;
   }
 
   .hayrat-introduction {
-    gap: 24px;
-    margin-bottom: 40px;
+    margin-bottom: 28px;
   }
 
 }
 
 @media (max-width: 767px) {
   .hayrat-introduction {
-    grid-template-columns: 1fr;
-    gap: 28px;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
   }
 
   .hayrat-signature {
-    width: 200px;
+    width: 168px;
     margin-inline: auto;
   }
 
@@ -138,7 +135,7 @@
 
   .hayrat-gallery {
     grid-template-columns: 1fr;
-    width: min(100%, 400px);
+    width: min(100%, 360px);
     margin-inline: auto;
   }
 }

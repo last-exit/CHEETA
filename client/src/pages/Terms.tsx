@@ -1,7 +1,7 @@
 /**
  * TERMS OF SALE
  */
-import LegalPage, { Section, List } from "@/components/LegalPage";
+import LegalPage, { Section } from "@/components/LegalPage";
 
 export default function Terms() {
   return (
@@ -27,23 +27,12 @@ export default function Terms() {
         </p>
       </Section>
 
-      <Section no="03" title="Numbered editions">
-        <List
-          items={[
-            {
-              lead: "Numbering:",
-              rest: "Pieces 001 - 100 are numbered at the bridge of the frame, in the leather card, and in the certificate of authenticity.",
-            },
-            {
-              lead: "Edition integrity:",
-              rest: "Once a number is allocated to a client, it is held in the workshop ledger and does not re-enter circulation on return or exchange.",
-            },
-            {
-              lead: "Resale:",
-              rest: "Pieces may be resold privately. The house offers a courtesy authentication check for any numbered piece presented for resale verification.",
-            },
-          ]}
-        />
+      <Section no="03" title="Piece details">
+        <p>
+          The details of each piece, including any edition information, are
+          confirmed with you in writing before purchase. For questions about
+          a particular piece, please contact Cheeta Jewels.
+        </p>
       </Section>
 
       <Section no="04" title="Title & risk">

@@ -1,6 +1,8 @@
 import { useRef } from "react";
+import { ChevronDown } from "lucide-react";
 import CollectorCase from "@/components/CollectorCase";
 import CollectionShowroom from "@/components/CollectionShowroom";
+import MaharajahReferences from "@/components/MaharajahReferences";
 import { useEditorialMotion } from "@/hooks/useEditorialMotion";
 import "./GunCampaign.css";
 
@@ -18,49 +20,44 @@ export default function GunCampaign() {
         <p>Inspired by vintage double-barrel sporting guns.</p>
       </header>
       <CollectorCase />
-      <section
-        id="maharajah-details"
-        className="gun-frame-study house-container"
-        aria-labelledby="gun-frame-title"
+      <figure
+        className="gun-frame-detail house-container"
+        data-campaign-chapter="frame-detail"
+        aria-labelledby="gun-frame-detail-title"
       >
-        <header>
-          <h2 id="gun-frame-title">Maharajah, worn</h2>
-          <p>Stills from the original horseback film.</p>
-        </header>
-        <figure className="gun-frame-worn">
+        <div className="gun-frame-detail-image">
           <img
-            src="/stills/barrel-founder-wide.jpg"
-            alt="Maharajah worn on horseback in the Gun Collection film"
+            src="/stills/barrel-founder-portrait-2.jpg"
+            alt="Side view of the Maharajah eyewear worn in the horseback film"
             width={832}
             height={464}
             loading="lazy"
             decoding="async"
           />
-        </figure>
-        <div className="gun-frame-angles">
-          <figure>
-            <img
-              src="/stills/barrel-founder-portrait-1.jpg"
-              alt="Front view of the octagonal lenses worn in the campaign"
-              width={832}
-              height={464}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
-          <figure>
-            <img
-              src="/stills/barrel-founder-portrait-2.jpg"
-              alt="Side view of the Maharajah frame worn in the campaign"
-              width={832}
-              height={464}
-              loading="lazy"
-              decoding="async"
-            />
-          </figure>
         </div>
-      </section>
-      <CollectionShowroom collection="barrel" title="See Maharajah in person" />
+        <figcaption>
+          <h2 id="gun-frame-detail-title">Maharajah in profile</h2>
+          <p>A still from the horseback film.</p>
+        </figcaption>
+      </figure>
+      <details
+        className="gun-design-references house-container"
+        data-campaign-chapter="design-references"
+      >
+        <summary>
+          Design references
+          <ChevronDown size={20} strokeWidth={1.25} aria-hidden="true" />
+        </summary>
+        <p>
+          Campaign studies of three antique designs that inspired Maharajah.
+        </p>
+        <MaharajahReferences />
+      </details>
+      <CollectionShowroom
+        collection="barrel"
+        title="See Maharajah in person"
+        linkLabel="Arrange a showroom visit"
+      />
     </div>
   );
 }

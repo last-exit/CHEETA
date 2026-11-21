@@ -1,24 +1,36 @@
-import { ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
+import ArchNiche from "@/components/ArchNiche";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
 import { InformationFooter } from "@/components/HouseFooter";
+import "./NotFound.css";
 
+/**
+ * A room nobody was meant to find: one masked guest in an arch, watching
+ * from the dark by candlelight, and the way back to the house.
+ */
 export default function NotFound() {
   return (
-    <main className="min-h-svh flex flex-col bg-[#FAFAF7] text-[#2A241D]">
-      <CheetahBar />
-      <HeaderWordmark />
-      <div className="house-container flex flex-1 flex-col items-start justify-center gap-6 py-32">
-        <h1 className="font-serif text-[clamp(3rem,8vw,7rem)] leading-none tracking-tight">
-          Page not found
-        </h1>
-        <Link href="/" className="inline-flex min-h-11 items-center gap-3">
-          Back to Cheeta Jewels
-          <ArrowUpRight size={18} strokeWidth={1.25} aria-hidden="true" />
-        </Link>
-      </div>
-      <InformationFooter />
+    <main className="not-found-page">
+      <CheetahBar tone="light" />
+      <HeaderWordmark dark />
+      <section className="not-found-room" aria-labelledby="not-found-title">
+        <div className="not-found-inner house-container">
+          <ArchNiche src="/stills/masquerade-still-1.jpg" className="not-found-guest" />
+          <div className="not-found-text">
+            <p className="house-kicker">Page not found</p>
+            <h1 id="not-found-title">
+              You were not meant <em>to find this room.</em>
+            </h1>
+            <Link href="/" className="not-found-return">
+              Return to the house
+            </Link>
+          </div>
+        </div>
+        <span className="house-flicker" aria-hidden="true" />
+        <span className="house-vignette" aria-hidden="true" />
+      </section>
+      <InformationFooter lace={false} />
     </main>
   );
 }

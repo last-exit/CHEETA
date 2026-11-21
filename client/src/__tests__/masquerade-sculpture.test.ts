@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import {
   createMasqueradeSculpture,
   disposeSculpture,
+  separateSculptureLenses,
 } from "../lib/masqueradeSculpture";
 import {
   constrainPose,
@@ -24,7 +25,7 @@ describe("Masquerade interactive sculpture", () => {
   });
   it("builds real, finite, three-dimensional geometry with bounded draw calls", () => {
     const sculpture = createMasqueradeSculpture();
-    expect(sculpture.children).toHaveLength(2);
+    expect(sculpture.children).toHaveLength(3);
     const bounds = new THREE.Box3().setFromObject(sculpture);
     const size = bounds.getSize(new THREE.Vector3());
     expect(size.x).toBeGreaterThan(4.7);
@@ -37,13 +38,39 @@ describe("Masquerade interactive sculpture", () => {
     }
     disposeSculpture(sculpture);
   });
+  it("unseats the lenses independently and returns them to their original alignment", () => {
+    const sculpture = createMasqueradeSculpture();
+    const [left, right] = sculpture.lenses;
+    const frame = sculpture.getObjectByName("Openwork and temples")!;
+    const framePosition = frame.position.clone();
+    separateSculptureLenses(sculpture, 0.08);
+    expect(left.mesh.position.z).toBeGreaterThan(left.seat.z);
+    expect(right.mesh.position.equals(right.seat)).toBe(true);
+    separateSculptureLenses(sculpture, 1);
+    expect(left.mesh.position.x).toBeLessThan(left.seat.x);
+    expect(right.mesh.position.x).toBeGreaterThan(right.seat.x);
+    expect(right.mesh.position.z).toBeGreaterThan(right.seat.z);
+    expect(frame.position.equals(framePosition)).toBe(true);
+    separateSculptureLenses(sculpture, 0);
+    for (const { mesh, seat } of sculpture.lenses) {
+      expect(mesh.position.equals(seat)).toBe(true);
+      expect(mesh.quaternion.angleTo(new THREE.Quaternion())).toBeLessThan(
+        0.0001
+      );
+    }
+    disposeSculpture(sculpture);
+  });
   it("releases every mesh and material when leaving the collection", () => {
     const sculpture = createMasqueradeSculpture();
-    const resources = (sculpture.children as THREE.Mesh[]).flatMap(mesh => [
-      mesh.geometry,
-      ...(Array.isArray(mesh.material) ? mesh.material : [mesh.material]),
-    ]);
-    const disposals = resources.map(resource => vi.spyOn(resource, "dispose"));
+    const resources = new Set(
+      (sculpture.children as THREE.Mesh[]).flatMap(mesh => [
+        mesh.geometry,
+        ...(Array.isArray(mesh.material) ? mesh.material : [mesh.material]),
+      ])
+    );
+    const disposals = Array.from(resources, resource =>
+      vi.spyOn(resource, "dispose")
+    );
     disposeSculpture(sculpture);
     disposals.forEach(dispose => expect(dispose).toHaveBeenCalledOnce());
   });

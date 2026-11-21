@@ -21,7 +21,7 @@
 .masquerade-unseen {
   position: absolute;
   z-index: 3;
-  font: 400 clamp(88px, 12vw, 192px) / 0.92 var(--font-serif);
+  font: 400 clamp(66px, 9vw, 128px) / 0.92 var(--font-serif);
   letter-spacing: -0.045em;
   pointer-events: none;
 }
@@ -42,8 +42,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: min(80vw, 1200px);
-  height: min(68svh, 720px);
+  width: min(72vw, 1000px);
+  height: min(58svh, 600px);
   object-fit: contain;
   opacity: var(--object-opacity);
   transform: translate(-50%, -45%) scale(var(--object-scale))
@@ -68,11 +68,11 @@
 .masquerade-static {
   display: grid;
   justify-items: center;
-  gap: 48px;
+  gap: 32px;
   padding-block: var(--house-section);
 }
 .masquerade-static h2 {
-  font: 400 clamp(40px, 5vw, 72px) / 1.1 var(--font-serif);
+  font: 400 var(--campaign-heading) / 1.1 var(--font-serif);
   color: var(--campaign-accent);
 }
 .masquerade-static > img {
@@ -96,16 +96,13 @@
   }
   .masquerade-seen {
     top: 18%;
-    font-size: clamp(64px, 17vw, 104px);
+    font-size: clamp(48px, 13vw, 72px);
   }
   .masquerade-unseen {
     bottom: 16%;
-    font-size: clamp(64px, 17vw, 104px);
+    font-size: clamp(48px, 13vw, 72px);
   }
   .masquerade-shadow {
     object-position: 52% 45%;
-  }
-  .masquerade-static {
-    gap: 32px;
   }
 }

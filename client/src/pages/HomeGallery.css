@@ -1,0 +1,635 @@
+/*
+ * The homepage below the hero as rooms of a Mughal palace, walked in order:
+ * the page is gold-flecked album paper (zar-afshan); each dark room is entered
+ * through a cusped arch cut into that paper and edged in gilt; Retail is an
+ * album page framed in its own painted flower margins. Centred, few elements:
+ * spaced capitals, one serif line, one object, a thin outlined button.
+ */
+.home-art-direction {
+  --panel-ivory: #f6eee3;
+  --panel-ink: #2a1d16;
+  --panel-gold: #c9a25e;
+  --panel-gilt: #b8924f;
+  --panel-night: #0d0807;
+  --panel-oxblood: #2a0b09;
+  --panel-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Ivory album paper, its grain sprinkled with beaten gold. */
+  background-color: #f7f2e9;
+  background-image: url("/mughal/zar-afshan.svg"), url("/brand/folio/paper.svg");
+  background-size: 360px 360px, 240px 240px;
+}
+.home-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ---------- Shared panel language ---------- */
+.panel-kicker {
+  margin: 0;
+  font: 500 12px / 1 var(--font-sans);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+.panel-heading {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+}
+.panel-title {
+  margin: 0;
+  max-width: 14ch;
+  font: 400 clamp(40px, 5.6vw, 88px) / 1 var(--font-serif);
+  letter-spacing: -0.04em;
+  text-align: center;
+  text-wrap: balance;
+}
+.panel-title em {
+  font-weight: 400;
+}
+.panel-copy {
+  max-width: 44ch;
+  margin: 0;
+  font: 400 15px / 1.75 var(--font-sans);
+  text-align: center;
+  text-wrap: pretty;
+}
+.panel-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 0 28px;
+  border: 1px solid currentColor;
+  color: inherit;
+  font: 500 12px / 1 var(--font-sans);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  transition:
+    background-color 320ms var(--panel-ease),
+    color 320ms var(--panel-ease);
+}
+.panel-button-small {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 11px;
+}
+.home-art-direction :is(.panel-button, button):focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 5px;
+}
+
+/* ---------- The Masquerade: a dark hall lit by one candle ---------- */
+/* Breathing room between the Gun section and the hall. */
+.home-art-direction #characters {
+  padding-bottom: clamp(64px, 8vw, 120px);
+}
+.home-masquerade {
+  position: relative;
+  color: var(--panel-ivory);
+  background:
+    radial-gradient(70% 60% at 50% 50%, rgb(13 8 7 / 0.9) 0%, rgb(13 8 7 / 0.78) 100%),
+    url("/mughal/velvet-rows.webp") 50% 0 / max(100%, 900px) auto repeat-y;
+  background-color: var(--panel-night);
+}
+.home-masquerade-inner {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  width: min(var(--house-content), calc(100% - 2 * var(--house-gutter)));
+  margin-inline: auto;
+  padding-top: clamp(96px, 12svh, 150px);
+}
+.home-masquerade-after {
+  padding: 8px 0 clamp(96px, 12svh, 150px);
+}
+.home-masquerade .panel-kicker {
+  color: var(--panel-gold);
+}
+.home-masquerade .panel-copy {
+  color: rgb(246 238 227 / 0.78);
+}
+.home-masquerade-hall {
+  --lx: 50%;
+  --ly: 50%;
+  --flicker: 1;
+  --reach: clamp(170px, 19vw, 290px);
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(72px, 9vw, 128px);
+  touch-action: pan-y;
+  cursor: none;
+}
+/* The hall's name, set beneath the arches like an inscription, read whole. */
+.home-masquerade-word {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-top: clamp(12px, 1.6vw, 24px);
+  color: rgb(201 162 94 / 0.55);
+  font: italic 400 clamp(72px, 11vw, 168px) / 0.9 var(--font-serif);
+  letter-spacing: -0.04em;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.home-masquerade-arcade {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(20px, 3.4vw, 56px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.home-masquerade-niche {
+  position: relative;
+  width: clamp(150px, 15vw, 220px);
+  aspect-ratio: 4 / 5;
+}
+.home-masquerade-niche[data-place="centre"] {
+  width: clamp(220px, 23vw, 340px);
+}
+.home-masquerade-opening {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: url(#masquerade-arch);
+  background: #120a08;
+}
+.home-masquerade-opening img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+.home-masquerade-gilt {
+  position: absolute;
+  inset: -10px;
+  width: calc(100% + 20px);
+  height: calc(100% + 20px);
+  overflow: visible;
+  pointer-events: none;
+}
+.home-masquerade-gilt path {
+  fill: none;
+  stroke: var(--panel-gold);
+  stroke-width: 1px;
+}
+/* The dark of the hall, with one warm pool of light where the visitor looks. */
+.home-masquerade-dark {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Feather the dark into the velvet above and below, so the hall has no edge. */
+  -webkit-mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
+  mask-image: linear-gradient(transparent, #000 22%, #000 78%, transparent);
+  background: radial-gradient(
+    circle calc(var(--reach) * var(--flicker)) at var(--lx) var(--ly),
+    rgb(255 176 96 / 0.1) 0%,
+    rgb(13 8 7 / 0.18) 38%,
+    rgb(13 8 7 / 0.9) 100%
+  );
+}
+.home-masquerade-hall[data-still="true"] {
+  --reach: 70vw;
+  cursor: auto;
+}
+
+/* ---------- Retail: an album page with painted flower margins ---------- */
+.home-retail {
+  --margin-w: clamp(96px, 9.5vw, 148px);
+  --frieze-h: clamp(64px, 6.4vw, 96px);
+  position: relative;
+  padding-inline: var(--margin-w);
+}
+/* The painted margins: a frieze above and below, a column down each side. */
+.home-retail::before,
+.home-retail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--margin-w);
+  background: url("/mughal/album-margin-side.webp") 50% 0 / cover no-repeat;
+  box-shadow: inset -1px 0 0 rgb(176 138 74 / 0.6);
+}
+.home-retail::before {
+  left: 0;
+}
+.home-retail::after {
+  right: 0;
+  transform: scaleX(-1);
+}
+.home-retail-frieze {
+  display: none;
+}
+.home-retail-inner {
+  display: grid;
+  justify-items: center;
+  gap: 22px;
+  width: min(var(--house-content), calc(100% - 2 * var(--house-gutter)));
+  margin-inline: auto;
+  padding-block: clamp(120px, 13vw, 190px) clamp(88px, 9vw, 132px);
+  color: var(--panel-ink);
+}
+.home-retail .panel-kicker {
+  margin-bottom: 22px;
+  color: #8a6a3a;
+}
+/* An editorial header: the line on the left, a note and a quiet link on the
+   right, ruled off from the pieces below. */
+.home-retail-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 32px clamp(32px, 6vw, 96px);
+  justify-self: stretch;
+  padding-bottom: clamp(28px, 3vw, 40px);
+  border-bottom: 1px solid rgb(176 138 74 / 0.45);
+}
+.home-retail-head .panel-title {
+  max-width: 11ch;
+  text-align: left;
+}
+.home-retail-aside {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  max-width: 28ch;
+  padding-bottom: 8px;
+}
+.home-retail-aside p {
+  margin: 0;
+  color: #6a5a4e;
+  font: 400 15px / 1.7 var(--font-sans);
+}
+.home-retail-all {
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentColor;
+  color: var(--panel-ink);
+  font: italic 400 20px / 1.2 var(--font-serif);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  transition: color 320ms var(--panel-ease), border-color 320ms var(--panel-ease);
+}
+.home-retail-all:focus-visible {
+  outline: 1px solid var(--panel-gilt);
+  outline-offset: 6px;
+}
+.home-retail-ledge {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  column-gap: clamp(32px, 3.4vw, 56px);
+  width: 100%;
+  margin: clamp(48px, 6vw, 88px) 0 clamp(32px, 4vw, 56px);
+  padding: 0;
+  list-style: none;
+}
+/* Each piece is one quiet link: the object, its name, its price. */
+.home-retail-piece {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+  gap: 10px;
+  color: inherit;
+  text-decoration: none;
+}
+.home-retail-piece:focus-visible {
+  outline: 1px solid var(--panel-gilt);
+  outline-offset: 12px;
+}
+.home-retail-discover {
+  position: relative;
+  margin-top: 10px;
+  padding-bottom: 7px;
+  color: #8a6a3a;
+  font: 500 11px / 1 var(--font-sans);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.home-retail-discover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0.3em;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0.22);
+  transition: transform 700ms var(--panel-ease);
+}
+.home-retail-ledge li {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  text-align: center;
+}
+/* Each piece sits in its own cusped niche, edged with a gilt line. */
+.home-retail-object {
+  position: relative;
+  display: block;
+  width: min(100%, 250px);
+  aspect-ratio: 4 / 5;
+  margin: 12px 0 24px;
+}
+.home-retail-no {
+  color: #8a6a3a;
+  font: italic 400 15px / 1 var(--font-serif);
+}
+.home-retail-label {
+  margin-top: -2px;
+  font: 400 clamp(20px, 1.7vw, 24px) / 1.15 var(--font-serif);
+  letter-spacing: -0.005em;
+}
+.home-retail-meta {
+  color: #6a5a4e;
+  font: 400 13px / 1.4 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+.home-retail-note {
+  max-width: 52ch;
+  margin: 12px 0 0;
+  color: rgb(122 106 94 / 0.8);
+  font: 400 11px / 1.7 var(--font-sans);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* ---------- The closing: an album page hung in an oxblood room ---------- */
+.home-house {
+  position: relative;
+  color: var(--panel-ivory);
+  background:
+    radial-gradient(70% 60% at 50% 60%, rgb(42 11 9 / 0.86) 0%, rgb(22 6 5 / 0.95) 100%),
+    url("/mughal/velvet-rows.webp") 50% 0 / max(100%, 900px) auto repeat-y;
+  background-color: var(--panel-oxblood);
+}
+.home-house-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto minmax(0, 30rem);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(48px, 7vw, 112px);
+  width: min(var(--house-content), calc(100% - 2 * var(--house-gutter)));
+  margin-inline: auto;
+  padding-block: clamp(96px, 12svh, 150px);
+}
+.home-house-folio {
+  margin: 0;
+}
+.home-house-folio img {
+  display: block;
+  width: auto;
+  height: min(76svh, 720px);
+  aspect-ratio: 1200 / 1903;
+  outline: 1px solid rgb(201 162 94 / 0.7);
+  outline-offset: 14px;
+  box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.85);
+}
+.home-house-folio figcaption {
+  max-width: 36ch;
+  margin-top: 30px;
+  color: rgb(246 238 227 / 0.62);
+  font: italic 400 15px / 1.5 var(--font-serif);
+}
+.home-house-text {
+  display: grid;
+  justify-items: start;
+  gap: 30px;
+}
+.home-house .panel-title {
+  max-width: 10ch;
+  text-align: left;
+}
+/* The house seal: the CJ struck in gold foil inside a foil ring. */
+.home-house-seal {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  /* The seal breathes a faint gold light, slowly, like something alive in the dark. */
+  animation: seal-breathe 6s ease-in-out infinite;
+  --foil: linear-gradient(115deg, #7d5b26, #c9a159 20%, #f6e3a6 34%, #b88f47 50%, #e9cf8c 66%, #8f6a2f 84%, #d8b46a);
+}
+.home-house-seal::before,
+.home-house-seal::after {
+  content: "";
+  position: absolute;
+  background: var(--foil);
+}
+.home-house-seal::before {
+  inset: 0;
+  border-radius: 50%;
+  -webkit-mask: radial-gradient(circle, transparent 35px, #000 35.5px 37.5px, transparent 38px);
+  mask: radial-gradient(circle, transparent 35px, #000 35.5px 37.5px, transparent 38px);
+}
+.home-house-seal::after {
+  inset: 13px;
+  -webkit-mask: url("/brand/cheeta-cj-transparent.png") center / contain no-repeat;
+  mask: url("/brand/cheeta-cj-transparent.png") center / contain no-repeat;
+}
+
+@media (hover: hover) {
+  .home-masquerade .panel-button:hover,
+  .home-house .panel-button:hover {
+    background-color: var(--panel-ivory);
+    color: #1c1412;
+  }
+  .home-retail .panel-button:hover {
+    background-color: var(--panel-ink);
+    color: var(--panel-ivory);
+  }
+  .home-retail-all:hover {
+    color: #8a6a3a;
+  }
+  .home-retail-piece:hover .home-retail-discover::after {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 1023px) {
+  .home-house-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .home-house-folio img {
+    width: min(100%, 380px);
+    height: auto;
+    outline-offset: 8px;
+  }
+  .home-house-folio figcaption {
+    margin-inline: auto;
+  }
+  .home-house-text {
+    justify-items: center;
+  }
+  .home-house .panel-title {
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-masquerade-hall {
+    --reach: 46vw;
+    cursor: auto;
+  }
+  .home-masquerade-arcade {
+    gap: 12px;
+  }
+  .home-masquerade-niche {
+    width: 24vw;
+  }
+  .home-masquerade-niche[data-place="centre"] {
+    width: 37vw;
+  }
+  .home-masquerade-gilt {
+    inset: -5px;
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+  }
+  .home-masquerade-word {
+    font-size: 19vw;
+  }
+  .home-masquerade-inner {
+    padding-top: 80px;
+  }
+  /* On a phone the margins become friezes above and below the page. */
+  .home-retail {
+    padding-inline: 0;
+  }
+  .home-retail::before,
+  .home-retail::after {
+    display: none;
+  }
+  .home-retail-frieze {
+    display: block;
+    height: 72px;
+    background: url("/mughal/album-margin-top.webp") 50% 50% / auto 100% repeat-x;
+    box-shadow: inset 0 -1px 0 rgb(176 138 74 / 0.6);
+  }
+  .home-retail-frieze:last-child {
+    transform: scaleY(-1);
+  }
+  .home-retail-inner {
+    padding-block: 72px;
+  }
+  .home-retail-head {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .home-retail-ledge {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 30px;
+    row-gap: 44px;
+    padding-inline: 8px;
+  }
+  .home-retail-label {
+    font-size: 18px;
+  }
+  .home-masquerade-after,
+  .home-house-inner {
+    padding-block-end: 80px;
+  }
+}
+
+@keyframes seal-breathe {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(201 162 94 / 0); }
+  50% { box-shadow: 0 0 46px 6px rgb(201 162 94 / 0.22); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-house-seal {
+    animation: none;
+  }
+  .home-art-direction *,
+  .home-art-direction *::before,
+  .home-art-direction *::after {
+    transition: none !important;
+  }
+}
+
+/* ---------- The sheet: one page of album paper over a painted garden ---------- */
+.home-sheet-stage {
+  position: relative;
+  /* The sheet runs straight on from the film above and into the close below. */
+  padding-block: 0;
+  background: #1a120d url("/mughal/garden.webp") 50% 0 / cover no-repeat fixed;
+}
+.home-sheet-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgb(12 8 7 / 0.5), rgb(12 8 7 / 0.36) 30%, rgb(12 8 7 / 0.55));
+  pointer-events: none;
+}
+.home-sheet-gutter {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc((100% - var(--sheet-w)) / 2);
+}
+.home-sheet-stage {
+  --sheet-w: min(1280px, calc(100% - 2 * clamp(24px, 6vw, 112px)));
+}
+.home-sheet-gutter-left {
+  left: 0;
+}
+.home-sheet-gutter-right {
+  right: 0;
+}
+.home-sheet {
+  position: relative;
+  width: var(--sheet-w);
+  margin-inline: auto;
+  background-color: #f7f2e9;
+  background-image: url("/mughal/zar-afshan.svg"), url("/brand/folio/paper.svg");
+  background-size: 360px 360px, 240px 240px;
+  box-shadow:
+    0 2px 4px rgb(0 0 0 / 0.25),
+    0 50px 120px -30px rgb(0 0 0 / 0.75);
+}
+@media (max-width: 767px) {
+  .home-sheet-stage {
+    --sheet-w: 100%;
+    padding-block: 0;
+    background-attachment: scroll;
+  }
+}
+
+/* Flowers fallen across the lace, as in an album. */
+.home-flower-hyacinth {
+  top: -118px;
+  left: 4%;
+  width: clamp(64px, 7vw, 96px);
+  rotate: -9deg;
+}
+.home-flower-iris {
+  top: -168px;
+  right: 5%;
+  width: clamp(96px, 10vw, 140px);
+  rotate: 7deg;
+}
+.home-flower-rose {
+  bottom: -150px;
+  left: 3%;
+  width: clamp(120px, 13vw, 180px);
+  rotate: -6deg;
+}
+@media (max-width: 767px) {
+  .home-flower-hyacinth {
+    display: none;
+  }
+  .home-flower-iris {
+    top: -110px;
+    width: 72px;
+  }
+  .home-flower-rose {
+    bottom: -100px;
+    width: 92px;
+  }
+}

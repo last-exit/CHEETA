@@ -1,4 +1,5 @@
 import { useRef, useState, type KeyboardEvent } from "react";
+import "./MaharajahReferences.css";
 
 /** Provisional campaign still lifes, composed from the supplied gun and launch references. */
 const REFERENCES = [
@@ -31,7 +32,7 @@ const REFERENCES = [
   },
 ] as const;
 
-export default function HomeMaharajahReferences() {
+export default function MaharajahReferences({ caption }: { caption?: string }) {
   const [selected, setSelected] = useState(0);
   const [requested, setRequested] = useState(0);
   const [ready, setReady] = useState<Set<number>>(() => new Set());
@@ -41,6 +42,7 @@ export default function HomeMaharajahReferences() {
   const latest = useRef(0);
   const versions = useRef([0, 0, 0]);
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+
   const select = (index: number, keyboard = false) => {
     setImmediate(keyboard);
     latest.current = index;
@@ -87,13 +89,13 @@ export default function HomeMaharajahReferences() {
   };
 
   return (
-    <div className="home-maharajah-references" data-immediate={immediate}>
+    <div className="maharajah-references" data-immediate={immediate}>
       <div
-        id="home-reference-object"
-        className="home-reference-object"
+        id="maharajah-reference-object"
+        className="maharajah-reference-object"
         aria-busy={!ready.has(requested) && !failed.has(requested)}
       >
-        <div className="home-reference-stack">
+        <div className="maharajah-reference-stack">
           {REFERENCES.map((reference, index) => (
             <img
               key={`${reference.id}-${attempts[index]}`}
@@ -117,19 +119,23 @@ export default function HomeMaharajahReferences() {
           ))}
         </div>
         {failed.has(requested) && (
-          <div className="home-reference-retry" role="status">
+          <div className="maharajah-reference-retry" role="status">
             <button type="button" onClick={retry}>
-              reference unavailable. retry
+              Retry loading reference
             </button>
           </div>
         )}
       </div>
-      <div className="home-reference-caption">
-        <h3>Maharajah</h3>
+      <div className="maharajah-reference-caption">
+        {caption ? (
+          <h3>{caption}</h3>
+        ) : (
+          <span>{REFERENCES[selected].label}</span>
+        )}
         <div
-          className="home-reference-choices"
+          className="maharajah-reference-choices"
           role="group"
-          aria-label="Gun references"
+          aria-label="Antique design references"
         >
           {REFERENCES.map((reference, index) => (
             <button
@@ -140,7 +146,7 @@ export default function HomeMaharajahReferences() {
               type="button"
               aria-label={reference.label}
               aria-pressed={selected === index && ready.has(index)}
-              aria-controls="home-reference-object"
+              aria-controls="maharajah-reference-object"
               onClick={event => select(index, event.detail === 0)}
               onKeyDown={event => navigate(event, index)}
             >

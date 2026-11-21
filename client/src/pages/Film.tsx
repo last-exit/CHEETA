@@ -273,22 +273,19 @@ export default function Film() {
       {/* ============================================================== */}
       {/*  PLATES : gallery with lightbox                                  */}
       {/* ============================================================== */}
-      <section className="relative w-full bg-[#100C0A] py-20 md:py-28 pl-0 md:pl-24 pr-6 md:pr-12">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12 md:mb-16 pl-6 md:pl-0">
-          <div>
-            <h2 className="mt-3 font-serif text-4xl md:text-5xl text-[#FAFAF7] tracking-tight leading-[1.05] max-w-2xl">
-              Campaign archive
-            </h2>
-          </div>
-        </div>
+      <section className="relative w-full bg-[#100C0A] py-[var(--house-section)]">
+        <h2 className="house-container mb-6 font-serif text-[clamp(28px,3.4vw,44px)] text-[#FAFAF7] tracking-tight leading-[1.05] md:mb-9">
+          Campaign archive
+        </h2>
 
         {/* Asymmetric plates grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6 pl-6 md:pl-0">
+        <div className="house-container grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-5">
           {PLATES.map((p, i) => {
-            // Asymmetric: first plate big, alternating rhythm
+            // Give the first plate room while keeping the rest easy to scan.
             const span =
-              i === 0 ? "md:col-span-7 md:row-span-2" : "md:col-span-5";
-            const aspect = i === 0 ? "aspect-[4/5]" : "aspect-[4/3]";
+              i === 0 ? "col-span-2 md:col-span-7 md:row-span-2" : "md:col-span-5";
+            const aspect =
+              i === 0 ? "aspect-[3/2] md:aspect-[10/11]" : "aspect-[4/3]";
             return (
               <button
                 key={p.no}
@@ -305,8 +302,8 @@ export default function Film() {
                 </span>
 
                 {/* Plate number, top-left */}
-                <div className="absolute top-4 left-4 z-10 flex flex-col gap-0.5">
-                  <span className="font-serif text-2xl text-white/95 leading-none">
+                <div className="absolute top-3 left-3 z-10 flex flex-col gap-0.5">
+                  <span className="font-serif text-lg text-white/95 leading-none">
                     {p.no}
                   </span>
                 </div>
@@ -321,8 +318,8 @@ export default function Film() {
       {/* ============================================================== */}
       {/*  CREDITS                                                          */}
       {/* ============================================================== */}
-      <section className="relative w-full bg-[#0A0807] py-20 md:py-28">
-        <div className="max-w-5xl mx-auto px-6 md:px-12">
+      <section className="relative w-full bg-[#0A0807] py-8 md:py-11">
+        <div className="house-container">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 font-sans text-[length:var(--house-label-size)] text-[#FAFAF7]/75">
             <span>© 2026 Cheeta Jewels, Dubai</span>
             <InformationLinks />

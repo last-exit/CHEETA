@@ -1,6 +1,6 @@
 .philosophy-revival {
   color: var(--house-ink);
-  background: var(--house-paper);
+  background: transparent;
   overflow: clip;
 }
 
@@ -12,10 +12,10 @@
 .philosophy-cover .philosophy-credo {
   position: absolute;
   z-index: 2;
-  top: clamp(84px, 10vw, 170px);
-  left: max(var(--house-gutter), (100% - 1280px) / 2);
+  top: clamp(76px, 9.25vw, 144px);
+  left: max(var(--house-gutter), (100% - var(--house-content)) / 2);
   margin: 0;
-  font: 400 clamp(44px, 6.15vw, 118px) / 0.91 var(--font-serif);
+  font: 400 clamp(38px, 5.15vw, 88px) / 0.94 var(--font-serif);
   letter-spacing: -0.052em;
   text-wrap: nowrap;
 }
@@ -107,20 +107,20 @@
 }
 
 .philosophy-spread {
-  padding-block: var(--house-section) clamp(28px, 5vw, 72px);
+  padding-block: var(--house-section) clamp(24px, 4vw, 56px);
 }
 
 .philosophy-spread-opening {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
   align-items: end;
-  gap: clamp(20px, 6vw, 96px);
-  margin-bottom: clamp(28px, 4.5vw, 64px);
+  gap: clamp(18px, 4.75vw, 76px);
+  margin-bottom: clamp(22px, 3.5vw, 48px);
 }
 
 .philosophy-spread h2 {
   margin: 0;
-  font: 400 clamp(56px, 7.8vw, 120px) / 0.88 var(--font-serif);
+  font: 400 var(--house-heading) / 0.98 var(--font-serif);
   letter-spacing: -0.057em;
   text-wrap: balance;
 }
@@ -128,7 +128,7 @@
 .philosophy-lead {
   margin: 0;
   max-width: 25ch;
-  font: 400 clamp(27px, 2.9vw, 42px) / 1.12 var(--font-serif);
+  font: 400 clamp(23px, 2.55vw, 36px) / 1.14 var(--font-serif);
   letter-spacing: -0.025em;
   text-wrap: pretty;
 }
@@ -183,7 +183,7 @@
 }
 
 .philosophy-campaign figcaption a {
-  font: 400 clamp(22px, 2.1vw, 30px) / 1.12 var(--font-serif);
+  font: 400 clamp(21px, 1.85vw, 27px) / 1.12 var(--font-serif);
   letter-spacing: -0.025em;
 }
 
@@ -202,7 +202,7 @@
 }
 
 .philosophy-end a {
-  font: 400 clamp(26px, 3vw, 44px) / 1.12 var(--font-serif);
+  font: 400 clamp(24px, 2.65vw, 37px) / 1.12 var(--font-serif);
   letter-spacing: -0.035em;
 }
 
@@ -254,7 +254,7 @@
     width: calc(100% - 2 * var(--house-gutter));
     margin-inline: auto;
     padding-block: var(--house-page-top) clamp(22px, 6vw, 44px);
-    font-size: clamp(48px, 11vw, 78px);
+    font-size: clamp(39px, 9.5vw, 65px);
   }
 
   .philosophy-credo > span:last-child {
@@ -279,7 +279,7 @@
   }
 
   .philosophy-spread h2 {
-    font-size: clamp(46px, 11vw, 76px);
+    font-size: clamp(36px, 8.6vw, 57px);
   }
 
   .philosophy-campaign figcaption p {

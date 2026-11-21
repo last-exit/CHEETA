@@ -234,7 +234,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
       role={mobile && isOpen ? "dialog" : undefined}
       aria-modal={mobile && isOpen ? true : undefined}
       aria-label={mobile && isOpen ? "Navigation" : undefined}
-      className="house-navigation fixed top-8 left-8 sm:top-12 sm:left-12 z-50 select-none bg-transparent"
+      className="house-navigation fixed top-8 left-8 sm:top-9 sm:left-10 z-50 select-none bg-transparent"
     >
       {/* =================================================================== */}
       {/* 1. CHEETAH PAW LOGO (Hover Dropdown Trigger & Scroll Crossfade)     */}
@@ -263,7 +263,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
         aria-controls="house-navigation-panel"
         className="house-navigation-trigger group relative flex items-center justify-center p-2.5 -ml-2.5 bg-transparent cursor-pointer focus:outline-none transition-transform duration-300 active:scale-95"
       >
-        <div className="house-paw-artwork relative h-8.5 w-8.5 sm:h-9.5 sm:w-9.5 flex items-center justify-center">
+        <div className="house-paw-artwork relative h-8 w-8 flex items-center justify-center">
           {/* White Paw (for dark hero cinema) */}
           <motion.img
             src="/brand/cheetah-paw-white.png"
@@ -331,7 +331,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                 >
                   <span
                     style={{ color: dynamicTextColor }}
-                    className="house-navigation-label font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 group-hover:translate-x-1"
+                    className="house-navigation-label font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight transition-all duration-300 group-hover:translate-x-1.5"
                   >
                     Collections
                   </span>
@@ -404,7 +404,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                   }
                   onClick={handleLinkClick}
                   style={{ color: dynamicTextColor }}
-                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 hover:translate-x-1"
+                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight transition-all duration-300 hover:translate-x-1.5"
                 >
                   <span className="house-navigation-label">Retail</span>
                 </Link>
@@ -417,7 +417,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                   aria-current={isCurrentRoute("/hayrat") ? "page" : undefined}
                   onClick={handleLinkClick}
                   style={{ color: dynamicTextColor }}
-                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 hover:translate-x-1"
+                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight transition-all duration-300 hover:translate-x-1.5"
                 >
                   <span className="house-navigation-label">Hayrat</span>
                 </Link>
@@ -432,7 +432,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                   }
                   onClick={handleLinkClick}
                   style={{ color: dynamicTextColor }}
-                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 hover:translate-x-1"
+                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight transition-all duration-300 hover:translate-x-1.5"
                 >
                   <span className="house-navigation-label">Philosophy</span>
                 </Link>
@@ -445,7 +445,7 @@ export default function CheetahBar({ dark = false, tone }: CheetahBarProps) {
                   aria-current={isCurrentRoute("/founder") ? "page" : undefined}
                   onClick={handleLinkClick}
                   style={{ color: dynamicTextColor }}
-                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight transition-all duration-200 hover:translate-x-1"
+                  className="inline-flex items-center font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight transition-all duration-300 hover:translate-x-1.5"
                 >
                   <span className="house-navigation-label">The Founder</span>
                 </Link>

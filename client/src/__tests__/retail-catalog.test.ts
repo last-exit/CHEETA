@@ -37,7 +37,8 @@ describe("Retail availability", () => {
     );
     expect(html).toContain('href="/contact?interest=retail"');
     expect(html).toContain('href="/product/preview-amber-round"');
-    expect(html).toContain('aria-label="Green signet ring"');
+    expect(html).toContain(">Green signet ring</h2>");
+    expect(html).toContain('href="/product/preview-drop-necklace"');
     expect(html).toContain("Pieces and prices are illustrative.");
     expect(html).not.toMatch(/add to bag|href="\/cart"/i);
     expect(html).not.toMatch(/double-barrel-01|emerald-signet-ring|15,000/);

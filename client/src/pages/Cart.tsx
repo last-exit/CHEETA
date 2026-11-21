@@ -28,7 +28,7 @@ export default function Cart() {
       <HeaderWordmark />
       <div className="cart-shell relative z-10">
         {/* Back Link */}
-        <div className="mb-12 font-sans lowercase text-[length:var(--house-label-size)]">
+        <div className="mb-6 font-sans lowercase text-[length:var(--house-label-size)]">
           <Link
             href="/retail"
             className="group inline-flex min-h-11 items-center gap-2 text-(--house-muted) hover:text-(--house-accent) transition-colors"
@@ -42,8 +42,9 @@ export default function Cart() {
         </div>
 
         {/* Header */}
-        <header className="mb-16 flex items-baseline justify-between pb-6">
-          <h1 className="font-serif text-[clamp(48px,6vw,82px)] font-normal leading-none tracking-[-0.052em]">
+        <p className="house-kicker mb-5">The house</p>
+        <header className="mb-8 flex items-baseline justify-between">
+          <h1 className="font-serif text-[length:var(--house-heading)] font-normal leading-none tracking-[-0.052em]">
             Bag
           </h1>
           <span className="font-sans text-[length:var(--house-label-size)] text-(--house-muted)">
@@ -52,11 +53,11 @@ export default function Cart() {
         </header>
 
         {cart.length === 0 ? (
-          <div className="text-center py-24 space-y-4">
+          <div className="py-10 text-center md:py-14">
             <p className="font-serif text-2xl text-(--house-muted) font-normal">
               Your bag is empty.
             </p>
-            <div className="pt-4">
+            <div className="pt-3">
               <Link
                 href="/retail"
                 className="inline-flex min-h-11 items-center font-sans text-[length:var(--house-label-size)] hover:text-(--house-accent) transition-colors font-medium"
@@ -66,13 +67,13 @@ export default function Cart() {
             </div>
           </div>
         ) : (
-          <div className="space-y-16">
+          <div className="space-y-10">
             {/* Item List */}
-            <div className="space-y-10">
+            <div className="space-y-6">
               {cart.map(item => (
                 <div
                   key={item.id}
-                  className="bag-item flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8"
+                  className="bag-item flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 pb-6"
                 >
                   <div className="bag-item-description flex items-center gap-6">
                     <div className="h-20 w-20 flex items-center justify-center shrink-0 bg-(--house-surface) p-2">
@@ -136,7 +137,7 @@ export default function Cart() {
             </div>
 
             {/* Summary */}
-            <div className="pt-8 space-y-6 max-w-md ml-auto">
+            <div className="space-y-5 max-w-md ml-auto">
               <div className="space-y-3 font-sans text-[length:var(--house-label-size)]">
                 <div className="flex justify-between text-(--house-muted)">
                   <span>Subtotal</span>
@@ -163,7 +164,7 @@ export default function Cart() {
               <div className="pt-2">
                 <a
                   href={enquiry}
-                  className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-(--house-ink) px-5 text-(--house-paper) hover:bg-(--house-accent)"
+                  className="inline-flex min-h-12 w-full items-center justify-center bg-(--house-ink) px-6 text-(--house-paper) font-sans text-[length:var(--house-label-size)] tracking-wide hover:bg-(--house-accent) transition-colors duration-200"
                 >
                   Email about these pieces
                 </a>

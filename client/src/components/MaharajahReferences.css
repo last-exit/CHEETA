@@ -1,0 +1,116 @@
+.maharajah-reference-object {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--house-surface);
+  overflow: hidden;
+}
+
+.maharajah-reference-stack,
+.maharajah-reference-stack img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.maharajah-reference-stack img {
+  object-fit: contain;
+  opacity: 0;
+  transition:
+    opacity 320ms var(--ease-editorial),
+    transform 640ms var(--ease-editorial);
+  pointer-events: none;
+}
+
+.maharajah-reference-stack img[data-active="true"] {
+  opacity: 1;
+}
+
+@media (hover: hover) {
+  .maharajah-reference-object:hover .maharajah-reference-stack img[data-active="true"] {
+    transform: scale(1.018);
+  }
+}
+
+.maharajah-reference-caption {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: 16px;
+  padding-top: 12px;
+  color: var(--house-muted);
+}
+
+.maharajah-reference-choices {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.maharajah-reference-choices button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  min-height: 40px;
+  padding: 0 4px;
+  border: 0;
+  background: transparent;
+  color: var(--house-muted);
+  cursor: pointer;
+  font: 400 20px / 1 var(--font-serif);
+  transition: color 200ms var(--ease-editorial);
+}
+
+.maharajah-reference-choices button::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 14px;
+  height: 1px;
+  background: var(--house-accent);
+  transform: translateX(-50%) scaleX(0);
+  transition: transform 240ms var(--ease-editorial);
+  pointer-events: none;
+}
+
+.maharajah-reference-choices button:hover {
+  color: var(--house-ink);
+}
+
+.maharajah-reference-choices button[aria-pressed="true"] {
+  color: var(--house-accent);
+}
+
+.maharajah-reference-choices button[aria-pressed="true"]::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.maharajah-reference-retry {
+  position: absolute;
+  inset: auto 0 16px;
+  text-align: center;
+}
+
+.maharajah-reference-retry button {
+  min-height: 44px;
+  padding: 8px 16px;
+  background: var(--house-paper);
+  color: var(--house-ink);
+  cursor: pointer;
+}
+
+.maharajah-references[data-immediate="true"] .maharajah-reference-stack img {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .maharajah-reference-stack img {
+    transition: none;
+  }
+  .maharajah-reference-choices button::after {
+    transition: none;
+  }
+}

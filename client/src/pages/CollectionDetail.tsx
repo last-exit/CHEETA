@@ -5,6 +5,8 @@ import CampaignImageDialog from "@/components/CampaignImageDialog";
 import MasqueradeCampaign from "@/components/MasqueradeCampaign";
 import MasqueradeCinema from "@/components/MasqueradeCinema";
 import MasqueradeSculpture from "@/components/MasqueradeSculpture";
+import MasqueradeArcade from "@/components/MasqueradeArcade";
+import PalaceRule from "@/components/PalaceRule";
 import MasqueradeCoda from "@/components/MasqueradeCoda";
 import CollectionShowroom from "@/components/CollectionShowroom";
 import { MASQUERADE_CINEMA, cinemaPreview } from "@/lib/masqueradeCinema";
@@ -163,7 +165,11 @@ function ActiveCollection({ id }: { id: "barrel" | "masquerade" }) {
       {cinematic && (
         <>
           <MasqueradeSculpture />
+          <PalaceRule />
+          <MasqueradeArcade />
+          <PalaceRule />
           <MasqueradeCoda />
+          <PalaceRule />
           <CollectionShowroom collection="masquerade" />
         </>
       )}
@@ -180,7 +186,7 @@ function ActiveCollection({ id }: { id: "barrel" | "masquerade" }) {
           </div>
         </Link>
       </nav>
-      <HouseFooter inverse={cinematic} />
+      <HouseFooter lace={!cinematic} />
       {activePhotograph !== null && (
         <CampaignImageDialog
           key={`${collection.id}-photographs`}

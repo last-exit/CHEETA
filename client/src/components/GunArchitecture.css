@@ -26,8 +26,7 @@
   transform: skewX(-11deg) rotate(7deg);
   transform-origin: 60% 70%;
 }
-.collection-barrel .gun-exhibition,
-.collection-page.collection-barrel .house-footer {
+.collection-barrel .gun-exhibition {
   background: transparent;
 }
 @media (max-width: 767px) {

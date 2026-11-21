@@ -79,7 +79,7 @@ describe("Masquerade reduced motion", () => {
 });
 
 describe("Masquerade campaign sequencing", () => {
-  it("continues one film into an interactive sculpture without a photograph carousel", () => {
+  it("continues one film into the openwork arcade without a photograph carousel", () => {
     media.reduced = false;
     try {
       const markup = renderToStaticMarkup(
@@ -98,31 +98,23 @@ describe("Masquerade campaign sequencing", () => {
         expect(markup).not.toContain("masquerade-portrait-composition");
         expect(markup).not.toContain("exhibition-study-v1.webp");
         expect(markup).not.toContain("masquerade-cinema-room");
-        expect(markup).toContain(
-          'aria-label="Interactive Masquerade sculpture"'
-        );
-        expect(markup).toContain(
-          "A sculptural interpretation of The Masquerade"
-        );
+        expect(markup).toContain('aria-labelledby="masquerade-arcade-title"');
         expect(markup).not.toContain('aria-roledescription="carousel"');
         expect(markup).not.toContain("campaign photographs");
-        expect(markup.indexOf('class="masquerade-sculpture"')).toBeGreaterThan(
-          markup.indexOf("</canvas>")
-        );
+        expect(
+          markup.indexOf('data-campaign-chapter="the-openwork"')
+        ).toBeGreaterThan(markup.indexOf("</canvas>"));
         expect(
           markup.indexOf('data-campaign-chapter="after-dark"')
-        ).toBeGreaterThan(markup.indexOf('class="masquerade-sculpture"'));
+        ).toBeGreaterThan(markup.indexOf('data-campaign-chapter="the-openwork"'));
         expect(markup).toContain("/videos/masquerade.mp4");
         expect(markup).toContain("available exclusively at our showroom");
-        expect(markup).not.toContain("masquerade-sculpture-controls");
-        expect(markup).not.toContain("masquerade-sculpture-hint");
       } else
         expect(
           markup.match(
             /<img[^>]+src="\/campaigns\/masquerade\/exhibition-study-v1.webp"/g
           )
         ).toHaveLength(1);
-      expect(markup).not.toContain("shadow-study.webp");
       expect(markup).not.toContain("campaign-editorial-note");
       expect(markup).not.toContain("In detail");
       expect(markup).not.toContain("masquerade-study-choices");

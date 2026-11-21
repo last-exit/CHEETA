@@ -41,7 +41,7 @@ describe("Long-form collection campaigns", () => {
         expect(markup).toContain('id="masquerade-coda-title"');
         expect(markup).not.toContain("campaign photographs");
         expect(markup).toContain(
-          'aria-label="Interactive Masquerade sculpture"'
+          'aria-labelledby="masquerade-arcade-title"'
         );
         expect(markup).not.toContain('aria-roledescription="carousel"');
         expect(markup).not.toContain("masquerade-portrait-composition");
@@ -53,6 +53,7 @@ describe("Long-form collection campaigns", () => {
         expect(markup).toContain('class="collector-case-screen"');
         expect(markup).toContain("See Maharajah in person");
         expect(markup).not.toContain("maharajah-front-v2.webp");
+        expect(markup).not.toContain("gun-frame-angles");
       }
       expect(markup.match(/<video\b/g)).toHaveLength(2);
       expect(
@@ -77,7 +78,7 @@ describe("Long-form collection campaigns", () => {
           expect(markup).toContain('data-static="true"');
           expect(markup).not.toContain("campaign photographs");
           expect(markup).toContain(
-            'aria-label="Interactive Masquerade sculpture"'
+            'aria-labelledby="masquerade-arcade-title"'
           );
           expect(markup).toContain("/campaigns/masquerade-poster.jpg");
           expect(markup).not.toContain('aria-label="Light position"');
@@ -111,9 +112,9 @@ describe("Masquerade showroom campaign", () => {
     expect(markup).not.toContain("after-dark-loop-v1.mp4");
     expect(video).not.toMatch(/controls=|autoplay=/);
   });
-  it("leads from the sculpture and full film to the showroom without an online purchase path", () => {
+  it("leads from the openwork arcade and full film to the showroom without an online purchase path", () => {
     const markup = render("masquerade");
-    const chapters = ["openwork-study", "after-dark", "the-showroom"];
+    const chapters = ["masquerade-film", "the-openwork", "after-dark", "the-showroom"];
     for (let index = 1; index < chapters.length; index++) {
       expect(
         markup.indexOf(`data-campaign-chapter="${chapters[index]}"`)
@@ -122,8 +123,9 @@ describe("Masquerade showroom campaign", () => {
       );
     }
     expect(markup).toContain("available exclusively at our showroom");
-    expect(markup).toMatch(/href="\/contact\?collection=masquerade"[^>]*>[\s\S]*?arrange a visit/);
-    expect(markup).not.toContain('data-campaign-chapter="the-openwork"');
+    expect(markup).toMatch(
+      /href="\/contact\?collection=masquerade"[^>]*>[\s\S]*?Arrange a visit/
+    );
     expect(markup).not.toMatch(/add to bag|acquire|checkout|AED|15,000/);
     expect(markup.indexOf('data-campaign-chapter="the-showroom"')).toBeLessThan(
       markup.indexOf('aria-label="Next collection"')

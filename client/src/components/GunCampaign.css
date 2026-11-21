@@ -5,11 +5,11 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 24px 64px;
-  padding-block: 56px;
+  gap: 20px 48px;
+  padding-block: 42px;
 }
 .gun-introduction h1 {
-  font: 400 clamp(32px, 3vw, 44px) / 1.12 var(--font-serif);
+  font: 400 clamp(30px, 2.8vw, 40px) / 1.12 var(--font-serif);
   letter-spacing: -0.035em;
 }
 .gun-introduction p {
@@ -18,79 +18,91 @@
   line-height: 1.65;
   color: var(--house-muted);
 }
-.gun-frame-study {
+.gun-frame-detail {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-  gap: 12px;
-  padding-top: clamp(56px, 8vw, 120px);
+  grid-template-columns: minmax(0, 406px) minmax(0, 1fr);
+  align-items: center;
+  gap: 22px clamp(28px, 5vw, 72px);
+  max-width: 840px;
+  padding-block: var(--house-section) clamp(12px, 3vw, 40px);
 }
-.gun-frame-study header {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px 36px;
-  margin-bottom: 18px;
+.gun-frame-detail-image {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: #a5aaab;
 }
-.gun-frame-study h2 {
-  font: 400 clamp(34px, 5vw, 68px) / 1 var(--font-serif);
-  letter-spacing: -0.05em;
+.gun-frame-detail-image img {
+  position: absolute;
+  top: -30%;
+  left: -88%;
+  width: 312%;
+  max-width: none;
+  height: auto;
 }
-.gun-frame-study p {
-  font-size: 16px;
+.gun-frame-detail h2 {
+  font: 400 clamp(26px, 3vw, 38px) / 1.12 var(--font-serif);
+  letter-spacing: -0.035em;
+}
+.gun-frame-detail figcaption p {
+  margin-top: 10px;
+  color: var(--house-muted);
+  font-size: 15px;
   line-height: 1.5;
 }
-.gun-frame-study figure {
-  overflow: hidden;
-  background: #b3b5ad;
+.gun-design-references {
+  max-width: 840px;
+  padding-block: clamp(8px, 3vw, 36px) 0;
 }
-.gun-frame-study img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.gun-design-references summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 48px;
+  cursor: pointer;
+  list-style: none;
+  font: 400 clamp(22px, 2.4vw, 32px) / 1.15 var(--font-serif);
+  letter-spacing: -0.025em;
 }
-.gun-frame-worn {
-  aspect-ratio: 5 / 4;
+.gun-design-references summary:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
 }
-.gun-frame-angles {
-  display: grid;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+.gun-design-references summary::-webkit-details-marker {
+  display: none;
 }
-.gun-frame-angles img {
-  object-position: center 25%;
-  transform: scale(1.65);
-  transform-origin: 42% 23%;
+.gun-design-references summary svg {
+  flex: 0 0 auto;
+}
+.gun-design-references[open] summary svg {
+  transform: rotate(180deg);
+}
+.gun-design-references > p {
+  max-width: 48ch;
+  margin: 6px 0 20px;
+  color: var(--house-muted);
+  font-size: 15px;
+  line-height: 1.5;
 }
 @media (max-width: 767px) {
   .gun-introduction {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    padding-block: 32px 34px;
+    padding-block: 26px 28px;
   }
   .gun-introduction h1 {
-    font-size: clamp(34px, 6.8vw, 44px);
+    font-size: clamp(28px, 6.3vw, 38px);
     line-height: 1.05;
   }
   .gun-introduction p {
     max-width: 36ch;
   }
-  .gun-frame-study {
+  .gun-frame-detail {
     grid-template-columns: minmax(0, 1fr);
   }
-  .gun-frame-study header {
-    align-items: start;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 6px;
-  }
-  .gun-frame-angles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto;
-  }
-  .gun-frame-angles figure {
-    aspect-ratio: 4 / 3;
+  .gun-frame-detail-image {
+    width: min(100%, 406px);
   }
 }

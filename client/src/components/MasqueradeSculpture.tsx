@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, RotateCcw } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type {
   SculpturePose,
@@ -23,11 +24,16 @@ export default function MasqueradeSculpture() {
   const motion = useRef(reduced);
   const [state, setState] = useState<"loading" | "ready" | "failed">("loading");
   const [attempt, setAttempt] = useState(0);
+  const [separated, setSeparated] = useState(false);
 
   useEffect(() => {
     motion.current = reduced;
     studio.current?.reduced(reduced);
   }, [reduced]);
+
+  useEffect(() => {
+    studio.current?.separate(separated);
+  }, [separated]);
 
   useEffect(() => {
     const host = mount.current;
@@ -49,6 +55,7 @@ export default function MasqueradeSculpture() {
                 () => {
                   studio.current?.dispose();
                   studio.current = null;
+                  setSeparated(false);
                   setState("failed");
                 },
                 motion.current,
@@ -90,6 +97,8 @@ export default function MasqueradeSculpture() {
   const reset = (immediate = false) => {
     pose.current = { ...initial };
     studio.current?.pose(initial, immediate || motion.current);
+    studio.current?.separate(false, immediate || motion.current);
+    setSeparated(false);
   };
 
   return (
@@ -97,6 +106,7 @@ export default function MasqueradeSculpture() {
       className="masquerade-sculpture"
       aria-labelledby="masquerade-sculpture-title"
       data-campaign-chapter="openwork-study"
+      data-separated={separated}
     >
       <header
         className="masquerade-sculpture-heading house-container"
@@ -105,8 +115,23 @@ export default function MasqueradeSculpture() {
         <h2 id="masquerade-sculpture-title">
           Anatomy of <em>a disguise.</em>
         </h2>
+        <button
+          type="button"
+          className="masquerade-sculpture-action"
+          disabled={state !== "ready"}
+          aria-controls="masquerade-sculpture-object"
+          onClick={() => setSeparated(value => !value)}
+        >
+          {separated ? "Reassemble" : "Separate the lenses"}
+          {separated ? (
+            <RotateCcw size={17} strokeWidth={1.3} aria-hidden="true" />
+          ) : (
+            <ArrowUpRight size={17} strokeWidth={1.3} aria-hidden="true" />
+          )}
+        </button>
       </header>
       <div
+        id="masquerade-sculpture-object"
         className="masquerade-sculpture-stage"
         role="group"
         aria-label="Interactive Masquerade sculpture"
@@ -184,15 +209,16 @@ export default function MasqueradeSculpture() {
           src="/campaigns/masquerade/openwork-study.webp"
           alt="Black cat-eye eyewear surrounded by delicate openwork"
           loading="lazy"
+          decoding="async"
           width="1600"
           height="914"
         />
       </div>
       <p className="sr-only" id="masquerade-sculpture-instructions">
-        A sculptural interpretation of The Masquerade. Drag to rotate. With the
-        sculpture focused, use the arrow keys to turn, plus and minus to zoom,
-        and Home or Escape to reset. On touch screens, drag horizontally to turn
-        and swipe vertically to scroll the page.
+        A sculptural interpretation of The Masquerade. Separate the lenses to
+        see the openwork from the inside. Drag to rotate, or focus the sculpture
+        and use the arrow keys to turn, plus and minus to zoom, and Home or
+        Escape to reset. On touch screens, swipe vertically to scroll the page.
       </p>
       {state === "failed" && (
         <div

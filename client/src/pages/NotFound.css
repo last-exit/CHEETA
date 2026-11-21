@@ -1,0 +1,83 @@
+.not-found-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background: var(--house-night);
+  color: var(--house-on-inverse);
+}
+.not-found-room {
+  position: relative;
+  flex: 1;
+  display: grid;
+  align-items: center;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(60% 70% at 35% 50%, rgb(42 11 9 / 0.7), rgb(8 5 4 / 0.96) 100%),
+    url("/mughal/velvet-rows.webp") 50% 0 / max(100%, 900px) auto repeat-y;
+}
+.not-found-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: auto minmax(0, 32rem);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(40px, 7vw, 112px);
+  padding-block: var(--house-page-top) var(--house-section);
+}
+.not-found-guest {
+  width: clamp(200px, 22vw, 300px);
+}
+/* She is only half lit, as if a candle had just been moved away. */
+.not-found-guest .arch-niche-opening img {
+  filter: brightness(0.62) contrast(1.08) saturate(0.85);
+}
+.not-found-guest .arch-niche-gilt path {
+  stroke: rgb(201 162 94 / 0.7);
+}
+.not-found-text {
+  display: grid;
+  justify-items: start;
+  gap: 26px;
+}
+.not-found-text .house-kicker {
+  color: #c9a25e;
+}
+.not-found-text h1 {
+  margin: 0;
+  max-width: 11ch;
+  font: 400 clamp(44px, 5.4vw, 84px) / 1 var(--font-serif);
+  letter-spacing: -0.04em;
+}
+.not-found-text h1 em {
+  font-style: italic;
+}
+.not-found-return {
+  padding-bottom: 4px;
+  border-bottom: 1px solid currentColor;
+  color: rgb(246 238 227 / 0.86);
+  font: italic 400 20px / 1.2 var(--font-serif);
+  text-decoration: none;
+  transition: color 320ms ease;
+}
+.not-found-return:hover {
+  color: #c9a25e;
+}
+.not-found-return:focus-visible {
+  outline: 1px solid #c9a25e;
+  outline-offset: 6px;
+}
+@media (max-width: 767px) {
+  .not-found-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+  .not-found-text {
+    justify-items: center;
+  }
+  .not-found-guest {
+    width: 52vw;
+  }
+}
