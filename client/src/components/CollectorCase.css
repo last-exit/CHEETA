@@ -1,6 +1,7 @@
 .collector-case {
   position: relative;
   height: var(--case-scroll, 300svh);
+  background: #ede6da;
   color: var(--house-ink);
   scroll-margin-top: 0;
 }

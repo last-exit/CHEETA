@@ -118,6 +118,11 @@
   --color-maroon: #6b1a2c;
   --color-maroon-deep: #4a0e16;
   --color-gold: #b8985f;
+  --color-brass: #b9985a;
+  --color-gilt: #d9bd82;
+  --color-umber: #221815;
+  --color-oxblood: #4a1019;
+  --color-wine: #6b1a2c;
 
   /* Genuine GT America files have not been supplied. */
   --font-serif: "GT Sectra Display", "Bodoni Moda", "Didot", Georgia, serif;
@@ -441,4 +446,64 @@
     font-family: var(--font-sans);
     letter-spacing: normal;
   }
+
+  .display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .label {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .font-script {
+    font-family: "Bodoni Moda", "GT Sectra Display", Georgia, cursive, serif;
+    font-style: italic;
+  }
+
+  .hair-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    transition: opacity 0.2s ease, gap 0.2s ease;
+  }
+  .hair-link:hover {
+    opacity: 0.8;
+    gap: 0.75rem;
+  }
+
+  .grain {
+    position: relative;
+  }
+  .grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: radial-gradient(#ffffff 1px, transparent 1px);
+    background-size: 4px 4px;
+    z-index: 1;
+  }
+}
+
+@keyframes sheen {
+  0% { transform: translateX(-150%) skewX(-20deg); }
+  50%, 100% { transform: translateX(350%) skewX(-20deg); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0.85; filter: drop-shadow(0 0 15px rgba(255,180,90,0.6)); }
+  25% { opacity: 0.65; }
+  50% { opacity: 0.95; filter: drop-shadow(0 0 25px rgba(255,190,100,0.8)); }
+  75% { opacity: 0.75; }
 }

@@ -142,7 +142,7 @@ function ActiveCollection({ id }: { id: "barrel" | "masquerade" }) {
       {collection.id === "barrel" && <GunArchitecture />}
       <CheetahBar tone={cinematic || lightPaw ? "light" : "dark"} />
       <HeaderWordmark dark={cinematic || lightMonogram} />
-      {!cinematic && (
+      {!cinematic && collection.id !== "barrel" && (
         <div ref={opening}>
           <CollectionCampaign key={collection.id} collection={collection} />
         </div>
