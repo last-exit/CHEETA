@@ -1,5 +1,8 @@
 import { Link } from "wouter";
+import FlowerBed from "./FlowerBed";
 import Lace from "./Lace";
+import CheetahCrest from "./CheetahCrest";
+
 
 export function InformationLinks() {
   return (
@@ -15,8 +18,8 @@ export function InformationFooter({ lace = true }: { lace?: boolean }) {
 }
 
 /**
- * The close of every page: near-black, a gilt rule, the CJ struck in foil,
- * the house signature, and two quiet links.
+ * The close of every page: the house cheetah on its vine, the signature,
+ * two quiet links and the copyright, on near-black.
  */
 export function HouseFooter({
   compact = false,
@@ -33,11 +36,11 @@ export function HouseFooter({
       {lace && (
         <>
           <Lace hang="down" />
-          <img className="house-flower house-footer-flower" src="/mughal/flower-rose.webp" alt="" loading="lazy" decoding="async" />
+          <FlowerBed place="above" />
         </>
       )}
       <div className="house-container house-footer-inner">
-        <span className="house-seal" aria-hidden="true" />
+        <CheetahCrest />
         <Link href="/" className="house-footer-signature" aria-label="Cheeta Jewels home">
           <img
             src="/brand/icon-livin-white.png"

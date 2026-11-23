@@ -20,30 +20,10 @@
   font-weight: 400;
 }
 .masquerade-sculpture-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  min-height: 44px;
-  min-width: 156px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--house-ink);
-  cursor: pointer;
-  font-size: 15px;
+  font-size: clamp(19px, 1.6vw, 22px);
 }
 .masquerade-sculpture-action:disabled {
   visibility: hidden;
-}
-.masquerade-sculpture-action svg {
-  color: var(--campaign-accent);
-  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-@media (hover: hover) {
-  .masquerade-sculpture-action:hover svg {
-    transform: translate(2px, -2px);
-  }
 }
 .masquerade-sculpture-stage {
   position: relative;
@@ -127,7 +107,6 @@
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .masquerade-sculpture-action svg,
   .masquerade-sculpture-stage::before {
     transition: none;
   }

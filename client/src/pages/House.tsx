@@ -3,7 +3,6 @@
  */
 import { motion } from "framer-motion";
 import { useRef } from "react";
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
 import { InformationFooter } from "@/components/HouseFooter";
 import CheetahBar from "@/components/CheetahBar";
@@ -146,9 +145,8 @@ export default function House() {
             livin’.
           </h2>
           <div>
-            <Link href="/philosophy" className="archive-button max-w-[300px]">
-              <span>Read the philosophy</span>
-              <ArrowDownRight size={16} strokeWidth={1.4} />
+            <Link href="/philosophy" className="house-cartouche">
+              Read the philosophy
             </Link>
           </div>
         </div>
@@ -156,11 +154,8 @@ export default function House() {
 
       <footer className="bg-[var(--house-paper)] py-6">
         <div className="house-container flex items-center font-sans text-[length:var(--house-label-size)] text-[#6A635D]">
-          <Link
-            href="/collection/barrel"
-            className="magnetic-link flex items-center gap-2"
-          >
-            View the Gun Collection <ArrowUpRight size={13} />
+          <Link href="/collection/barrel" className="house-cartouche">
+            View the Gun Collection
           </Link>
         </div>
       </footer>

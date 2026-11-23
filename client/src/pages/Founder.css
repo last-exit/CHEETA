@@ -236,3 +236,40 @@
     max-width: 24ch;
   }
 }
+
+/* Ornament for the story and the film. */
+.founder-story {
+  position: relative;
+}
+.founder-ornament {
+  grid-column: 1 / -1;
+  margin-bottom: 8px;
+}
+.founder-film-picture.gilt-plate {
+  margin: 20px;
+}
+
+/* The film and the way on share one centre line: the sound control sits
+   under the picture, and the next room is named in the house's own link. */
+.founder-voice {
+  display: grid;
+  justify-items: center;
+}
+.founder-film {
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}
+.founder-film-picture {
+  width: calc(100% - 40px);
+}
+.founder-editorial .founder-film .founder-action {
+  margin-top: 6px;
+  color: var(--house-muted);
+}
+.founder-editorial .founder-film .founder-action:hover {
+  color: var(--house-accent);
+}
+.founder-voice .founder-next {
+  margin-top: clamp(28px, 4vw, 48px);
+}

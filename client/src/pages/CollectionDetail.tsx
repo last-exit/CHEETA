@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight } from "lucide-react";
 import { Link, Redirect, useParams } from "wouter";
 import CampaignImageDialog from "@/components/CampaignImageDialog";
 import MasqueradeCampaign from "@/components/MasqueradeCampaign";
 import MasqueradeCinema from "@/components/MasqueradeCinema";
 import MasqueradeSculpture from "@/components/MasqueradeSculpture";
 import MasqueradeArcade from "@/components/MasqueradeArcade";
-import PalaceRule from "@/components/PalaceRule";
 import MasqueradeCoda from "@/components/MasqueradeCoda";
 import CollectionShowroom from "@/components/CollectionShowroom";
 import { MASQUERADE_CINEMA, cinemaPreview } from "@/lib/masqueradeCinema";
@@ -165,12 +163,9 @@ function ActiveCollection({ id }: { id: "barrel" | "masquerade" }) {
       {cinematic && (
         <>
           <MasqueradeSculpture />
-          <PalaceRule />
           <MasqueradeArcade />
-          <PalaceRule />
           <MasqueradeCoda />
-          <PalaceRule />
-          <CollectionShowroom collection="masquerade" />
+          <CollectionShowroom collection="masquerade" tone="gold" />
         </>
       )}
 
@@ -179,11 +174,12 @@ function ActiveCollection({ id }: { id: "barrel" | "masquerade" }) {
         className="collection-next house-container"
         aria-label="Next collection"
       >
-        <Link href={`/collection/${collection.nextId}`}>
-          <div>
-            <h2>{collectionTitle(next?.title ?? collection.nextName)}</h2>
-            <ArrowRight size={32} strokeWidth={1} aria-hidden="true" />
-          </div>
+        <Link
+          href={`/collection/${collection.nextId}`}
+          className="house-cartouche"
+          data-tone={collection.id === "masquerade" ? "gold" : undefined}
+        >
+          <h2>{collectionTitle(next?.title ?? collection.nextName)}</h2>
         </Link>
       </nav>
       <HouseFooter lace={!cinematic} />

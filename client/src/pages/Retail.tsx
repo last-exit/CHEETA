@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import ArcText from "@/components/ArcText";
+import CheetahCrest from "@/components/CheetahCrest";
 import { Link, useSearchParams } from "wouter";
+import Lace from "@/components/Lace";
 import AcquisitionButton from "@/components/AcquisitionButton";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
@@ -13,7 +16,6 @@ import {
   RETAIL_PRODUCTS,
   type ProductItem,
 } from "@/data/retailCatalog";
-import Lace from "@/components/Lace";
 import "./Retail.css";
 
 const categories = [
@@ -28,7 +30,7 @@ const catalogue = showingPreview ? RETAIL_PREVIEW_PRODUCTS : RETAIL_PRODUCTS;
 export default function Retail() {
   const { addToCart, totalCount } = useCart();
   const treasury = useRef<HTMLElement>(null);
-  // The paw and CJ turn light while they sit over the dark entrance hall.
+  // The paw and CJ turn light while they sit over the painted header.
   const [overHall, setOverHall] = useState(true);
   useEffect(() => {
     let frame = 0;
@@ -90,9 +92,11 @@ export default function Retail() {
           decoding="async"
         />
         <div className="treasury-heading">
-          <p className="treasury-welcome">Welcome to</p>
-          <h1 id="retail-title">The Treasury</h1>
-          <p className="treasury-line">pieces to keep close</p>
+          <h1 id="retail-title" className="treasury-title">
+            <ArcText bow="over" className="treasury-welcome">Welcome to the</ArcText>
+            <span className="treasury-name">Treasury</span>
+            <ArcText bow="under" className="treasury-line">of Cheeta Jewels</ArcText>
+          </h1>
         </div>
         <div className="retail-toolbar">
           <div className="retail-categories" role="group" aria-label="Product category">
@@ -108,6 +112,22 @@ export default function Retail() {
               </button>
             ))}
           </div>
+        </div>
+        <span className="sr-only" role="status">
+          {filtered.length} {filtered.length === 1 ? "piece" : "pieces"}
+        </span>
+      </header>
+
+      <div className="album-page">
+        <Lace hang="up" />
+      <div className="catalogue-shell house-container">
+        <div className="retail-preview-banner">
+          <CheetahCrest className="retail-crest" />
+          {showingPreview && (
+            <p className="retail-preview-note">
+              Catalogue preview. Pieces and prices are illustrative.
+            </p>
+          )}
           {showingPreview ? (
             <Link href="/contact?interest=retail" className="retail-contact">
               Retail enquiries
@@ -118,21 +138,6 @@ export default function Retail() {
             </Link>
           )}
         </div>
-        <span className="sr-only" role="status">
-          {filtered.length} {filtered.length === 1 ? "piece" : "pieces"}
-        </span>
-      </header>
-
-      <div className="album-page">
-        <Lace hang="up" />
-        <img className="house-flower retail-flower-tulip" src="/mughal/flower-tulip.webp" alt="" decoding="async" />
-        <img className="house-flower retail-flower-anemone" src="/mughal/flower-anemone.webp" alt="" loading="lazy" decoding="async" />
-      <div className="catalogue-shell house-container">
-        {showingPreview && (
-          <p className="retail-preview-note retail-preview-banner">
-            Catalogue preview. Pieces and prices are illustrative.
-          </p>
-        )}
         <section className="retail-gallery" id="retail-pieces" aria-label="Retail pieces">
           {filtered.map((product, index) => (
             <article

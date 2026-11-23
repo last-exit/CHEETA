@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import Ornament from "@/components/Ornament";
 import { useState } from "react";
 import { Link, useSearchParams } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
@@ -65,6 +66,7 @@ export default function Contact() {
       <HeaderWordmark />
       <div className="contact-content house-container">
         <header>
+          <Ornament className="page-ornament" />
           <p className="house-kicker">The house</p>
           <h1>{title}</h1>
           {showroom && (

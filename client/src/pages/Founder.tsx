@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Volume2, VolumeX } from "lucide-react";
+import Lace from "@/components/Lace";
+import Ornament from "@/components/Ornament";
+import { Volume2, VolumeX } from "lucide-react";
 import { Link } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
@@ -60,7 +62,7 @@ function FounderFilm() {
 
   return (
     <figure className="founder-film">
-      <div className="founder-film-picture" data-founder-media>
+      <div className="founder-film-picture gilt-plate" data-founder-media>
         {showVideo ? (
           <video
             ref={video}
@@ -231,6 +233,8 @@ export default function Founder() {
           className="founder-story house-container"
           aria-label="Eisa Saidi’s story"
         >
+          <Lace hang="up" />
+          <Ornament className="founder-ornament" />
           <blockquote>
             “Feeling out of place never stopped me from being who I was. And
             neither should it stop anyone.”
@@ -249,9 +253,10 @@ export default function Founder() {
         </section>
 
         <section className="founder-voice house-container" aria-label="Film">
+          <Ornament className="founder-ornament" />
           <FounderFilm />
-          <Link href="/philosophy" className="founder-action founder-next">
-            Philosophy <ArrowUpRight size={18} aria-hidden="true" />
+          <Link href="/philosophy" className="house-cartouche founder-next">
+            Philosophy
           </Link>
         </section>
       </article>

@@ -42,26 +42,11 @@
   padding-block: var(--house-section) clamp(28px, 4vw, 56px);
 }
 .collection-next > a {
-  display: block;
-}
-.collection-next > a > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 32px;
+  gap: 18px;
 }
 .collection-next h2 {
   font: 400 var(--campaign-heading) / 1.05 var(--font-serif);
   letter-spacing: -0.035em;
-}
-.collection-next svg {
-  flex-shrink: 0;
-  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-@media (hover: hover) {
-  .collection-next a:hover svg {
-    transform: translateX(8px);
-  }
 }
 .collection-page :is(button, a):focus-visible {
   outline: 2px solid currentColor;
@@ -78,12 +63,6 @@
   }
   .collection-next {
     padding-block: var(--house-section) 24px;
-  }
-  .collection-next > a > div {
-    gap: 16px;
-  }
-  .collection-next svg {
-    width: 24px;
   }
 }
 .collection-masquerade:has(.masquerade-coda) {
@@ -108,17 +87,10 @@
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  color: var(--house-muted);
-}
-.collection-page:has(.collection-showroom) .collection-next > a > div {
-  gap: 16px;
 }
 .collection-page:has(.collection-showroom) .collection-next h2 {
   font-size: clamp(20px, 2vw, 28px);
   letter-spacing: -0.025em;
-}
-.collection-page:has(.collection-showroom) .collection-next svg {
-  width: 20px;
 }
 .collection-page[data-compact-ending="true"] .collection-showroom {
   display: grid;
@@ -141,7 +113,6 @@
 .collection-page[data-compact-ending="true"] .collection-showroom-link {
   grid-area: 1 / 2 / span 2;
   margin: 0;
-  font-size: 15px;
 }
 @media (max-width: 767px) {
   .collection-page[data-compact-ending="true"] .collection-showroom {

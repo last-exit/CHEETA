@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import Ornament from "./Ornament";
 import { RETAIL_PREVIEW_PRODUCTS, RETAIL_PRODUCTS } from "@/data/retailCatalog";
 import ArchNiche from "./ArchNiche";
 import Lace from "./Lace";
@@ -20,13 +21,11 @@ export default function HomeRetail() {
       aria-labelledby="home-retail-title"
     >
       <Lace hang="up" />
-      <Lace hang="down" className="lace-below" />
-      <img className="house-flower home-flower-iris" src="/mughal/flower-iris.webp" alt="" loading="lazy" decoding="async" />
-      <img className="house-flower home-flower-rose" src="/mughal/flower-rose.webp" alt="" loading="lazy" decoding="async" />
       <div className="home-retail-frieze" aria-hidden="true" />
       <div className="home-retail-inner">
         <header className="home-retail-head" data-editorial-reveal>
           <div>
+            <Ornament className="room-ornament room-ornament-start" />
             <p className="panel-kicker">Retail</p>
             <h2 id="home-retail-title" className="panel-title">
               Pieces to <em>keep close.</em>
@@ -34,7 +33,7 @@ export default function HomeRetail() {
           </div>
           <div className="home-retail-aside">
             <p>Eyewear and jewellery, to order online.</p>
-            <Link href="/retail" className="home-retail-all">
+            <Link href="/retail" className="house-cartouche">
               View the collection
             </Link>
           </div>

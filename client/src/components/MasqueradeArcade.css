@@ -1,0 +1,182 @@
+/* The openwork chapter: a row of plates that opens, dissolves and gathers
+   into a ring in space. The stage holds still while the page scrolls past. */
+.masquerade-arcade {
+  position: relative;
+}
+.masq-ring-track {
+  position: relative;
+  height: 560svh;
+}
+.masq-ring-stage {
+  --cw: 300px;
+  --ch: 400px;
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  min-height: 520px;
+  overflow: hidden;
+  perspective: 1500px;
+  container-type: inline-size;
+}
+.masq-ring-stage:not([data-ready="true"]) .masq-ring-plates,
+.masq-ring-stage:not([data-ready="true"]) .masq-ring-hero {
+  visibility: hidden;
+}
+
+/* ---- The plates ---- */
+.masq-ring-plates {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50% 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform-style: preserve-3d;
+}
+.masq-ring-plate {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--cw);
+  height: var(--ch);
+  margin: calc(var(--ch) / -2) 0 0 calc(var(--cw) / -2);
+  will-change: transform, opacity;
+}
+.masq-ring-plate img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* The shadow a plate falls into as it turns toward the far wall. */
+.masq-ring-shade {
+  position: absolute;
+  inset: 0;
+  background: #0a0605;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* ---- The plate that becomes the screen ---- */
+.masq-ring-hero {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  overflow: hidden;
+  background: #0f0a09;
+  will-change: clip-path, opacity, filter;
+}
+.masq-ring-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: 50% 50%;
+}
+.masq-ring-hero-type {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(84px, 8cqi, 116px) var(--house-gutter) clamp(36px, 4.5cqi, 64px);
+  color: #f7eee4;
+  pointer-events: none;
+}
+/* The name is cut from the light: where it crosses the face it turns dark. */
+.masq-ring-mark {
+  grid-column: 1 / -1;
+  margin-left: -0.05em;
+  color: #f7eee4;
+  font: 400 clamp(64px, 15cqi, 240px) / 0.84 var(--font-serif);
+  letter-spacing: -0.055em;
+  mix-blend-mode: difference;
+}
+.masq-ring-hero-type p {
+  grid-row: 3;
+  align-self: end;
+  max-width: 29ch;
+  margin: 0;
+  color: rgb(247 238 228 / 0.86);
+  font: 400 clamp(15px, 1.15cqi, 17px) / 1.5 var(--font-sans);
+  text-wrap: pretty;
+}
+.masq-ring-numeral {
+  grid-row: 3;
+  grid-column: 2;
+  align-self: end;
+  font: 400 clamp(84px, 12cqi, 200px) / 0.78 var(--font-serif);
+  letter-spacing: -0.04em;
+}
+
+/* ---- The words at the centre of the ring ---- */
+.masq-ring-centre {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: clamp(20px, 2.2cqi, 30px);
+  padding-inline: 24px;
+  text-align: center;
+  pointer-events: none;
+}
+.masq-ring-centre h2 {
+  margin: 0;
+  color: var(--house-accent);
+  font: 400 clamp(26px, 3.4cqi, 50px) / 1 var(--font-serif);
+  letter-spacing: -0.04em;
+}
+.masq-ring-verse {
+  display: grid;
+  margin: 0;
+  color: var(--house-ink);
+  font: 400 clamp(22px, 2.6cqi, 38px) / 1.08 var(--font-serif);
+  letter-spacing: -0.035em;
+}
+.masq-ring-verse-quiet {
+  color: var(--house-muted);
+}
+.masq-ring-word {
+  display: inline-block;
+  opacity: 0;
+  will-change: opacity, filter;
+}
+
+/* ---- Reduced motion: the ring at rest, nothing held on screen ---- */
+.masq-ring-track[data-still="true"] {
+  height: auto;
+}
+.masq-ring-track[data-still="true"] .masq-ring-stage {
+  position: relative;
+}
+
+@media (max-width: 639px) {
+  .masq-ring-track {
+    height: 520svh;
+  }
+  .masq-ring-mark {
+    font-size: 19cqi;
+  }
+  .masq-ring-hero-type {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 96px;
+  }
+  .masq-ring-numeral {
+    display: none;
+  }
+  .masq-ring-centre {
+    gap: 16px;
+  }
+  .masq-ring-centre h2 {
+    font-size: 24px;
+  }
+  .masq-ring-verse {
+    font-size: 20px;
+  }
+}

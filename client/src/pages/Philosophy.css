@@ -142,82 +142,6 @@
   margin: 0;
 }
 
-.philosophy-campaign-frame {
-  aspect-ratio: 832 / 464;
-  overflow: hidden;
-  background: var(--house-surface);
-}
-
-.philosophy-campaign-frame img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.philosophy-campaign figcaption {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-  margin-top: clamp(10px, 2vw, 22px);
-}
-
-.philosophy-campaign figcaption p {
-  max-width: 55ch;
-  margin: 10px 0 0;
-  color: var(--house-muted);
-  font-size: clamp(16px, 1.45vw, 20px);
-  line-height: 1.45;
-  text-wrap: pretty;
-}
-
-.philosophy-campaign figcaption a,
-.philosophy-end a {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  gap: 0.75em;
-  width: fit-content;
-}
-
-.philosophy-campaign figcaption a {
-  font: 400 clamp(21px, 1.85vw, 27px) / 1.12 var(--font-serif);
-  letter-spacing: -0.025em;
-}
-
-.philosophy-campaign figcaption a:hover,
-.philosophy-end a:hover {
-  color: var(--house-accent);
-}
-
-.philosophy-end {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 12px 32px;
-  padding-block: clamp(20px, 4vw, 48px) 20px;
-}
-
-.philosophy-end a {
-  font: 400 clamp(24px, 2.65vw, 37px) / 1.12 var(--font-serif);
-  letter-spacing: -0.035em;
-}
-
-.philosophy-end svg,
-.philosophy-campaign figcaption svg {
-  flex: 0 0 auto;
-  transition: transform var(--duration-fast) var(--ease-editorial);
-}
-
-@media (hover: hover) {
-  :is(.philosophy-end, .philosophy-campaign figcaption) a:hover svg {
-    transform: translate(2px, -2px);
-  }
-}
-
 .philosophy-credits {
   padding-block: 12px calc(var(--house-section) / 2);
   color: var(--house-muted);
@@ -258,7 +182,7 @@
   }
 
   .philosophy-credo > span:last-child {
-    margin-inline-start: 0.19em;
+    margin-inline-start: 0;
   }
 
   .philosophy-room {
@@ -282,7 +206,143 @@
     font-size: clamp(36px, 8.6vw, 57px);
   }
 
-  .philosophy-campaign figcaption p {
-    margin: 0;
+}
+
+/* Ornament for the essay and its close. */
+.philosophy-essay {
+  position: relative;
+}
+/* The vine sits on the heading it crowns, and the lead settles to the
+   heading's line, so the title and its words read as one block. */
+.philosophy-title .house-heading-ornament {
+  margin: 0 0 18px;
+}
+.philosophy-credits p a {
+  display: inline-block;
+  padding-block: 12px;
+  margin-block: -12px;
+}
+.philosophy-end {
+  position: relative;
+}
+.philosophy-end-ornament {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  translate: -50% 0;
+}
+
+/* ---- The film still in its carved ivory surround ---- */
+.philosophy-campaign {
+  width: min(1120px, 100%);
+  margin: clamp(16px, 3vw, 40px) auto 0;
+}
+.philosophy-surround {
+  position: relative;
+  aspect-ratio: 1536 / 1024;
+  filter: drop-shadow(0 30px 40px rgb(60 40 20 / 0.22)) drop-shadow(0 4px 6px rgb(60 40 20 / 0.18));
+}
+/* The opening of the surround, measured from the carving, tucked under its edge. */
+.philosophy-surround-opening {
+  position: absolute;
+  inset: 22.6% 9.7% 5.4% 9.7%;
+  overflow: hidden;
+  background: #2a2420;
+}
+.philosophy-surround-opening img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.philosophy-surround-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.philosophy-campaign figcaption {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  margin-top: clamp(28px, 3.5vw, 48px);
+  text-align: center;
+}
+.philosophy-campaign figcaption p {
+  max-width: 40ch;
+  margin: 0;
+  color: var(--house-muted);
+  font: 400 clamp(19px, 1.6vw, 23px) / 1.45 var(--font-serif);
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* ---- The close: a cameo in an oval carved frame, and the way on ---- */
+.philosophy-end {
+  display: grid;
+  justify-items: center;
+  gap: clamp(28px, 3.5vw, 44px);
+  padding-block: clamp(56px, 6vw, 96px) 24px;
+}
+.philosophy-end .philosophy-end-ornament {
+  position: static;
+  translate: none;
+}
+.philosophy-cameo {
+  position: relative;
+  display: block;
+  width: clamp(230px, 23vw, 330px);
+  aspect-ratio: 1122 / 1402;
+  filter: drop-shadow(0 22px 30px rgb(60 40 20 / 0.24)) drop-shadow(0 3px 5px rgb(60 40 20 / 0.2));
+}
+.philosophy-cameo-portrait {
+  position: absolute;
+  inset: 12.4% 15.6% 12.6% 13.8%;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #1c1512;
+}
+.philosophy-cameo-portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.philosophy-cameo-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+@media (hover: hover) {
+  .philosophy-cameo:hover .philosophy-cameo-portrait img {
+    transform: scale(1.06);
+  }
+}
+.philosophy-end-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px 56px;
+}
+.philosophy-credits {
+  text-align: center;
+}
+.philosophy-credits summary {
+  margin-inline: auto;
+}
+.philosophy-credits p {
+  margin-inline: auto;
+}
+@media (max-width: 767px) {
+  .philosophy-campaign {
+    width: calc(100% + 24px);
+    margin-inline: -12px;
+  }
+  .philosophy-end-links {
+    flex-direction: column;
+    align-items: center;
   }
 }

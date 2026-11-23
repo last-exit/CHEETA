@@ -162,7 +162,7 @@ export default function Film() {
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover"
-          poster="/barrel/barrel-still-1.png"
+          poster="/stills/barrel-still-1.jpg"
           playsInline
           muted={isMuted}
           onTimeUpdate={e => {

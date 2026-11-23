@@ -1,4 +1,5 @@
 import { ArrowLeft } from "lucide-react";
+import Ornament from "@/components/Ornament";
 import { Link, Redirect, useParams } from "wouter";
 import { useHistoryState } from "wouter/use-browser-location";
 import AcquisitionButton from "@/components/AcquisitionButton";
@@ -100,7 +101,7 @@ function RetailProduct({ product }: { product: ProductItem }) {
                 <p className="retail-preview-note">
                   Catalogue preview. Price is illustrative.
                 </p>
-                <Link href={enquiry} className="product-enquiry">
+                <Link href={enquiry} className="house-cartouche">
                   Enquire about this piece
                 </Link>
               </>
@@ -113,6 +114,7 @@ function RetailProduct({ product }: { product: ProductItem }) {
         </section>
         {related.length > 0 && (
           <section className="product-related" aria-labelledby="product-related-title">
+            <Ornament className="page-ornament" />
             <h2 id="product-related-title">More from Retail</h2>
             <div className="product-related-grid">
               {related.map(item => (

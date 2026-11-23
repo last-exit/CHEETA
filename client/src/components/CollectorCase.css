@@ -128,9 +128,10 @@
   height: 44px;
 }
 .collector-case-selection span {
-  font-size: 14px;
-  width: 54px;
+  min-width: 92px;
+  font: 400 16px / 1.2 var(--font-serif);
   text-align: center;
+  white-space: nowrap;
 }
 .collector-case-error {
   position: absolute;
@@ -228,9 +229,12 @@
     gap: 0;
   }
   .collector-case-selection span {
-    width: 46px;
-    font-size: 14px;
-    font-weight: 500;
+    min-width: 84px;
+    font-size: 15px;
+    text-shadow: 0 1px 8px rgb(255 248 236 / 0.85);
+  }
+  .collector-case[data-inspecting="true"] .collector-case-selection span {
+    text-shadow: 0 1px 8px rgb(0 0 0 / 0.6);
   }
   .collector-case[data-inspecting="true"] .collector-case-inspect-icon,
   .collector-case[data-inspecting="true"] .collector-case-selection {

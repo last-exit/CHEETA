@@ -90,14 +90,13 @@
 .information-footer {
   position: relative;
   padding-block: clamp(64px, 7vw, 104px) clamp(36px, 4vw, 52px);
-  border-top: 1px solid rgb(201 162 94 / 0.38);
   background: #0c0807;
   color: var(--house-on-inverse);
 }
 .house-footer-inner {
   display: grid;
   justify-items: center;
-  gap: 28px;
+  gap: 30px;
   text-align: center;
 }
 .house-footer-signature {
@@ -116,10 +115,10 @@
 .information-footer .information-links {
   justify-content: center;
   gap: 8px 44px;
-  color: rgb(246 238 227 / 0.7);
-  font-size: 11px;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
+  color: rgb(246 238 227 / 0.72);
+  font: 400 16px / 1.3 var(--font-serif);
+  letter-spacing: 0;
+  text-transform: none;
 }
 .house-footer .information-links a:hover,
 .information-footer .information-links a:hover {
@@ -127,12 +126,37 @@
   opacity: 1;
 }
 .house-footer-fine {
-  margin: 8px 0 0;
-  padding-top: 24px;
-  border-top: 1px solid rgb(201 162 94 / 0.18);
-  min-width: min(100%, 420px);
+  margin: 0;
   color: rgb(246 238 227 / 0.4);
-  font: italic 400 14px / 1 var(--font-serif);
+  font: 400 12px / 1 var(--font-sans);
+  letter-spacing: 0.04em;
+}
+.house-medallion {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+}
+.house-medallion svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.house-medallion :is(ellipse, circle) {
+  fill: none;
+  stroke: rgb(201 162 94 / 0.62);
+  stroke-width: 0.8;
+}
+.house-medallion circle {
+  stroke: rgb(201 162 94 / 0.4);
+}
+.house-footer-ornament {
+  width: min(220px, 60vw);
+  margin-block: -6px -4px;
+  color: rgb(201 162 94 / 0.8);
 }
 /* The house seal: the CJ struck in gold foil inside a foil ring. */
 .house-seal {
@@ -459,9 +483,9 @@ body::after {
 .house-kicker {
   margin: 0;
   color: #8a6a3a;
-  font: 500 12px / 1 var(--font-sans);
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
+  font: 400 19px / 1.2 var(--font-serif);
+  letter-spacing: -0.005em;
+  text-transform: none;
 }
 .house-rule {
   height: 0;
@@ -527,52 +551,240 @@ body::after {
   margin-top: auto;
 }
 
-/* The lace edge between rooms. */
+/* The join between rooms: a clean seam, and one gold clasp at its centre. */
 .lace {
   position: absolute;
-  right: 0;
-  left: 0;
-  z-index: 4;
+  top: 0;
+  left: 50%;
+  z-index: 5;
+  width: 88px;
   height: 30px;
-  background: url("/mughal/lace.svg") 0 0 / 56px 30px repeat-x;
-  filter: drop-shadow(0 6px 6px rgb(0 0 0 / 0.28));
+  translate: -50% -50%;
+  filter: drop-shadow(0 3px 4px rgb(0 0 0 / 0.35));
   pointer-events: none;
 }
-.lace-down {
-  top: 0;
-}
-.lace-up {
-  top: -30px;
-  transform: scaleY(-1);
-  filter: drop-shadow(0 -6px 6px rgb(0 0 0 / 0.28));
+.lace svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .lace-below {
   top: auto;
-  bottom: -30px;
+  bottom: 0;
+  translate: -50% 50%;
 }
-/* Flowers cut from a Mughal album page, scattered across the joins. */
+
+/* Flowers from a Mughal album page, printed into the paper like the
+   painted sprigs of an album margin: no shadow, multiplied into its tone,
+   and only ever placed on paper. */
 .house-flower {
   position: absolute;
-  z-index: 5;
+  z-index: 3;
   height: auto;
-  filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.28));
+  mix-blend-mode: multiply;
+  opacity: 0.94;
   pointer-events: none;
 }
 
-/* Where a paper page meets the close, its lace hangs over the dark. */
+/* Where a paper page meets the close, the clasp sits on the seam. */
 :is(.house-footer, .information-footer)[data-lace="true"] {
   border-top: 0;
   padding-top: clamp(96px, 9vw, 136px);
 }
+/* A rose growing up from the lace, on the paper just above the close. */
 .house-footer-flower {
-  top: -96px;
+  bottom: calc(100% - 4px);
   right: 7%;
-  width: clamp(96px, 10vw, 140px);
-  rotate: 9deg;
+  width: clamp(84px, 8vw, 118px);
 }
 @media (max-width: 767px) {
   .house-footer-flower {
-    top: -64px;
-    width: 72px;
+    width: 60px;
+  }
+}
+
+/* The house divider: a gilt rosette between fine rules. */
+.ornament {
+  display: block;
+  width: min(240px, 62vw);
+  height: auto;
+  margin-inline: auto;
+  color: #b8924f;
+  overflow: visible;
+}
+
+/* A picture hung on the page: no frame drawn round it, only the shadow it
+   casts, as a painting or a photograph would. */
+.gilt-plate,
+.folio-mount {
+  outline: 0;
+  box-shadow:
+    0 2px 5px rgb(42 29 22 / 0.18),
+    0 34px 60px -30px rgb(42 29 22 / 0.6);
+}
+.house-heading-ornament {
+  width: min(180px, 48vw);
+  margin: 0 0 22px;
+}
+
+/* Flower beds: painted plants growing up from a lace edge, printed into
+   the paper (no shadow, multiplied into its tone). */
+.flower-bed {
+  --bed: clamp(70px, 6.8vw, 104px);
+  --bed-inset: 2%;
+  position: absolute;
+  right: var(--bed-inset);
+  left: var(--bed-inset);
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.flower-bed-above {
+  bottom: calc(100% - 4px);
+}
+/* The page leaves room for the flowers, so they never stand on the text. */
+:is(.house-footer, .information-footer):has(> .flower-bed-above) {
+  margin-top: clamp(120px, 11vw, 170px);
+}
+/* Short pages still push the close to the foot of the screen. */
+:is(.cart-page, .legal-page) > .information-footer:has(> .flower-bed-above) {
+  margin-top: auto;
+}
+:is(.cart-page, .legal-page) > :has(+ .information-footer > .flower-bed-above) {
+  margin-bottom: clamp(120px, 11vw, 170px);
+}
+.flower-bed-inside {
+  bottom: 0;
+}
+.flower-bed-cluster {
+  display: flex;
+  align-items: flex-end;
+}
+.flower-bed-cluster img {
+  display: block;
+  flex: none;
+  max-width: none;
+  object-fit: contain;
+  margin-inline: calc(var(--bed) * -0.12);
+  mix-blend-mode: multiply;
+  opacity: 0.95;
+}
+@media (max-width: 767px) {
+  .flower-bed {
+    --bed: 46px;
+  }
+  .flower-bed-cluster img[data-small] {
+    display: none;
+  }
+}
+/* Album pages keep their beds off the painted margins. */
+:is(.retail-page, .product-page) .information-footer .flower-bed {
+  --bed-inset: calc(clamp(72px, 8.5vw, 140px) + 1.5%);
+}
+@media (max-width: 767px) {
+  :is(.retail-page, .product-page) .information-footer .flower-bed {
+    --bed-inset: 2%;
+  }
+}
+
+/* The rosette vine over page titles, set to the start of the line. */
+.page-ornament,
+.legal-ornament {
+  width: min(190px, 52vw);
+  margin-left: 0;
+  margin-bottom: 18px;
+}
+.legal-ornament:not(.legal-ornament-top) {
+  margin-inline: auto;
+}
+.not-found-ornament {
+  color: #c9a25e;
+}
+.retail-banner-ornament {
+  width: min(200px, 52vw);
+  margin-bottom: 14px;
+}
+
+/* The house crest: the court cheetah running along the rosette vine. */
+.cheetah-crest {
+  --crest: clamp(150px, 15vw, 210px);
+  display: grid;
+  justify-items: center;
+  width: max-content;
+}
+.cheetah-crest img {
+  display: block;
+  width: var(--crest);
+  height: auto;
+}
+.cheetah-crest-vine {
+  width: calc(var(--crest) * 1.15);
+  margin-top: -4px;
+}
+.house-footer .cheetah-crest,
+.information-footer .cheetah-crest {
+  margin-bottom: 4px;
+}
+:is(.house-footer, .information-footer) .cheetah-crest-vine {
+  color: rgb(201 162 94 / 0.85);
+}
+
+.retail-crest {
+  --crest: clamp(130px, 12vw, 170px);
+  margin: 0 auto 16px;
+}
+
+/* The house button: the words alone, upright, with a small gilt rosette
+   after them that turns as the visitor approaches. No box, no line. */
+.house-cartouche {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--house-ink, #2a1d16);
+  font: 400 22px / 1 var(--font-serif);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 320ms ease;
+}
+.house-cartouche::after {
+  content: "";
+  flex: none;
+  width: 22px;
+  height: 22px;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%27-12%20-12%2024%2024%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23a07a3c%27%20stroke-width%3D%270.95%27%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%280%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%2845%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%2890%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28135%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28180%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28225%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28270%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28315%29%27/%3E%3C/g%3E%3Ccircle%20r%3D%272%27%20fill%3D%27%23a07a3c%27/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.house-cartouche[data-tone="gold"] {
+  color: #f3e7cf;
+}
+.house-cartouche[data-tone="gold"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%27-12%20-12%2024%2024%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23c9a25e%27%20stroke-width%3D%270.95%27%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%280%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%2845%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%2890%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28135%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28180%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28225%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28270%29%27/%3E%3Cellipse%20cy%3D%27-5.4%27%20rx%3D%272.2%27%20ry%3D%275.4%27%20transform%3D%27rotate%28315%29%27/%3E%3C/g%3E%3Ccircle%20r%3D%272%27%20fill%3D%27%23c9a25e%27/%3E%3C/svg%3E");
+}
+.house-cartouche:hover {
+  color: #6b1a2c;
+}
+.house-cartouche[data-tone="gold"]:hover {
+  color: #fff6e4;
+}
+.house-cartouche:hover::after,
+.house-cartouche:focus-visible::after {
+  transform: rotate(90deg) scale(1.12);
+}
+.house-cartouche:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .house-cartouche::after {
+    transition: none;
   }
 }

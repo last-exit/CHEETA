@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
+import Ornament from "./Ornament";
 import { Link } from "wouter";
+import FlowerBed from "./FlowerBed";
 import Lace from "./Lace";
 import { cuspedArchPath, PORTRAIT_ARCH } from "@/lib/palaceGeometry";
 
@@ -82,14 +84,14 @@ export default function HomeMasquerade() {
   return (
     <section id="masquerade" className="home-masquerade" data-home-dark="true" aria-labelledby="home-masquerade-title">
       <Lace hang="down" />
-      <img className="house-flower home-flower-hyacinth" src="/mughal/flower-hyacinth.webp" alt="" loading="lazy" decoding="async" />
+      <FlowerBed place="above" className="home-gun-bed" />
       <svg width="0" height="0" aria-hidden="true" focusable="false" className="home-defs">
         <clipPath id="masquerade-arch" clipPathUnits="objectBoundingBox">
           <path d={ARCH} />
         </clipPath>
       </svg>
       <div className="home-masquerade-inner" data-editorial-reveal>
-        <p className="panel-kicker">The Masquerade</p>
+        <Ornament className="room-ornament room-ornament-dark" />
         <h2 id="home-masquerade-title" className="panel-title">
           To see, <em>and not be seen.</em>
         </h2>
@@ -105,6 +107,16 @@ export default function HomeMasquerade() {
               <svg className="home-masquerade-gilt" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true" focusable="false">
                 <path d={ARCH} vectorEffect="non-scaling-stroke" />
               </svg>
+              <svg className="home-masquerade-gilt home-masquerade-gilt-outer" viewBox="0 0 1 1" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path d={ARCH} vectorEffect="non-scaling-stroke" />
+              </svg>
+              {figure.place === "centre" && (
+                <svg className="home-masquerade-finial" viewBox="0 0 16 34" aria-hidden="true" focusable="false">
+                  <circle cx="8" cy="3" r="2.2" />
+                  <path d="M8 7C9.2 12.5 13.5 15 13.5 20.5a5.5 5.5 0 0 1-11 0C2.5 15 6.8 12.5 8 7Z" />
+                  <rect x="7.3" y="25" width="1.4" height="9" />
+                </svg>
+              )}
             </li>
           ))}
         </ul>
@@ -119,7 +131,7 @@ export default function HomeMasquerade() {
           In the old palaces, carved stone screens let the women of the court
           watch without being seen. The Masquerade is worn the same way.
         </p>
-        <Link href="/collection/masquerade" className="panel-button">
+        <Link href="/collection/masquerade" className="house-cartouche" data-tone="gold">
           Enter the collection
         </Link>
       </div>

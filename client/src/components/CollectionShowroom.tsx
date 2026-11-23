@@ -1,4 +1,3 @@
-import { ArrowUpRight } from "lucide-react";
 import { Link } from "wouter";
 import {
   SHOWROOM_COLLECTIONS,
@@ -10,10 +9,13 @@ export default function CollectionShowroom({
   collection,
   title = "Visit the showroom",
   linkLabel = "Arrange a visit",
+  tone,
 }: {
   collection: ShowroomCollection;
   title?: string;
   linkLabel?: string;
+  /** "gold" for a dark room. */
+  tone?: "gold";
 }) {
   return (
     <section
@@ -29,10 +31,10 @@ export default function CollectionShowroom({
       </p>
       <Link
         href={`/contact?collection=${collection}`}
-        className="collection-showroom-link"
+        className="house-cartouche collection-showroom-link"
+        data-tone={tone}
       >
         {linkLabel}
-        <ArrowUpRight size={20} strokeWidth={1} aria-hidden="true" />
       </Link>
     </section>
   );

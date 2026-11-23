@@ -1,4 +1,5 @@
 import NumberFlow from "@number-flow/react";
+import Ornament from "@/components/Ornament";
 import { ArrowLeft, Minus, Plus, Trash2 } from "lucide-react";
 import { Link } from "wouter";
 import { InformationFooter } from "@/components/HouseFooter";
@@ -42,6 +43,7 @@ export default function Cart() {
         </div>
 
         {/* Header */}
+        <Ornament className="page-ornament mb-5" />
         <p className="house-kicker mb-5">The house</p>
         <header className="mb-8 flex items-baseline justify-between">
           <h1 className="font-serif text-[length:var(--house-heading)] font-normal leading-none tracking-[-0.052em]">

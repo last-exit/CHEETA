@@ -1,5 +1,6 @@
 import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
+import Lace from "@/components/Lace";
+import Ornament from "@/components/Ornament";
 import { Link } from "wouter";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
@@ -42,24 +43,40 @@ export default function Philosophy() {
         className="philosophy-essay"
         aria-labelledby="vintage-revival-title"
       >
+        <Lace hang="up" />
         <div className="philosophy-spread house-container">
           <div className="philosophy-spread-opening">
-            <h2 id="vintage-revival-title">Vintage revival</h2>
+            <div className="philosophy-title">
+              <Ornament className="house-heading-ornament" />
+              <h2 id="vintage-revival-title">Vintage revival</h2>
+            </div>
             <p className="philosophy-lead">
               Cheeta brings the shapes and details of the{" "}
               <em>seventies and nineties</em> into eyewear and jewellery.
             </p>
           </div>
           <figure className="philosophy-campaign">
-            <div className="philosophy-campaign-frame">
+            {/* The film still, set in a carved ivory surround like the salon above. */}
+            <div className="philosophy-surround">
+              <div className="philosophy-surround-opening">
+                <img
+                  src="/stills/barrel-founder-wide.jpg"
+                  alt="The ruby octagonal frames worn on horseback in the Gun Collection film"
+                  width="832"
+                  height="464"
+                  loading="lazy"
+                  decoding="async"
+                  data-editorial-camera
+                />
+              </div>
               <img
-                src="/stills/barrel-founder-wide.jpg"
-                alt="The ruby octagonal frames worn on horseback in the Gun Collection film"
-                width="832"
-                height="464"
+                className="philosophy-surround-frame"
+                src="/philosophy/ivory-film-surround-v3.webp"
+                alt=""
+                width="1536"
+                height="1024"
                 loading="lazy"
                 decoding="async"
-                data-editorial-camera
               />
             </div>
             <figcaption>
@@ -67,9 +84,8 @@ export default function Philosophy() {
                 Maharajah pairs ruby-toned octagonal lenses with temples inspired
                 by vintage sporting guns.
               </p>
-              <Link href="/collection/barrel">
+              <Link href="/collection/barrel" className="house-cartouche">
                 The Gun Collection
-                <ArrowUpRight size={20} strokeWidth={1.25} aria-hidden="true" />
               </Link>
             </figcaption>
           </figure>
@@ -80,14 +96,37 @@ export default function Philosophy() {
         className="philosophy-end house-container"
         aria-label="Continue exploring"
       >
-        <Link href="/collection/masquerade">
-          The Masquerade
-          <ArrowUpRight size={21} strokeWidth={1.25} aria-hidden="true" />
+        <Ornament className="philosophy-end-ornament" />
+        {/* A cameo from The Masquerade, in an oval carved frame. */}
+        <Link href="/collection/masquerade" className="philosophy-cameo" aria-label="The Masquerade">
+          <span className="philosophy-cameo-portrait">
+            <img
+              src="/stills/masquerade-still-2.jpg"
+              alt=""
+              width="864"
+              height="1080"
+              loading="lazy"
+              decoding="async"
+            />
+          </span>
+          <img
+            className="philosophy-cameo-frame"
+            src="/philosophy/antique-cameo-v1.webp"
+            alt=""
+            width="1122"
+            height="1402"
+            loading="lazy"
+            decoding="async"
+          />
         </Link>
-        <Link href="/founder">
-          Meet Eisa Saidi
-          <ArrowUpRight size={21} strokeWidth={1.25} aria-hidden="true" />
-        </Link>
+        <div className="philosophy-end-links">
+          <Link href="/collection/masquerade" className="house-cartouche">
+            The Masquerade
+          </Link>
+          <Link href="/founder" className="house-cartouche">
+            Meet Eisa Saidi
+          </Link>
+        </div>
       </nav>
       <details className="philosophy-credits house-container">
         <summary>Diamond credit</summary>

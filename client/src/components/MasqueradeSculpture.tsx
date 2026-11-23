@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, RotateCcw } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type {
   SculpturePose,
@@ -117,17 +116,13 @@ export default function MasqueradeSculpture() {
         </h2>
         <button
           type="button"
-          className="masquerade-sculpture-action"
+          className="house-cartouche masquerade-sculpture-action"
+          data-tone="gold"
           disabled={state !== "ready"}
           aria-controls="masquerade-sculpture-object"
           onClick={() => setSeparated(value => !value)}
         >
           {separated ? "Reassemble" : "Separate the lenses"}
-          {separated ? (
-            <RotateCcw size={17} strokeWidth={1.3} aria-hidden="true" />
-          ) : (
-            <ArrowUpRight size={17} strokeWidth={1.3} aria-hidden="true" />
-          )}
         </button>
       </header>
       <div

@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import Ornament from "@/components/Ornament";
 import ArchNiche from "@/components/ArchNiche";
 import CheetahBar from "@/components/CheetahBar";
 import HeaderWordmark from "@/components/HeaderWordmark";
@@ -18,11 +19,12 @@ export default function NotFound() {
         <div className="not-found-inner house-container">
           <ArchNiche src="/stills/masquerade-still-1.jpg" className="not-found-guest" />
           <div className="not-found-text">
+            <Ornament className="page-ornament not-found-ornament" />
             <p className="house-kicker">Page not found</p>
             <h1 id="not-found-title">
               You were not meant <em>to find this room.</em>
             </h1>
-            <Link href="/" className="not-found-return">
+            <Link href="/" className="house-cartouche" data-tone="gold">
               Return to the house
             </Link>
           </div>

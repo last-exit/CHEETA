@@ -6,6 +6,7 @@ import HomeCinema from "@/components/HomeCinema";
 import HomeObjectStudy from "@/components/HomeObjectStudy";
 import HomeMasquerade from "@/components/HomeMasquerade";
 import HomeRetail from "@/components/HomeRetail";
+import HomeCheetahs from "@/components/HomeCheetahs";
 import HomeColophon from "@/components/HomeColophon";
 import { useEditorialMotion } from "@/hooks/useEditorialMotion";
 import { readBrandAnchors } from "@/lib/brandChrome";
@@ -71,6 +72,8 @@ export default function Home() {
           <HomeMasquerade />
 
           <HomeRetail />
+
+          <HomeCheetahs />
 
           <HomeColophon />
         </div>
