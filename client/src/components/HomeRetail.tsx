@@ -1,5 +1,4 @@
 import { Link } from "wouter";
-import Ornament from "./Ornament";
 import { RETAIL_PREVIEW_PRODUCTS, RETAIL_PRODUCTS } from "@/data/retailCatalog";
 import ArchNiche from "./ArchNiche";
 import Lace from "./Lace";
@@ -25,7 +24,6 @@ export default function HomeRetail() {
       <div className="home-retail-inner">
         <header className="home-retail-head" data-editorial-reveal>
           <div>
-            <Ornament className="room-ornament room-ornament-start" />
             <p className="panel-kicker">Retail</p>
             <h2 id="home-retail-title" className="panel-title">
               Pieces to <em>keep close.</em>
